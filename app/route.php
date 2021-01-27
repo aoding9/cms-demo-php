@@ -29,7 +29,7 @@ foreach ($routes as $key => $value) {
 }
 $result = include_route($path, $routes, $error);
 if(!$result){
-  header('location:http://'.INFO_['host'].'/public/static/404.htm');
+  req_error(404);
 }
 
 

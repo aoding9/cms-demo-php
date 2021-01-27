@@ -23,7 +23,7 @@ function location ($url='/index.php',$query='') {
 // header('Content-type:text/html;charset=utf-8');
 
     header('location:'.$url);
-    exit;
+    exit();
 }
 
 // 错误跳转
@@ -32,10 +32,10 @@ function req_error($req_no = 404)
 {
   switch ($req_no) {
     case 404:
-      @header("http/1.1 404 not found");
-      @header("status: 404 not found");
+      // @header("http/1.1 404 not found");
+      // @header("status: 404 not found");
       $error = '404 not found';
-      location('/public/static/errpage/404.htm');
+      location('http://'.INFO_['host'].'/public/static/404.htm');
       break;
     default:
       break;
