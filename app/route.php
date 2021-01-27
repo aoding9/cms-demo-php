@@ -22,11 +22,7 @@ function include_route($path, $routes, &$error)
     }
 }
 
-$routes = array(
-  'home' => '/home/home.php',
-  'admin' => '/admin/admin.php',
-  'arclist' => '/home/arclist.php'
-);
+$routes = ROUTES_;
 // 拼接绝对路径
 foreach ($routes as $key => $value) {
   $routes[$key] = DIR_['route'] . $value;
