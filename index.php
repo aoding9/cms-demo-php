@@ -1,17 +1,23 @@
+<pre>
 <?php
 // 入口文件
-date_default_timezone_set("Asia/Shanghai");
-header("Content-type:text/html;charset=utf-8");
 
-// 根目录
+// 定义根目录常量
 define('DIR_ROOT', __DIR__);
 
-// 常量
+// 首先
+include_once(__DIR__.'/app/first.php');
+
+// 定义常量
 include_once(DIR_ROOT.'/app/constant.php');
+// echo DIR_['app'];
+
 // 公用函数
-include_once(DIR_APP.'/common.php');
+include_once(DIR_['app'].'/common.php');
+
 // 路由
-include_once(DIR_APP.'/route.php');
+include_once(DIR_['app'].'/route.php');
+
 
 
 

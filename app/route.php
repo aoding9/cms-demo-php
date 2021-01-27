@@ -1,7 +1,7 @@
 <?php
 // 获取path
 $query_arr = get_query();
-$path = $query_arr['path'];
+$path = $query_arr['path']??'home';
 // dd($path);
 
 function include_route($path, $routes, &$error)
@@ -11,11 +11,15 @@ function include_route($path, $routes, &$error)
     $route_module = $routes[$path];
     if (file_exists($route_module)) {
       include_once $route_module;
+      return true;
     } else {
       $error = "路由模块不存在";
       return false;
+    } 
+  }else{
+      $error = "路由不存在";
+      return false;
     }
-  }
 }
 
 $routes = array(
@@ -25,10 +29,13 @@ $routes = array(
 );
 // 拼接绝对路径
 foreach ($routes as $key => $value) {
-  $routes[$key] = DIR_ROUTE . $value;
+  $routes[$key] = DIR_['route'] . $value;
+}
+$result = include_route($path, $routes, $error);
+if(!$result){
+  header('location:http://'.INFO_['host'].'/public/static/404.htm');
 }
 
-include_route($path, $routes, $error) or die($error);
 
 
 // 处理并返回路由相关信息

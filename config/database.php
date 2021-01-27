@@ -1,20 +1,18 @@
 <?php
-// 返回配置项数组
-return array(
+$db_ = array(
   // 数据库配置项
- 
-    // 服务器地址
-    'HOSTNAME'        => 'localhost',
-    // 数据库名
-    'DATABASE'        => 'cms_php',
-    // 用户名
-    'USERNAME'        => 'admin123',
-    // 密码
-    'PASSWORD'        => 'admin123',
-    // 端口
-    'HOSTPORT'        => '3306',
-    // 字符集
-    'CHARSET'         => 'utf8'
 
-
+  // 服务器地址
+  'host'        => 'localhost',
+  // 数据库名
+  'database'        => 'cms_php',
+  // 用户名
+  'username'        => 'admin123',
+  // 密码
+  'password'        => 'admin123',
+  // 端口
+  'port'        => '3306',
+  // 字符集
+  'charset'         => 'utf8'
 );
+define('DB_', $db_);

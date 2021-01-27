@@ -1,19 +1,21 @@
 <?php
-// 返回路径配置项数组
-return array(
+$dir_ = array(
   // app路径
-  'APP'        => 'app',
+  'app'        => 'app',
   // 模板路径
-  'VIEW'        => 'view',
+  'view'        => 'view',
   // 数据路径
-  'DATA'        => 'data',
+  'data'        => 'data',
   // 路由路径
-  'ROUTE'        => 'route',
+  'route'        => 'route',
   // 模型路径
-  'MODEL'        => 'model',
+  'model'        => 'model',
   // 静态资源路径
-  'PUBLIC'        => 'public'
-
+  'public'        => 'public'
 );
+// 拼接根路径
+foreach ($dir_ as $key => $value) {
+  $value =  DIR_ROOT.'/'.$value;
+}
 
-
+define('DIR_', $dir_);

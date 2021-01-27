@@ -12,24 +12,36 @@ function dd($some = '需要传值')
 // query字符串转数组
 function get_query()
 {
-  // 获取查询字符串,并转数组,保存到$query_arr
+  // 获取查询字符串,转成数组,返回
   parse_str($_SERVER['QUERY_STRING'], $query_arr);
   return $query_arr;
 }
 
+// 重定向和跳转
+function location ($url='/index.php',$query='') {
+    $url = empty($query)?$url:$url."?".$query;
+// header('Content-type:text/html;charset=utf-8');
+
+    header('location:'.$url);
+    exit;
+}
+
 // 错误跳转
 // 响应状态码
-function error_redirect($req_no = 200)
+function req_error($req_no = 404)
 {
   switch ($req_no) {
     case 404:
       @header("http/1.1 404 not found");
       @header("status: 404 not found");
-      include DIR_PUBLIC . '/static/errpage/404.htm';
-      exit();
+      $error = '404 not found';
+      location('/public/static/errpage/404.htm');
+      break;
     default:
       break;
   }
 }
+
+
 
 

@@ -2,5 +2,5 @@
 
 
 
-include_once DIR_VIEW.'/home/arclist.htm';
+include_once DIR_['view'].'/home/arclist.htm';
 ?>

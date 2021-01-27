@@ -1,5 +1,6 @@
 
 <?php 
+// 数据库字段查看
 
 header('content-type:text/html;charset=utf-8');
 define('DB_HOST','localhost');
