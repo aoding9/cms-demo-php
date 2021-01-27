@@ -1,5 +1,14 @@
-<?php DIR_VIEW.'/home/common/head.htm'?>
-<body>
-  <h1>我是首页</h1>
-</body>
-<?php DIR_VIEW.'/home/common/foot.htm'?>
+<?php include DIR_VIEW . '/home/common/head.htm' ?>
+<link rel="stylesheet" href="/public/home/css/home.css">
+
+<h1>我是首页</h1>
+<!-- layui弹出层测试 -->
+<script>
+  layui.use('layer', function() {
+    var layer = layui.layer;
+
+    layer.msg('hello');
+  });
+</script>
+
+<?php include DIR_VIEW . '/home/common/foot.htm' ?>
