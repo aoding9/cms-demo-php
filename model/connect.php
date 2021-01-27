@@ -2,11 +2,10 @@
 
 
 
-  // 导入config中的database配置项
-  $db_config = include('../config/database.php');
+
 
   // 连接数据库
-  $connect = @mysqli_connect($db_config['hostname'], $db_config['database'], $db_config['username'], $db_config['password'], $db_config['hostport']);
+  $connect = @mysqli_connect(DB_HOSTNAME, DB_DATABASE, DB_USERNAME, DB_PASSWORD, DB_HOSTPORT);
 
   // 错误处理
   $error = null;

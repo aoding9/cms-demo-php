@@ -1,0 +1,10 @@
+<?php include_once DIR_ROOT . '/views/home/common/head.htm'; ?>
+<h2>404 not found</h2>
+<h2>阿哦,网页不小心飞走了</h2>
+<h2>3秒后返回首页</h2>
+<script>
+  setTimeout(function() {
+    location.href = '/index.php';
+  }, 3000);
+</script>
+<?php include_once DIR_ROOT . '/views/home/common/foot.htm';?>
