@@ -55,7 +55,7 @@ create table if not exists `cd_arctype`(
   `typeid` int(10) not null auto_increment comment '栏目id',
   -- 栏目信息
   `typename` varchar(50) default '' comment '栏目名称',
-  `path` varchar(50) default '' comment '栏目路径,只可为英文,且保持唯一',
+  `path` varchar(50) default '' comment '栏目路径,只可为英文,且保持唯一', -- 不用他了,用typeid
   `title` varchar(200) default '' comment '标题',
   `description` varchar(200) default '' comment '描述',
   `keywords` varchar(200) default '' comment '关键字',

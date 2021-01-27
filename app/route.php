@@ -1,7 +1,39 @@
 <?php
+// 获取path
+$query_arr = get_query();
+$path = $query_arr['path'];
+// dd($path);
+
+function include_route($path, $routes, &$error)
+{
+
+  if (array_key_exists($path, $routes)) {
+    $route_module = $routes[$path];
+    if (file_exists($route_module)) {
+      include_once $route_module;
+    } else {
+      $error = "路由模块不存在";
+      return false;
+    }
+  }
+}
+
+$routes = array(
+  'home' => '/home/home.php',
+  'admin' => '/admin/admin.php',
+  'arclist' => '/home/arclist.php'
+);
+// 拼接绝对路径
+foreach ($routes as $key => $value) {
+  $routes[$key] = DIR_ROUTE . $value;
+}
+
+include_route($path, $routes, $error) or die($error);
+
+
 // 处理并返回路由相关信息
 // 
-function get_route()
+/* function get_route()
 {
   // 获取查询字符串,并转数组,保存到$query_arr
   parse_str($_SERVER['QUERY_STRING'], $query_arr);
@@ -77,4 +109,4 @@ function route_handle($routeModule = [], $callback = '')
   // dd($routeModule);
   // dd($route);
   // dd($_SERVER);
-}
+} */
