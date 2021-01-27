@@ -1,0 +1,157 @@
+@import './easy.less';
+// @import './baseVw.less';
+
+.reset() {
+  .easy;    
+  .baseVw;
+  // @import (inline) 'normalize.css'; 
+  
+  body {
+    // width: @view-width;
+    -webkit-font-smoothing: antialiased;
+    .fs(@f6);
+    line-height: 1.5;
+    font-family: 'PingFangSC-Regular', 'helvetica neue', tahoma, 'PingFang SC', 'microsoft yahei', arial,
+      'hiragino sans gb', sans-serif;
+  }
+  .wrap {
+    display: block;
+    width: 100%;
+    position: relative;
+    overflow-x: hidden;
+  }
+  .con{
+    width: @view-width;
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+  img{
+    object-fit: cover;
+  }
+  // 清除input浏览器自带的样式
+  input::-webkit-search-decoration,
+  input::-webkit-search-cancel-button,
+  input::-ms-search-decoration,
+  input::-ms-search-cancel-button {
+    display: none;
+  }
+
+  input {
+    .tran;
+    &:focus {
+      box-shadow: 0 0 4px @red;
+      outline: none;
+    }
+  }
+  ::-webkit-input-placeholder,
+  ::-ms-input-placeholder {
+    font-size: 14px;
+    color: gray;
+  }
+
+  a {
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    -moz-tap-highlight-color: transparent;
+    
+    .c(@c-link);
+    // &:hover {
+    //   .c(@c-theme-dark);
+    // }
+  }
+  a:active,a:focus,a:visited,a:focus-within{
+    -webkit-tap-highlight-color: transparent;
+    -moz-tap-highlight-color: transparent;
+  }
+
+  ul,
+  ol,
+  li {
+    list-style: none;
+  }
+
+  h1 {
+    .f2;
+  }
+  h2 {
+    .f2;
+  }
+  h3 {
+    .f3;
+  }
+
+  h4 {
+    .f4;
+  }
+
+  span,
+  p,
+  h5 {
+    .f5;
+  }
+
+  h6 {
+    .f6;
+  }
+  html,
+  body,
+  div,
+  span,
+  applet,
+  object,
+  iframe,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  blockquote,
+  pre,
+  a,
+  abbr,
+  acronym,
+  address,
+  big,
+  cite,
+  code,
+  del,
+  dfn,
+  em,
+  img,
+  ins,
+  kbd,
+  q,
+  s,
+  samp,
+  small,
+  strike,
+  strong,
+  sub,
+  sup,
+  tt,
+  var,
+  dl,
+  dt,
+  dd,
+  ol,
+  ul,
+  li,
+  fieldset,
+  form,
+  label,
+  legend,
+  table,
+  caption,
+  tbody,
+  tfoot,
+  thead,
+  tr,
+  th,
+  td {
+    margin: 0;
+    padding: 0;
+  }
+
+}

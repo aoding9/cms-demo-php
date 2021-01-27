@@ -3,12 +3,12 @@
 // 数据库字段查看
 
 header('content-type:text/html;charset=utf-8');
-define('DB_HOST','localhost');
-define('DB_USER','admin123');
-define('DB_PASS','admin123');
-define('DB_NAME','cms_demo');
-define('DB_PORT',3306);
-define('DB_CHAR','utf8');
+define('DB_HOST',DB_['host']);
+define('DB_USER',DB_['usernmae']);
+define('DB_PASS',DB_['password']);
+define('DB_NAME',DB_['database']);
+define('DB_PORT',DB_['port']);
+define('DB_CHAR',DB_['charset']);
 define('APPNAME','aaa');
 $conn=mysqli_connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PASS);
 mysqli_select_db($conn,DB_NAME);

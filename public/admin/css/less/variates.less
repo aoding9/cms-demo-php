@@ -1,0 +1,66 @@
+// *rem+vw移动适配
+// 设计稿宽度:css像素*dpr
+// @basePx:100;
+// 为了方便转换px到rem，定义这个变量，不过也可以直接写除以100后的rem
+// @2: unit(@basePx, rem);
+// @view-width:750/@2;
+// @view-width:1200 /@2;
+
+// *颜色系列
+@cf: #fff; 
+@cf1:#f1f1f1;
+@ce5:#e5e5e5;
+@cf5:#f5f5f5;
+@cbf:#fbfbfb;
+
+
+@red: #e20013;
+@green:#24b727;
+@blue:#164997;
+@blue-light:#1e52d8;
+
+@c3: #333;
+@c6: #666;
+@c9: #999;
+@cc: #ccc;
+// 主色
+@c-theme: @green;
+@c-theme-light: lighten(@c-theme,10%);
+@c-theme-dark: darken(@c-theme,10%);
+// 黑白色
+@white: @cf;
+@white-light: @cbf;
+@white-dark: @ce5;
+
+@black: #2a2e2e;
+// 灰色
+@gray-dark:@c6;
+@gray:@c9;
+@gray-light:@cc;
+
+@c-info: @gray;
+@c-link: @black;
+@c-link-light: @gray-dark;
+@bg-default: @white-light;
+@bg-info: @gray-light;
+@bg-footer:@black;
+@c-footer: @gray-light;
+@c-border: @white-dark;
+
+// *间距
+@space: 20px;
+
+// *字体大小
+// *由于谷歌字体最小12px，所以最小是24/@2
+// h1-h3
+@f1: 32px;
+// 
+@f2: 30px; 
+@f3: 24px;
+// 16 p和h4-h6
+@f4: 20px;
+@f5: 16px;
+@f6: 14px;
+
+// *header高度
+@header-height: 72px;

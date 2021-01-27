@@ -1,0 +1,149 @@
+@import './variates.less';
+
+// *简写形式
+.easy() {
+  .db() {
+    display: block;
+  }
+  // *flex
+  .df() {
+    display: flex;
+  }
+  .jcc(@p:center) {
+    justify-content: @p;
+  }
+  .aic(@p:center) {
+    align-items: @p;
+  }
+  // *文字
+  .tac() {
+    text-align: center;
+  }
+  .fw(@w:700) {
+    font-weight: @w;
+  }
+  // *边距
+  .p0() {
+    padding: 0;
+  }
+  .m0() {
+    margin: 0;
+  }
+  // 居中
+  .m0a(){
+    margin: 0 auto;
+  }
+  .mlr(@d:auto){
+    margin-left: @d;
+    margin-right: @d;
+  }
+  // *字体大小
+  .fs(@fs) {
+    font-size: @fs;
+  }
+  // *宽高，默认100%
+  .wh(@width:100%,@height:100%) {
+    width: @width;
+    height: @height;
+  }
+
+  // *边框
+  .br(@r:50%) {
+    border-radius: @r;
+  }
+  // *字体大小
+  .f1() {
+    .fs(@f1);
+  }
+  .f2() {
+    .fs(@f2);
+  }
+  .f3() {
+    .fs(@f3);
+  }
+  .f4() {
+    .fs(@f4);
+  }
+  .f5() {
+    .fs(@f5);
+  }
+  .f6() {
+    .fs(@f6);
+  }
+
+  // *边框
+  // .border(@color:@c-border) {
+  //   border: 1px solid @color;
+  // }
+
+  // *颜色
+  .bgc(@color:@bg-default) {
+    background-color: @color;
+  }
+  .c(@color:@black) {
+    color: @color;
+  }
+
+  // *过渡
+  .tran(@duration:0.4s,@attr:all) {
+    transition: @attr @duration ease-out;
+  }
+
+  // *变换
+  .transf(@method) {
+    transform: @method;
+  }
+  .transl(@x:-50%,@y:-50%) {
+    transform: translate(@x, @y);
+  }
+  .translX(@x:-50%) {
+    transform: translateX(@x);
+  }
+  .translY(@y:-50%) {
+    transform: translateY(@y);
+  }
+
+  // *定位
+  .pr() {
+    position: relative;
+  }
+  .pa() {
+    position: absolute;
+  }
+  .left(@p:0) {
+    left: @p;
+  }
+  .right(@p:0) {
+    right: @p;
+  }
+  .top(@p:0) {
+    top: @p;
+  }
+  .bottom(@p:0) {
+    bottom: @p;
+  }
+
+  .clearfix() {
+    zoom: 1;
+    .clearfix::after {
+      content: '';
+      display: block;
+      clear: both;
+      visibility: hidden;
+      height: 0;
+    }
+  }
+  // 透明度
+  .opa(@opa:0){
+    opacity: @opa;
+    
+  }
+  .opa0(){
+    opacity: 0;
+  }
+  .opa1(){
+    opacity: 1;
+  }
+
+
+}

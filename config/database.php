@@ -5,7 +5,7 @@ $db_ = array(
   // 服务器地址
   'host'        => 'localhost',
   // 数据库名
-  'database'        => 'cms_php',
+  'database'        => 'cms_demo',
   // 用户名
   'username'        => 'admin123',
   // 密码

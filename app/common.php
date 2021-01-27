@@ -20,11 +20,15 @@ function get_query()
 // 重定向和跳转
 function location ($url='/index.php',$query='') {
     $url = empty($query)?$url:$url."?".$query;
-// header('Content-type:text/html;charset=utf-8');
-
     header('location:'.$url);
-    exit();
 }
+
+// 刷新跳转,默认延迟3秒,期间会继续执行php
+function refresh ($url='/index.php',$query='',$delay='3') {
+  $url = empty($query)?$url:$url."?".$query;
+  header('refresh:'.$delay.';url='.$url);
+}
+
 
 // 错误跳转
 // 响应状态码
