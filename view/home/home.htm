@@ -3,7 +3,12 @@
 
 <h1>我是首页</h1>
 <pre>
-  <?php dd($_SERVER);?>
+  <?php
+  $res = sqli_easy($error,[
+     ['sqli_read' , 'select * from cd_archives;',false],
+  ]);
+  dd($res);
+  ?>
 </pre>
 <!-- layui弹出层测试 -->
 <script>

@@ -4,8 +4,9 @@
 /**
  * 1 连接认证数据库，初始化
  * $error使用引用传值，方便外部处理错误
+ * 最简单一句话用法: $conn = sqli_connect($error) or die($error);
  */
-function sqli_connect(&$error, $username, $password, $dbname, $host = 'localhost', $port = '3306', $charset = 'utf8')
+function sqli_connect(&$error, $username=DB_['username'], $password=DB_['password'], $dbname=DB_['database'], $host = DB_['host'], $port = DB_['port'], $charset = DB_['charset'])
 {
   # 连接认证
   $conn = @mysqli_connect($host, $username, $password, $dbname, $port);
@@ -102,6 +103,7 @@ function sqli_write(&$error, $conn, $sql, $insert = false)
 
 // 任务式,顺序为sqli_execute >> sqli_read >> sqli_write 后面考虑改为指针遍历执行
 // tasks=[[要执行的sql函数名,sql语句,第三个布尔参数],[...]]
+// 任务是一个多维数组,一维表示任务,二维为任务的名称,sql语句,附加布尔值参数
 function sqli_easy(&$error, $tasks = [])
 {
 
@@ -116,15 +118,15 @@ function sqli_easy(&$error, $tasks = [])
   // 遍历并执行,把结果保存到数组中
   $res = [];
   if(!empty($tasks)){
-    foreach ($tasks as $key => $task) {
-      $taskname = $task[0];
-      $sql = $task[1];
-      $bool = $task[2]; // 默认false
-        if (!empty($task) && in_array($taskname,$allow)) {
+    foreach ($tasks as $key => $value) {
+      $task = $value[0];
+      $sql = $value[1];
+      $bool = $value[2]??false; // 默认false
+        if (!empty($value) && in_array($task,$allow)) {
           if($bool){
-            $res[] = $taskname($error, $conn, $sql,$bool) or die($error);
+            $res[] = $task($error, $conn, $sql,$bool) or die($error);
           }else{
-            $res[] = $taskname($error, $conn, $sql) or die($error);
+            $res[] = $task($error, $conn, $sql) or die($error);
           }
         }
       
@@ -136,4 +138,3 @@ function sqli_easy(&$error, $tasks = [])
 
   return $res;
 }
-
