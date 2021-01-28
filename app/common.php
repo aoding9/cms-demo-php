@@ -1,5 +1,6 @@
 <?php
 // 公共函数
+// 此时常量还未定义,不可以用
 
 // print_r简写, 输出并换行
 // * @param mix $some 要输出的内容
@@ -17,14 +18,15 @@ function ddd($some = '需要传值')
 }
 
 // query字符串转数组
-function get_query()
+function get_query($str='')
 {
+  $str??$_SERVER['QUERY_STRING'];
   // 获取查询字符串,转成数组,返回
-  parse_str($_SERVER['QUERY_STRING'], $query_arr);
+  parse_str($str, $query_arr);
   return $query_arr;
 }
 
-// 重定向和跳转
+// 重定向 跳转
 function location ($url='/index.php',$query='') {
     $url = empty($query)?$url:$url."?".$query;
     header('location:'.$url);
@@ -46,13 +48,17 @@ function req_error($req_no = 404)
       // @header("http/1.1 404 not found");
       // @header("status: 404 not found");
       $error = '404 not found';
-      location('http://'.INFO_['host'].'/public/static/404.htm');
+      location('http://'.$_SERVER['HTTP_HOST'].'/public/static/404.htm');
       break;
     default:
       break;
   }
 }
 
-
+// 登录守卫
+// 
+function login_guard(){
+  
+}
 
 

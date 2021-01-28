@@ -1,39 +1,41 @@
 <?php
-// 获取path
-$query_arr = get_query();
-$path = $query_arr['path']??'home';
-// dd($path);
+
+
 
 function include_route($path, $routes, &$error)
 {
 
   if (array_key_exists($path, $routes)) {
-    $route_module = $routes[$path];
-    if (file_exists($route_module)) {
-      include_once $route_module;
+    $route_file = $routes[$path]; // path对应的控制器目录
+    if (file_exists($route_file)) {
+      include_once $route_file;
       return true;
     } else {
-      $error = "路由模块不存在";
+      $error = "控制器文件不存在";
       return false;
     } 
   }else{
-      $error = "路由不存在";
+      $error = "没有对应的路由";
       return false;
     }
 }
 
-$routes = ROUTES_;
-// 拼接绝对路径
-foreach ($routes as $key => $value) {
-  $routes[$key] = DIR_['route'] . $value;
-}
+
+
+$path = REQ_['path']; // path参数
+$routes = ROUTES_[REQ_ENTRY]; // 入口对应的路由列表
 $result = include_route($path, $routes, $error);
 if(!$result){
+  // dd($error);
   req_error(404);
 }
 
 
 
+
+
+
+// 之前尝试用/xxx形式的路由,但是没搞成功,注释起来以后再说
 // 处理并返回路由相关信息
 // 
 /* function get_route()

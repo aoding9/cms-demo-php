@@ -4,7 +4,7 @@
 
 header('content-type:text/html;charset=utf-8');
 define('DB_HOST',DB_['host']);
-define('DB_USER',DB_['usernmae']);
+define('DB_USER',DB_['username']);
 define('DB_PASS',DB_['password']);
 define('DB_NAME',DB_['database']);
 define('DB_PORT',DB_['port']);

@@ -1,5 +1,7 @@
 <?php
+
 // 入口文件
+// 此处改为login为登录入口文件,和index区分开
 
 // 定义根目录常量
 define('DIR_ROOT', __DIR__);
@@ -19,7 +21,6 @@ include_once(DIR_['model'].'/sql_fun.php');
 
 // 路由(使用了数据库/常量/公用函数,所以要在下面)
 include_once(DIR_['app'].'/route.php');
-
 
 
 
