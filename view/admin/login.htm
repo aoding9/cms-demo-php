@@ -3,34 +3,37 @@
 <!-- html -->
 
 <body class="layui-bg-gray">
-  <div class="layui-card">
-    <h1 class="title">简单cms</h1>
-    <div class="layui-card-header">欢迎回来,请登录您的账号</div>
-    <div class="layui-card-body">
-      <form class="layui-form layui-form-pane" action="" method="POST">
-        <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
-        <div class="layui-form-item">
-          <label class="layui-form-label"><i class="layui-icon layui-icon-username"></i> </label>
-          <div class="layui-input-block">
-            <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+  <div class="card-bg filter">
+
+    <div class="layui-card">
+      <h1 class="title">简单cms</h1>
+      <div class="layui-card-header">欢迎回来,请登录您的账号</div>
+      <div class="layui-card-body">
+        <form class="layui-form layui-form-pane" action="" method="POST" lay-filter="login_form">
+          <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+          <div class="layui-form-item">
+            <label class="layui-form-label"><i class="layui-icon layui-icon-username"></i> </label>
+            <div class="layui-input-block">
+              <input type="text" name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </div>
           </div>
-        </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i></label>
-          <div class="layui-input-block">
-            <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i></label>
+            <div class="layui-input-block">
+              <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
           </div>
-        </div>
 
 
-        <div class="layui-form-item">
-          <div class="layui-input-block">
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="*">登录</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          <div class="layui-form-item">
+            <div class="layui-input-block">
+              <button class="layui-btn layui-btn-normal" lay-submit lay-filter="*">登录</button>
+              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
           </div>
-        </div>
-        <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
-      </form>
+          <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
+        </form>
+      </div>
     </div>
   </div>
 
@@ -40,11 +43,42 @@
 <script>
   layui.use('form', function() {
     var form = layui.form;
-
     //各种基于事件的操作，下面会有进一步介绍
     form.on('submit(*)', function(data) {
-      layer.msg(JSON.stringify(data.field));
-      // return false;
+
+      // cookie中的值可能被编码了,所以unescape()解下码
+      // atob可以对base64解码
+      var salt = atob(unescape(getCookie('pub_key')));
+      // console.log(hex_md5(data.field.password + salt),salt);
+
+      // 密码加密处理
+      var form_data = form.val("login_form");
+      form_data.password = hex_md5(data.field.password + salt);
+
+      function handle(data) {
+        console.log(data);
+        layer.msg(data.msg);
+        if (data.res == 0) {} else {
+          setTimeout(() => {
+            location.href = '/admin.php?path=admin';
+          }, 500);
+        }
+      }
+      fetch('/admin.php?api=login', {
+          method: 'post',
+          body: JSON.stringify(form_data),
+          headers: {
+            // json格式的参数
+            'Content-type': 'application/json',
+          },
+        })
+        .then(data => data.json())
+        .then(data => handle(data));
+
+
+      // layer.msg(JSON.stringify(data.field));
+      // console.log(hex_md5(data.field.password + salt));
+      return false;
     });
   });
 </script>
@@ -58,10 +92,30 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: url(http://picsum.photos/360/460?random=1);
+    background-size: cover;
+  }
+
+  .filter {
+
+    /* Safari for macOS & iOS */
+    -webkit-backdrop-filter: blur(5px);
+    /* Google Chrome */
+    backdrop-filter: blur(5px);
+    /* 设置背景半透明黑色 */
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+  }
+
+  .card-bg {
+    padding: 100px;
+    border-radius: 20px;
+    /* background-color: aqua; */
   }
 
 
   .layui-card {
+    /* display: none; */
     width: 400px;
     box-shadow: 2px 2px 10px 5px rgba(0, 0, 0, 0.1);
     position: relative;
@@ -72,6 +126,7 @@
     width: 100%;
     top: -60px;
     text-align: center;
+    color: white;
   }
 
   .layui-card-header {

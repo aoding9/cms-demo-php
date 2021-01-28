@@ -92,7 +92,8 @@ function sqli_write(&$error, $conn, $sql, $insert = false)
   if (!$res) {
     return false;
   }
-
+  // 释放资源
+  mysqli_free_result($res);
   # 判断是返回影响的行数，还是返回自增长id
   if ($insert) {
     return mysqli_insert_id($conn);
@@ -124,9 +125,9 @@ function sqli_easy(&$error, $tasks = [])
       $bool = $value[2]??false; // 默认false
         if (!empty($value) && in_array($task,$allow)) {
           if($bool){
-            $res[] = $task($error, $conn, $sql,$bool) or die($error);
+            $res[] = $task($error, $conn, $sql,$bool);
           }else{
-            $res[] = $task($error, $conn, $sql) or die($error);
+            $res[] = $task($error, $conn, $sql);
           }
         }
       
@@ -138,3 +139,4 @@ function sqli_easy(&$error, $tasks = [])
 
   return $res;
 }
+

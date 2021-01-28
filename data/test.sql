@@ -10,7 +10,7 @@ use `cms_demo`;
 create table if not exists `cd_config`(
   `id` int(10) primary key auto_increment comment '逻辑主键',
   `name` varchar(50) not null default '' comment '配置名',
-  `value` varchar(200) default '' comment '配置值'
+  `value` varchar(200) default '' comment '配置值',
 ) comment '配置表';
 --
 --
@@ -74,6 +74,7 @@ create table if not exists `cd_user`(
   `uid` int(10) not null auto_increment comment '用户uid',
   `name` varchar(50) not null default '' comment '用户名,用于登录',
   `password` varchar(32) not null default '' comment '密码',
+  `salt` varchar(32) not null DEFAULT '' COMMENT '盐',
   `pen_name` varchar(50) default '佚名' comment '笔名,用于显示作者',
   -- 布尔状态
   `is_del` tinyint(1) unsigned not null default '0' comment '是否删除,1是,0否',

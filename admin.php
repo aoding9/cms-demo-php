@@ -1,5 +1,7 @@
 <?php
 
+
+
 // 入口文件
 // 此处改为login为登录入口文件,和index区分开
 
@@ -19,9 +21,11 @@ include_once(DIR_ROOT.'/app/constant.php');
 // 数据库函数(使用了上面的常量)
 include_once(DIR_['model'].'/sql_fun.php');
 
+// 登录相关函数
+include_once(DIR_['model'].'/login.php');
+
 // 路由(使用了数据库/常量/公用函数,所以要在下面)
 include_once(DIR_['app'].'/route.php');
-
 
 
 

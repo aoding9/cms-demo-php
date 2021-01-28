@@ -1,46 +1,67 @@
 <?php
-function login(&$msg)
+
+
+// 设置24小时后过期的cookie
+$time = time() + 60 * 60 * 24;
+setcookie('pub_key', KEY_PUBLIC, $time);
+
+function login(&$msg, $uname, $pword)
 {
-  // 获取用户名和密码
-  $uname = $_POST['username'] ?? '';
-  $pword = $_POST['password'] ?? '';
   if (!$uname || !$pword) {
-    $msg = '用户名和密码不能为空';
-    return false;
-  }
-  // ddd($uname);
-  // ddd($pword);
-  // 查询是否存在该用户
-  $conn = sqli_connect($error);
-  if (!$conn) {
-    $msg = $error;
-  }
-  $sql = "select uid from cd_user where name = '{$uname}' and password = '{$pword}'";
-  $res = sqli_read($error, $conn, $sql);
-  if (!$res) {
-    if ($res === false) {
-      $msg = $error;
+    return  [
+      'msg' => '用户名和密码不能为空',
+      'res' => 0
+    ];
+  } else {
+    // 查询是否登录成功
+    $res = validate_password($msg, $uname, $pword);
+    // dd($res);
+
+    if (!$res) {
+      return  [
+        'msg' => "$msg",
+        'res' => 0
+      ];
+    } else {
+      // 登录成功
+      return  [
+        'msg' => "$msg",
+        'res' => 1
+      ];
     }
-    if (empty($res)) {
-      $msg = "用户名或密码错误";
-    }
-    return false;
   }
-  // ddd($res);
-  $msg = '登录成功';
-  return true;
+}
+// 登录接口
+if (REQ_['api'] == 'login') {
+  header('Content-type:application/json');
+  // echo json_encode($_POST);
+  $data = json_decode(file_get_contents("php://input"));
+  $uname = $data->username;
+  $pword = $data->password;
+
+  $res = login($msg, $uname, $pword);
+
+  dd(json_encode($res));
+
+
+  // dd($data);
+  // var_dump($msg);
+  // var_dump($res);
+
+  // if (!$res) {
+  //   // 登录失败,刷新到当前页面(不然post会留着)
+  //   // echo "失败";
+  // } else {
+  //   // 登录成功 
+  //   // location('/admin.php?path=admin');
+  //   // 保存session
+  //   // session_start();
+  // }
+
+  exit();
 }
 
-if (!empty($_POST)) {
-$res = login($msg);
-ddd($msg);
-if(!$res){
-  // 登录失败
-}
-// 登录成功 
-  // 保存session
-  // session_start();
-}  var_dump(!$uname);
+
 
 
 
@@ -53,12 +74,5 @@ $page = array(
 // 获取到的data
 $data = array();
 
-// 连接数据库
-// $conn = connect($error,  DB_['username'], DB_['password'], DB_['database'],DB_['host'],DB_['port'],DB_['charset']);
-// if(!$conn){
-//   die($error);
-// }
-// sql_easy([
-//   'excute'=>'show tables;'
-// ]);
+
 include_once DIR_['view'] . '/admin/login.htm';
