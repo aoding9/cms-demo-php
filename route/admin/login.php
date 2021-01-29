@@ -49,6 +49,7 @@ if (REQ_['api'] == 'login') {
   if($res['res']==1){
     session_start();
     $_SESSION['admin']=true;
+    $_SESSION['uname']=$uname;
   }
   // 响应 返回json字符串
   dd(json_encode($res));

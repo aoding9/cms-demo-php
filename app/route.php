@@ -37,8 +37,8 @@ function login_guard()
   if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
 
     // echo "您已经成功登陆";
-    if (REQ_['path'] == "login") {
-      location("/admin.php?path=admin");
+    if (in_array(REQ_['path'] , ["login",""])) {
+      location("/admin.php?path=admin"); // 登录页直接跳后台
     };
     return true;
   } else {
@@ -51,7 +51,7 @@ function login_guard()
     return false;
   }
 }
-if (REQ_['path']== 'admin') {
+if (REQ_['entry']== 'admin') {
   login_guard();
 }
 
