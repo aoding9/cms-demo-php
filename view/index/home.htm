@@ -1,20 +1,213 @@
 <?php include DIR_VIEW.'/common/head.htm' ?>
-<link rel="stylesheet" href="/public/home/css/home.css">
+<link rel="stylesheet" href="/public/index/css/home.css">
 
-<h1>我是首页</h1>
-  <?php
-  $res = sqli_easy($error,[
-     ['sqli_read' , 'select * from cd_archives;',false],
-  ]);
-  ddd($res);
-  ?>
-<!-- layui弹出层测试 -->
-<script>
-  layui.use('layer', function() {
-    var layer = layui.layer;
-
-    layer.msg('hello');
-  });
+<link rel="stylesheet" href="/public/index/css/newey.css">
+<script type="text/javascript" src="/public/index/js/jqbs.main.js?t=1582270636"></script>
+<script type="text/javascript" src="/public/index/js/jquery.superslide.js?t=1581925302"></script>
+<script type="text/javascript" src="/public/index/js/sp.js?t=1581925302"></script>
+<script type="text/javascript">
+  var page = "index";
 </script>
+
+<!-- html -->
+
+
+<div class="g-nav-full clearfix">
+  <div class="g-box-1200 clearfix">
+    <ul>
+      <li class="syactive"><a href="http://moban.com">首页</a></li>
+    <?php foreach ($data['types'] as $key => $value) {?>
+      <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=1"><?php echo $value['typename']?></a></li>
+    <?php } ?>
+      <!-- <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=2">饮食</a></li>
+      <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=3">情感</a></li>
+      <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=4">教育</a></li>
+      <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=5">职场</a></li>
+      <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=6">科技</a></li>
+      <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=7">汽车</a></li>
+      <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=8">母婴</a></li>
+      <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=9">美妆</a></li> -->
+
+    </ul>
+    
+  </div>
+  
+</div>
+<!--top end-->
+<div class="g-box-1200 clearfix m-margin15">
+
+  <div class="g-banner clearfix m-hd f-fl m-margin15">
+    <ul class="g-banner-img" id="img">
+    <?php foreach ($data['articles'] as $key => $value) {?>
+
+      <li><a href="/index.php?m=home&c=View&a=index&aid=7"><img src="/public/index/20200217/1-20021GF93Y09.jpg" alt="2020年腊八节适合领证吗 2020年腊八节领证好吗">
+          <p><span><?php echo $value['title']?></span><strong><?php echo $value['description']?></strong></p>
+        </a></li>
+        <?php } ?>    
+      <!-- <li><a href="/index.php?m=home&c=View&a=index&aid=6"><img src="/public/home/20200217/1-20021GF95LD.png" alt="把仓鼠打一顿他会记仇吗 刚养仓鼠怎么训练">
+          <p><span>把仓鼠打一顿他会记仇吗 刚养仓鼠怎么训练</span><strong>仓鼠是毛茸茸的小动物，也很好养，只要给了食物和水，它就会自己活动。养仓鼠也要需要训练仓鼠，那么如果仓鼠不听话，打一顿会不...</strong></p>
+        </a></li>
+      <li><a href="/index.php?m=home&c=View&a=index&aid=5"><img src="/public/home/20200217/1-20021GG026130.png" alt="无量山樱花谷有住宿吗 大理到无量山樱花谷有多远">
+          <p><span>无量山樱花谷有住宿吗 大理到无量山樱花谷有多远</span><strong>无量山樱花谷位于云南省境内，这里曾经是小说《天龙八部》中段誉遇见神仙姐姐的地方。目前正值冬樱盛花期，这里还有樱花节，吸引...</strong></p>
+        </a></li>
+      <li><a href="/index.php?m=home&c=View&a=index&aid=4"><img src="/public/home/20200217/1-20021GG03S32.png" alt="养仓鼠要打预防针吗 仓鼠受伤了会自己好吗">
+          <p><span>养仓鼠要打预防针吗 仓鼠受伤了会自己好吗</span><strong>我们都知道养猫猫狗狗这些动物是要给它们打预防针的，一个是为了宠物的健康，另外一方面也是为了主人和家人的安全。那么养仓鼠要...</strong></p>
+        </a></li>
+
+    --> </ul>
+
+    <ul class="g-banner-ico" id="tab">
+    <?php foreach ($data['articles'] as $key => $value) {?>
+      <li><a href="/index.php?m=home&c=View&a=index&aid=7"><span><?php echo $value['title']?> <?php echo $value['description']?></span></a></li>
+        <?php } ?>
+      <!-- <li><a href="/index.php?m=home&c=View&a=index&aid=6"><span>把仓鼠打一顿他会记仇吗 刚养仓鼠怎么训练</span></a></li>
+      <li><a href="/index.php?m=home&c=View&a=index&aid=5"><span>无量山樱花谷有住宿吗 大理到无量山樱花谷有多远</span></a></li>
+      <li><a href="/index.php?m=home&c=View&a=index&aid=4"><span>养仓鼠要打预防针吗 仓鼠受伤了会自己好吗</span></a></li> -->
+
+    </ul>
+  </div>
+  <div class="g-headnews clearfix f-fr m-margin15" data-choosenum="0">
+    <div class="u-first-list">
+      <h1><a href="/index.php?m=home&c=View&a=index&aid=194">陈情令口红多少钱一支在哪买 陈情令口红是什么牌子好看吗</a></h1>
+      <p>我们都知道，陈情令是比较受欢迎的一个古装电视剧，它是由肖战、王一博等明星一起出演的，吸引了很多粉丝，深受网友们的喜欢。最...</p>
+    </div>
+
+    <ul class="g-headnews-ul">
+    <?php foreach ($data['articles'] as $key => $value) {?>
+      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=193"><?php echo $value['title']?> <?php echo $value['description']?></a></li>
+      <?php } ?>
+      <!-- <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=192">阿玛尼蓝标粉底液值得入手吗 阿玛尼蓝标粉底液色号选择攻略</a></li>
+      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=191">头发烫坏了能恢复原状吗 头发烫过之后干枯毛躁怎么办</a></li>
+      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=190">护发素伤不伤头皮 用护发素会掉头发吗</a></li>
+      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=189">洗面奶一天用几次比较适宜 早上洗脸到底用不用洗面奶</a></li> -->
+
+    </ul>
+    <ul class="g-headnews-ul">
+    <?php foreach ($data['articles'] as $key => $value) {?>
+      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=188"><?php echo $value['title']?> <?php echo $value['description']?></a></li>
+      <?php } ?>
+      <!-- <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=187">AKF紫苏卸妆水是韩国的吗 AKF紫苏卸妆水在哪买</a></li>
+      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=186">扎头发和披头发有何区别 扎头发和披头发哪个长得快</a></li>
+      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=185">3ce新品云朵唇釉多少钱 3ce云朵唇釉试色及热门色号</a></li>
+      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=184">3ce泫雅铁锈红适合黄皮吗 3ce immanence云朵唇</a></li> -->
+
+    </ul>
+    <ul class="g-headnews-ul">
+    <?php foreach ($data['articles'] as $key => $value) {?>
+      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=183"><?php echo $value['title']?> <?php echo $value['description']?></a></li>
+      <?php } ?>
+      <!-- <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=182">小孩裸睡好还是穿衣服睡好 小孩几岁适合裸睡</a></li>
+      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=181">九个月小孩扶着东西站起来有影响吗 小孩扶着东西站起来要注意什</a></li>
+      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=180">一百多天的宝宝抱起来头四处摇晃不稳正常吗 为什么宝宝头晃来晃</a></li>
+      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=179">剖腹产疤痕很明显是怎么回事 剖腹产疤痕很明显怎么消除</a></li> -->
+
+    </ul>
+    <p class="f-ultab clearfix"><span>换一组</span></p>
+  </div>
+</div>
+<!-- 第二个 -->
+<div class=" g-box-1200 clearfix">
+  <h4 class="g-utitle clearfix"><span>生活·常识</span></h4>
+</div>
+<div class="g-box-1200 clearfix">
+  <ul class="g-le-img clearfix f-fl">
+    <li><a href="/index.php?m=home&c=View&a=index&aid=1"><i><img src="/public/home/20200217/1-20021GG151P4.png" alt="无量山樱花谷门票多少 云南无量山的樱花什么时候开" /></i>
+        <p><span>无量山樱花谷门票多少 云南无量山的樱花什么时候开</span><strong>樱花不仅仅是春天有，冬天也会开花。现在云南的无量山樱花谷正式...</strong></p>
+      </a></li>
+
+  </ul>
+  <div class="g-cnet f-fl clearfix">
+    <div class="g-cnet-top clearfix">
+      <a href="/index.php?m=home&c=View&a=index&aid=2">
+        <i><img src="/public/home/20200217/1-20021GG11RE.jpg" alt="雪宝加湿器在哪买 雪宝加湿器多少钱" /></i>
+        <p>雪宝加湿器在哪买 雪宝加湿器多少钱</p>
+        <strong>雪宝加湿器也太可爱了吧！这几天上了热搜，让人不得不注意，超级...</strong><span>时间：2019-12-19</span>
+      </a>
+
+    </div>
+
+  </div>
+  <ul class="g-rt-list clearfix f-fr">
+  <?php foreach ($data['articles'] as $key => $value) {?>
+    <li><a href="/index.php?m=home&c=View&a=index&aid=11"><i><img src="/public/home/20200217/1-20021GFP1392.png" alt="小猪短租" /></i>
+        <p><?php echo $value['title']?> <?php echo $value['description']?></p>
+        <span>时间：2019-12-19</span>
+      </a></li>
+      <?php } ?>
+    <!-- <li><a href="/index.php?m=home&c=View&a=index&aid=12"><i><img src="/public/home/20200217/1-20021GF114218.png" alt="北京地坛公园有免费的停车场吗 地坛公园有啥好看的" /></i>
+        <p>北京地坛公园有免费的停车场吗 地坛公园有啥好看的</p>
+        <span>时间：2019-12-19</span>
+      </a></li>
+    <li><a href="/index.php?m=home&c=View&a=index&aid=13"><i><img src="/public/home/20200217/1-20021GF624425.png" alt="龙猫洗澡为什么不用水 龙猫怀孕可以洗澡吗" /></i>
+        <p>龙猫洗澡为什么不用水 龙猫怀孕可以洗澡吗</p>
+        <span>时间：2019-12-19</span>
+      </a></li> -->
+
+  </ul>
+</div>
+<!-- 第三个 -->
+<div class=" g-box-1200 clearfix">
+  <h4 class="g-utitle clearfix"><span>生活·常识</span></h4>
+</div>
+<div class="g-box-1200 clearfix">
+  <ul class="g-le-img clearfix f-fl">
+    <li><a href="/index.php?m=home&c=View&a=index&aid=1"><i><img src="/public/home/20200217/1-20021GG151P4.png" alt="无量山樱花谷门票多少 云南无量山的樱花什么时候开" /></i>
+        <p><span>无量山樱花谷门票多少 云南无量山的樱花什么时候开</span><strong>樱花不仅仅是春天有，冬天也会开花。现在云南的无量山樱花谷正式...</strong></p>
+      </a></li>
+
+  </ul>
+  <div class="g-cnet f-fl clearfix">
+    <div class="g-cnet-top clearfix">
+      <a href="/index.php?m=home&c=View&a=index&aid=2">
+        <i><img src="/public/home/20200217/1-20021GG11RE.jpg" alt="雪宝加湿器在哪买 雪宝加湿器多少钱" /></i>
+        <p>雪宝加湿器在哪买 雪宝加湿器多少钱</p>
+        <strong>雪宝加湿器也太可爱了吧！这几天上了热搜，让人不得不注意，超级...</strong><span>时间：2019-12-19</span>
+      </a>
+
+    </div>
+
+  </div>
+  <ul class="g-rt-list clearfix f-fr">
+  <?php foreach ($data['articles'] as $key => $value) {?>
+    <li><a href="/index.php?m=home&c=View&a=index&aid=11"><i><img src="/public/home/20200217/1-20021GFP1392.png" alt="小猪短租" /></i>
+        <p><?php echo $value['title']?> <?php echo $value['description']?></p>
+        <span>时间：2019-12-19</span>
+      </a></li>
+      <?php } ?>
+    <!-- <li><a href="/index.php?m=home&c=View&a=index&aid=12"><i><img src="/public/home/20200217/1-20021GF114218.png" alt="北京地坛公园有免费的停车场吗 地坛公园有啥好看的" /></i>
+        <p>北京地坛公园有免费的停车场吗 地坛公园有啥好看的</p>
+        <span>时间：2019-12-19</span>
+      </a></li>
+    <li><a href="/index.php?m=home&c=View&a=index&aid=13"><i><img src="/public/home/20200217/1-20021GF624425.png" alt="龙猫洗澡为什么不用水 龙猫怀孕可以洗澡吗" /></i>
+        <p>龙猫洗澡为什么不用水 龙猫怀孕可以洗澡吗</p>
+        <span>时间：2019-12-19</span>
+      </a></li> -->
+
+  </ul>
+</div>
+<!-- css -->
+<style>
+  .sy {
+    height: 70px;
+    border-bottom: 2px solid #04ce9b;
+  }
+
+  .sy span {
+    background: none;
+    color: #04ce9b;
+  }
+
+  .sy p {
+    color: #04ce9b;
+  }
+
+  .syactive {
+    background: #1abd94;
+  }
+</style>
+
+<!-- js -->
+<script></script>
+
 
 <?php include DIR_VIEW. '/common/foot.htm' ?>

@@ -1,0 +1,146 @@
+<?php include DIR_VIEW.'/common/head.htm' ?>
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" type="text/css" href="/public/index/css/newey.css?t=1582275986" />
+<script type="text/javascript" src="/public/index/js/jqbs.main.js?t=1582270636"></script>
+<script type="text/javascript" src="/public/index/js/sp.js?t=1581925302"></script>
+<script type="text/javascript">
+  var page = "news";
+</script>
+<style>
+  .wz {
+    height: 70px;
+    border-bottom: 2px solid #04ce9b;
+  }
+
+  .wz span {
+    background: none;
+    color: #04ce9b;
+  }
+
+  .wz p {
+    color: #04ce9b;
+  }
+</style>
+<body>
+<div class="g-nav-full clearfix">
+    <div class="g-box-1200 clearfix">
+    <ul>
+      <li class="syactive"><a href="http://moban.com">首页</a></li>
+    <?php foreach ($data['types'] as $key => $value) {?>
+      <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=1"><?php echo $value['typename']?></a></li>
+    <?php } ?>
+        <!-- <li class="syactive"><a href="/index.php?m=home&c=Lists&a=index&tid=1">生活</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=2">饮食</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=3">情感</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=4">教育</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=5">职场</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=6">科技</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=7">汽车</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=8">母婴</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=9">美妆</a></li> -->
+
+      </ul>
+    </div>
+  </div>
+  <!--top end-->
+  <!-- 当前位置 -->
+  <div class="g-box-1200 g-jknav"><b class="f-jkico"></b><strong>当前位置： <a href='/' class='crumb'>首页</a> &gt; <a href='/index.php?m=home&c=Lists&a=index&tid=1'><?php echo $value['typename']?></a></strong></div>
+  <div class="g-box-1200 clearfix m-margin15 g-box-bgico">
+    <div class="w845 f-fl clearfix htmlcontent">
+      <div class="g-infocont g-new-info clearfix">
+        <h1><?php echo $value['title']?></h1>
+        <div class="u-info"><span>时间：2019-12-19</span><span>人气：<i>
+              <script type="text/javascript">
+                function tag_arcclick(aid) {
+                  // 步骤一:创建异步对象
+                  var ajax = new XMLHttpRequest();
+                  // 步骤二:设置请求的url参数,参数一是请求的类型,参数二是请求的url,可以带参数,动态的传递参数starName到服务端
+                  ajax.open("get", "/index.php?m=api&c=Ajax&a=arcclick&aid=" + aid + "&type=view", true);
+                  // 给头部添加ajax信息
+                  ajax.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                  // 如果需要像 HTML 表单那样 POST 数据，请使用 setRequestHeader() 来添加 HTTP 头。然后在 send() 方法中规定您希望发送的数据：
+                  ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                  // 步骤三:发送请求
+                  ajax.send('_ajax=1');
+                  // 步骤四:注册事件 onreadystatechange 状态改变就会调用
+                  ajax.onreadystatechange = function() {
+                    // 步骤五 如果能够进到这个判断 说明 数据 完美的回来了,并且请求的页面是存在的
+                    if (ajax.readyState == 4 && ajax.status == 200) {
+                      document.getElementById("eyou_arcclick_" + aid).innerHTML = ajax.responseText;
+                    }
+                  }
+                }
+              </script><i id="eyou_arcclick_25" class="eyou_arcclick" style="font-style:normal"></i>
+              <script type="text/javascript">
+                tag_arcclick(25);
+              </script>
+            </i></span><span>作者： meiz</span></div>
+        <div class="m-main">
+          <p>地坛公园是明清两朝祭祀的地方，属于古都北京五坛中的第二大坛。地坛公园有一处银杏大道，非常值得秋冬季节去看一看，满眼金黄，十分漂亮。那么地坛公园的银杏什么时候黄呢？</p>
+          <p style="text-align:center;"><br /></p>
+          <?php foreach ($data['articles'] as $key => $value) {?>
+          <h3><?php echo $value['title']?></h3
+          <?php foreach ($data['contnet'] as $key => $value) {?>
+          <p><?php echo $value['content']?></p>
+          <?php } ?>
+          <?php } ?>
+             
+          <!-- <p>到地坛公园看银杏，公园内和公园园外园都能观赏到银杏，可以园内园外一起看看。</p>
+          <p>每年地坛公园还有银杏文化节，2019年银杏文化节开始的时间是2019年11月1日~10日。</p>
+          <p style="text-align:center;"><br /></p>
+          <h3>地坛公园银杏大道怎么走</h3>
+          <p>地坛公园的银杏大道位于公园北区，可以从地坛公园北门进入。</p>
+          <p>到地坛西门可以坐地铁5号线和平里北街站、125、127路</p>
+          <p>地坛公园的古树特别多，大部分古树的树龄已经超过300年。侧柏、国槐、枣树、榆树、银杏等都有。</p>
+          <p style="text-align:center;"><br /></p>
+          <h3>北京哪里的地方银杏好看</h3>
+          <p>中山公园：中山公园的银杏主要集中在水榭景区（进门口的西侧）和社稷坛前。</p>
+          <p>地坛公园：地坛公园园内200余株银杏树栽植于上个世纪50年代末，每到深秋，满园金黄。</p>
+          <p>天坛公园：天坛公园银杏大道在北门附近，栽有60余棵银杏树，为50年前公园集中栽种。</p>
+          <p>日坛公园：从日坛公园的北天门进去，右手边就是一小片银杏林。往里走会经过玉馨园，这里聚集了日坛公园所有珍贵的古树。</p>
+          <p>圆明园：在绮春园通往福海方向，有一条很长的银杏大道，与夏日荷花齐名。推荐清晨进入圆明园观看。</p>
+          <p>颐和园：颐和园的银杏树在西南角的石舫附近，一共有三棵，两棵大些的靠近水边，稍小的一棵靠近一个院门。</p>
+          <p style="text-align:center;"><br /></p> -->
+        </div>
+        <div class="m-maintag">标签：
+          <a href='/index.php?m=home&c=Tags&a=lists&tagid=1' target='_blank' title='北京'>北京</a> &nbsp;
+          <a href='/index.php?m=home&c=Tags&a=lists&tagid=2' target='_blank' title='地坛'>地坛</a> &nbsp;
+          <a href='/index.php?m=home&c=Tags&a=lists&tagid=3' target='_blank' title='公园'>公园</a> &nbsp;
+          <a href='/index.php?m=home&c=Tags&a=lists&tagid=4' target='_blank' title='银杏'>银杏</a> &nbsp;
+        </div>
+        <div class="g-news-zuozhe clearfix">
+          <h3><span>最新文章</span></h3>
+          <ul>
+            <li><a href="/index.php?m=home&c=View&a=index&aid=1"><i><img src="/public/home/20200217/1-20021GG151P4.png" alt="无量山樱花谷门票多少 云南无量山的樱花什么时候开"></i>
+                <p>无量山樱花谷门票多少 云南无量山的樱花什么时候开</p>
+                <font>樱花不仅仅是春天有，冬天也会开花。现在云南的无量山樱花谷正式...</font><span><strong class="u-yuedu">(1 )人阅读</strong><strong class="u-time">时间：2019-12-19</strong></span>
+              </a></li>
+            <li><a href="/index.php?m=home&c=View&a=index&aid=2"><i><img src="/public/home/20200217/1-20021GG11RE.jpg" alt="雪宝加湿器在哪买 雪宝加湿器多少钱"></i>
+                <p>雪宝加湿器在哪买 雪宝加湿器多少钱</p>
+                <font>雪宝加湿器也太可爱了吧！这几天上了热搜，让人不得不注意，超级...</font><span><strong class="u-yuedu">(1 )人阅读</strong><strong class="u-time">时间：2019-12-19</strong></span>
+              </a></li>
+            <li><a href="/index.php?m=home&c=View&a=index&aid=3"><i><img src="/public/home/20200217/1-20021GG059394.jpg" alt="玉米石是虹之玉吗 玉米石和虹之玉有何差别"></i>
+                <p>玉米石是虹之玉吗 玉米石和虹之玉有何差别</p>
+                <font>随着人们生活水平的提高越来越多的人在家养起了花花草草，而​多...</font><span><strong class="u-yuedu">(4 )人阅读</strong><strong class="u-time">时间：2019-12-19</strong></span>
+              </a></li>
+            <li><a href="/index.php?m=home&c=View&a=index&aid=4"><i><img src="/public/home/20200217/1-20021GG03S32.png" alt="养仓鼠要打预防针吗 仓鼠受伤了会自己好吗"></i>
+                <p>养仓鼠要打预防针吗 仓鼠受伤了会自己好吗</p>
+                <font>我们都知道养猫猫狗狗这些动物是要给它们打预防针的，一个是为了...</font><span><strong class="u-yuedu">(0 )人阅读</strong><strong class="u-time">时间：2019-12-19</strong></span>
+              </a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="clearfix m-mainbot">
+
+
+        <p class="m-page-up f-fl">
+          <a href="/index.php?m=home&c=View&a=index&aid=24"> 上一篇 : 仓鼠饿了会吃自己的孩子吗 仓鼠会吃同伴吗</span> </a>
+        </p>
+        <a href="http://moban.com" class="u-back-home f-fl"><i></i><strong>网站首页</strong></a>
+        <p class="m-page-down f-fl">
+          <a>下一篇：没有了</a>
+        </p>
+</body>
+<?php include DIR_VIEW. '/common/foot.htm' ?>

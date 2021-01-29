@@ -1,5 +1,117 @@
 <?php include DIR_VIEW.'/common/head.htm' ?>
+<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="stylesheet" type="text/css" href="/public/index/css/newey.css?t=1582275986" />
+<script type="text/javascript" src="/public/index/js/jqbs.main.js?t=1582270636"></script>
+<script type="text/javascript" src="/public/index/js/sp.js?t=1581925302"></script>
+<script type="text/javascript">
+  var page = "news";
+</script>
+<style>
+  .wz {
+    height: 70px;
+    border-bottom: 2px solid #04ce9b;
+  }
+
+  .wz span {
+    background: none;
+    color: #04ce9b;
+  }
+
+  .wz p {
+    color: #04ce9b;
+  }
+</style>
 <body>
-  <h1>我是列表</h1>
+<div class="g-nav-full clearfix">
+    <div class="g-box-1200 clearfix">
+    <ul>
+      <li class="syactive"><a href="http://moban.com">首页</a></li>
+    <?php foreach ($data['types'] as $key => $value) {?>
+      <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=1"><?php echo $value['typename']?></a></li>
+    <?php } ?>
+        <!-- <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=1">生活</a></li>
+        <li class="syactive"><a href="/index.php?m=home&c=Lists&a=index&tid=2">饮食</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=3">情感</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=4">教育</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=5">职场</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=6">科技</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=7">汽车</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=8">母婴</a></li>
+        <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=9">美妆</a></li> -->
+
+      </ul>
+    </div>
+  </div>
+  <!--top end-->
+  <!-- 当前位置 -->
+  <div class="g-box-1200 g-jknav"><b class="f-jkico"></b><strong>当前位置： <a href='/' class=''>首页</a> &gt; <a href='/index.php?m=home&c=Lists&a=index&tid=2'><?php echo $value['typename']?></a></strong></div>
+  <div class="g-box-1200 clearfix g-box-bgico">
+    <div class="w845 f-fl clearfix">
+      <ul class="g-newslist clearfix">
+      <?php foreach ($data['articles'] as $key => $value) {?>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=54" title="小猪短租"><i><img src="/public/home/20200221/1-20022109221A38.jpg" alt="小猪短租"></i>
+            <p><?php echo $value['title']?></span><strong></p>
+            <font><?php echo $value['description']?></font><span><strong class="u-yuedu">(214 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+          <?php } ?>    
+        <!-- <li><a href="/index.php?m=home&c=View&a=index&aid=53" title="蘸料加什么吃起来香 蘸料怎么调好吃"><i><img src="/public/home/20200221/1-20022109213S57.jpg" alt="蘸料加什么吃起来香 蘸料怎么调好吃"></i>
+            <p>蘸料加什么吃起来香 蘸料怎么调好吃</p>
+            <font>我们都知道，蘸料是比较常见的一种调味品，很多美食都是要搭配蘸料吃的。蘸料的做法有很多，不同的做法会使用不同的调味品，做出来的味道也是不一样的。那么蘸料加什么比较香呢？下面让我们具体...</font><span><strong class="u-yuedu">(118 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=52" title="猪油适合做火锅吗 火锅为什么不用猪油"><i><img src="/public/home/20200221/1-200221092101Y2.jpg" alt="猪油适合做火锅吗 火锅为什么不用猪油"></i>
+            <p>猪油适合做火锅吗 火锅为什么不用猪油</p>
+            <font>我们都知道，火锅是冬季比较受欢迎的一种美食，它的味道比较多，食材比较丰富，吃起来麻辣可口，深受人们喜欢，很多人都会在家做火锅吃。做火锅是有一定讲究的，那么猪油适合做火锅吗？下面让我...</font><span><strong class="u-yuedu">(276 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=51" title="炸蒜蓉发苦还能吃吗 炸蒜蓉发苦是什么原因"><i><img src="/public/home/20200221/1-20022109203G01.jpg" alt="炸蒜蓉发苦还能吃吗 炸蒜蓉发苦是什么原因"></i>
+            <p>炸蒜蓉发苦还能吃吗 炸蒜蓉发苦是什么原因</p>
+            <font>我们都知道，大蒜的吃法有很多，炸蒜蓉就是其中比较香的一种吃法，可以做各种美食的配料，吃起来很不错，深受人们喜欢，很多人都会在家炸蒜蓉吃。那么炸蒜蓉发苦是什么原因呢？下面让我们具体来...</font><span><strong class="u-yuedu">(239 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=50" title="炸丸子用几成油温 炸丸子油温多少合适"><i><img src="/public/home/20200221/1-200221091956241.jpg" alt="炸丸子用几成油温 炸丸子油温多少合适"></i>
+            <p>炸丸子用几成油温 炸丸子油温多少合适</p>
+            <font>我们都知道，炸丸子是比较常见的一道美食，它的做法有很多，食材比较丰富，有荤的也有素的，吃起来的口感和味道也很不错。炸丸子是有一定技巧的，尤其是油温的控制。那么炸丸子油温多少度合适呢...</font><span><strong class="u-yuedu">(267 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=49" title="金针菇冰箱里长大了可以吃吗 金针菇冰箱放几天还能吃吗"><i><img src="/public/home/20200221/1-200221091ZCG.jpg" alt="金针菇冰箱里长大了可以吃吗 金针菇冰箱放几天还能吃吗"></i>
+            <p>金针菇冰箱里长大了可以吃吗 金针菇冰箱放几天还能吃吗</p>
+            <font>金针菇放冰箱里自己长大了是因为激素吗？还能不能吃？其实，金针菇自己长大属于正常现象，是可以食用的，大家可以放心，但是金针菇一般吃新鲜的比较好，保存日期不是很长，具体可以看看本站提供...</font><span><strong class="u-yuedu">(171 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=48" title="螃蟹吐泡泡还能活几个小时 螃蟹吐泡泡需要加水吗"><i><img src="/public/home/20200221/1-200221091R9417.jpg" alt="螃蟹吐泡泡还能活几个小时 螃蟹吐泡泡需要加水吗"></i>
+            <p>螃蟹吐泡泡还能活几个小时 螃蟹吐泡泡需要加水吗</p>
+            <font>螃蟹吐泡泡是不是要死了？其实，螃蟹吐泡泡是正常现象，这是代表鲜活的生命，这个时候你不需要加水，也不用做什么，让它自己存活就可以了，关于螃蟹吐泡泡的相关小常识可以看看本站提供的介绍哦...</font><span><strong class="u-yuedu">(145 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=47" title="茶叶蛋煮好后料包是否捞出 茶叶蛋料包要拿出吗"><i><img src="/public/home/20200221/1-2002210916143G.jpg" alt="茶叶蛋煮好后料包是否捞出 茶叶蛋料包要拿出吗"></i>
+            <p>茶叶蛋煮好后料包是否捞出 茶叶蛋料包要拿出吗</p>
+            <font>我们都知道，鸡蛋的吃法有很多，茶叶蛋就是其中比较常见的一种吃法，也是比较简单的一种做法，它的味道鲜香可口，深受人们喜欢。很多人都会在家煮茶叶蛋，那么茶叶蛋煮好后料包要捞出来吗？下面...</font><span><strong class="u-yuedu">(188 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=46" title="茶叶蛋煮好了不捞出来可以吗 茶叶蛋是捞出还是泡着"><i><img src="/public/home/20200221/1-200221091531F4.jpg" alt="茶叶蛋煮好了不捞出来可以吗 茶叶蛋是捞出还是泡着"></i>
+            <p>茶叶蛋煮好了不捞出来可以吗 茶叶蛋是捞出还是泡着</p>
+            <font>茶叶蛋是用新鲜鸡蛋加茶叶和香料煮制而成的，它的味道比较香，吃起来会比较有味，深受人们喜欢，很多人都会在家煮茶叶蛋吃。煮茶叶蛋有一定的技巧，那么茶叶蛋煮好了不捞出来可以吗？下面让我们...</font><span><strong class="u-yuedu">(174 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=45" title="煮茶叶蛋什么时候敲碎最好 茶叶蛋煮多久敲碎"><i><img src="/public/home/20200221/1-200221091452912.jpg" alt="煮茶叶蛋什么时候敲碎最好 茶叶蛋煮多久敲碎"></i>
+            <p>煮茶叶蛋什么时候敲碎最好 茶叶蛋煮多久敲碎</p>
+            <font>鸡蛋的吃法有很多，茶叶蛋就是其中很常见的一种做法，它是将鸡蛋和茶叶等香料煮熟的，这样做出来的鸡蛋吃起来会更香，很多人都会在家煮茶叶蛋吃。那么煮茶叶蛋什么时候敲碎好呢？下面让我们具体...</font><span><strong class="u-yuedu">(100 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=44" title="茶叶蛋敲碎后再煮几分钟 茶叶蛋敲碎之后再煮多久"><i><img src="/public/home/20200221/1-200221091412927.jpg" alt="茶叶蛋敲碎后再煮几分钟 茶叶蛋敲碎之后再煮多久"></i>
+            <p>茶叶蛋敲碎后再煮几分钟 茶叶蛋敲碎之后再煮多久</p>
+            <font>我们都知道，茶叶蛋是比较常见的一种蛋类食物，它是用新鲜鸡蛋煮制而成的，里面会发各种香料和茶叶，煮出来的味道很不错，深受人们喜欢，很多人都会在家煮茶叶蛋。那么茶叶蛋敲碎再煮多长时间呢...</font><span><strong class="u-yuedu">(265 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=43" title="吃车厘子怎么不上火 车厘子吃多上火了咋办"><i><img src="/public/home/20200221/1-200221091334334.jpg" alt="吃车厘子怎么不上火 车厘子吃多上火了咋办"></i>
+            <p>吃车厘子怎么不上火 车厘子吃多上火了咋办</p>
+            <font>车厘子是生活中常见的一种水果，因其汁多肉厚且有调中益气、健脾和胃功效因而备受人们的喜爱，但很多人在食用时经常会出现上火的问题，那么吃车厘子怎么不上火呢，我们一起看看。吃车厘子怎么不...</font><span><strong class="u-yuedu">(240 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=42" title="车厘子什么人都可以吃吗 吃车厘子哪些事项要注意"><i><img src="/public/home/20200221/1-20022109114aJ.jpg" alt="车厘子什么人都可以吃吗 吃车厘子哪些事项要注意"></i>
+            <p>车厘子什么人都可以吃吗 吃车厘子哪些事项要注意</p>
+            <font>车厘子是生活中常见的一种水果，因其汁多肉厚且有调中益气、健脾和胃功效因而备受人们的喜爱，不过吃车厘子也是有些事项是要注意的，下面小编就分享大家一些吃车厘子的禁忌，希望对大家能有所帮...</font><span><strong class="u-yuedu">(216 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=41" title="做花卷和面要加盐吗 做花卷和面要放糖吗"><i><img src="/public/home/20200221/1-2002210911142C.jpg" alt="做花卷和面要加盐吗 做花卷和面要放糖吗"></i>
+            <p>做花卷和面要加盐吗 做花卷和面要放糖吗</p>
+            <font>我们都知道，花卷是比较常见的一种面食，它的做法比较多，口味比较丰富，有甜的也有咸的，吃起来松松软软的，味道很不错，深受人们喜欢，很多人都会在家做花卷。那么做花卷和面要不要加糖呢？下...</font><span><strong class="u-yuedu">(242 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li>
+        <li><a href="/index.php?m=home&c=View&a=index&aid=40" title="烙饼和面用多少度的水 烙饼和面用什么水"><i><img src="/public/home/20200221/1-2002210ZF5932.jpg" alt="烙饼和面用多少度的水 烙饼和面用什么水"></i>
+            <p>烙饼和面用多少度的水 烙饼和面用什么水</p>
+            <font>我们都知道，烙饼是比较常见的一种面食吃法，它的做法比较多，口味比较丰富，吃起来都会香香脆脆的，深受人们喜欢，很多人都会在家烙饼吃。那么烙饼和面用什么水比较好呢？下面让我们具体来看看...</font><span><strong class="u-yuedu">(193 )人阅读</strong><strong class="u-time">时间：2020-02-21</strong></span>
+          </a></li> -->
+      </ul>
 </body>
 <?php include DIR_VIEW. '/common/foot.htm' ?>

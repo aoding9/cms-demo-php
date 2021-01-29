@@ -8,7 +8,8 @@ $routes_ =  array(
   ENTRY_INDEX => [
     // 例如:当path=home时,路由将使用home/home.php控制器处理
     'home' => 'home.php',
-    'arclist' => 'arclist.php'
+    'arclist' => 'arclist.php',
+    'content'=> 'content.php'
   ],
   ENTRY_ADMIN =>
   [

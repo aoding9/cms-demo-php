@@ -33,7 +33,7 @@ define('REQ_', $request);
 // 根据入口定义常用的常量
 define('DIR_VIEW', DIR_['view'] . "/{$entry}");
 define('DIR_ROUTE', DIR_['route'] . "/{$entry}");
-// define('DIR_PUBLIC', DIR_['public'] . "/{$entry}");
+define('DIR_PUBLIC', DIR_['public'] . "/{$entry}");
 // 静态资源目录,带http://这种
 define('HOST_PUBLIC', INFO_['host']."/".DIR_RE_['public'] . "/{$entry}");
 // define('HOST_STATIC', INFO_['host']."/".DIR_RE_['public'] . "/static");
