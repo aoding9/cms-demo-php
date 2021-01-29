@@ -58,7 +58,9 @@
       function handle(data) {
         console.log(data);
         layer.msg(data.msg);
-        if (data.res == 0) {} else {
+        if (data.res == 0) {
+          
+        } else {
           setTimeout(() => {
             location.href = '/admin.php?path=admin';
           }, 500);

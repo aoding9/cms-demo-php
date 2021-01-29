@@ -13,19 +13,53 @@ function include_route($path, $routes, &$error)
     } else {
       $error = "控制器文件不存在";
       return false;
-    } 
-  }else{
-      $error = "没有对应的路由";
-      return false;
     }
+  } else {
+    $error = "没有对应的路由";
+    return false;
+  }
 }
 
+// 登录守卫,所有admin.php下的path请求,都要判断session[admin]是否为true
+function login_guard()
+{
+  // api=login不走这个判断
+  if (REQ_['api'] == 'login') {
+    return;
+  }
+  //  防止全局变量造成安全隐患
+  $admin = false;
+  //  启动会话，这步必不可少
+  session_start();
+  // var_dump($_SESSION['admin']);
+
+  //  判断是否登陆
+  if (isset($_SESSION["admin"]) && $_SESSION["admin"] === true) {
+
+    // echo "您已经成功登陆";
+    if (REQ_['path'] == "login") {
+      location("/admin.php?path=admin");
+    };
+    return true;
+  } else {
+    //  验证失败，将 $_SESSION["admin"] 置为 false
+    // 如果当前目录不是login,则重定向到login
+    $_SESSION["admin"] = false;
+    if (REQ_['path'] != "login") {
+      location("/admin.php");
+    };
+    return false;
+  }
+}
+if (REQ_['path']== 'admin') {
+  login_guard();
+}
 
 
 $path = REQ_['path']; // path参数
 $routes = ROUTES_[REQ_ENTRY]; // 入口对应的路由列表
 $result = include_route($path, $routes, $error);
-if(!$result){
+if (!$result) {
   // dd($error);
   req_error(404);
 }

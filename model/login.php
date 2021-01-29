@@ -1,4 +1,8 @@
 <?php
+// 初始化session
+ini_set('session.save_path', DIR_['session']);
+ini_set('session.name', 'phpsessionid');
+
 // 定义公钥和私钥(base64转码)
 // 公钥直接发给前端,对密码用公钥加密发给后端,后端再对密码进行私钥加密,保存到用户表
 // echo base64_encode('siyao');
@@ -17,8 +21,8 @@ function make_password($password, $salt = '')
 }
 // ddd(make_password(123,123));
 
-// 验证密码
-function validate_password(&$msg, $uname, $pword)
+
+function get_salt(&$msg, $uname)
 {
   // 先查盐和密码
   $res = sqli_easy($error, [
@@ -26,18 +30,20 @@ function validate_password(&$msg, $uname, $pword)
   ]);
 
   $res = $res[0];
-  // sql语句执行错误
-  // if(!$res){
-  //   $msg = $error;
-  //   return false;
-  // }
-  // // // 没有对应的用户名
-  if(empty($res)){
+  if (empty($res)) {
     $msg = "用户名不正确";
     return false;
   }
-
-  // 数据库中的密码和盐
+  return $res;
+}
+// 验证密码
+function validate_password(&$msg, $uname, $pword)
+{
+  $res = get_salt($msg, $uname);
+  if (empty($res)) {
+    $msg = $msg;
+    return false;
+  }
   $pword_hashed = $res['password'];
   $salt = $res['salt'];
   $pword_hashed_now = make_password($pword, $salt)[0];
@@ -62,5 +68,8 @@ function create_user($username, $password, $penname)
   if (!$res) {
     dd($error);
   }
-  dd($res);
+  // dd($res);
 }
+
+// 注册一个测试用户
+// create_user('test1',md5('123456'.base64_decode(KEY_PUBLIC)),'密码是123456');

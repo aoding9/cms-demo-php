@@ -1,9 +1,13 @@
 <?php
 
 
+
 // 设置24小时后过期的cookie
 $time = time() + 60 * 60 * 24;
 setcookie('pub_key', KEY_PUBLIC, $time);
+
+// 如果已经登录,直接跳转admin
+
 
 function login(&$msg, $uname, $pword)
 {
@@ -41,37 +45,17 @@ if (REQ_['api'] == 'login') {
 
   $res = login($msg, $uname, $pword);
 
+  // 如果返回1则正确,设置session
+  if($res['res']==1){
+    session_start();
+    $_SESSION['admin']=true;
+  }
+  // 响应 返回json字符串
   dd(json_encode($res));
-
-
-  // dd($data);
-  // var_dump($msg);
-  // var_dump($res);
-
-  // if (!$res) {
-  //   // 登录失败,刷新到当前页面(不然post会留着)
-  //   // echo "失败";
-  // } else {
-  //   // 登录成功 
-  //   // location('/admin.php?path=admin');
-  //   // 保存session
-  //   // session_start();
-  // }
-
   exit();
 }
 
-
-
-
-
-
-// 自己指定的page变量
-$page = array(
-  'title' => '登录页',
-  'js' => 'login.js',
-);
-// 获取到的data
+// 视图data
 $data = array();
 
 

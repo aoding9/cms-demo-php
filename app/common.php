@@ -79,10 +79,5 @@ function str_rand($length=32)
 
 
 
-// 登录守卫
-// 
-function login_guard(){
-  
-}
 
 
