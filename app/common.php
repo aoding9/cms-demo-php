@@ -12,7 +12,7 @@ function dd($some = '需要传值')
 // 输出内容用<pre>标签包裹
 function ddd($some = '需要传值')
 {
-  echo "<pre>";
+  echo "<pre style='display:none'>";
   print_r($some);
   echo "</pre>";
 }

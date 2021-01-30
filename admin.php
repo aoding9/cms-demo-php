@@ -21,7 +21,7 @@ include_once(DIR_ROOT.'/app/constant.php');
 // 数据库函数(使用了上面的常量)
 include_once(DIR_['model'].'/sql_fun.php');
 
-// 登录相关函数
+// 登录相关函数 // 只有admin入口才有
 include_once(DIR_['model'].'/login.php');
 
 // 路由(使用了数据库/常量/公用函数,所以要在下面)
