@@ -1,5 +1,7 @@
 <?php
 
+use function PHPSTORM_META\type;
+
 function logout()
 {
   $_SESSION['admin'] = "false";
@@ -14,13 +16,80 @@ switch (REQ_['api']) {
 }
 // 根据cpn得到菜单
 $menus = [
-  'setting' => ['name' => '基本设置', 'icon' => 'set'],
-  'types' => ['name' => '栏目管理', 'icon' => 'app'],
-  'articles' => ['name' => '文章管理', 'icon' => 'list'],
-  'users' => ['name' => '用户管理', 'icon' => 'user']
+  'setting' => ['name' => '基本设置', 'icon' => 'set','submenu' => []],
+  'types' => [
+    'name' => '栏目管理', 'icon' => 'app',
+    'submenu' => [
+      'type_add' => ['name' => '新增栏目'],
+      'type_edit' => ['name' => '修改栏目']
+    ]
+  ],
+  'articles' => [
+    'name' => '文章管理', 'icon' => 'list',
+    'submenu' => [
+      'article_add' => ['name' => '新增文章'],
+      'article_edit' => ['name' => '修改文章']
+    ]
+  ],
+  'users' => [
+    'name' => '用户管理', 'icon' => 'user',
+    'submenu' => [
+      'user_add' => ['name' => '新增用户'],
+      'user_edit' => ['name' => '修改用户']
+    ]
+  ],
 ];
 
-$cpn = !empty(REQ_['cpn']) ? REQ_['cpn'] : "setting";  // 默认是setting
+// 递归查找,递归点:submenu是否存在,出口:cpn和key相等
+// 返回值:数组[是否找到,顶级菜单名,匹配到的菜单名]
+// {
+//   if(is_array($menus)){
+//     foreach ($menus as $key => $value) {
+//     if(is_ini($key)) $top = $key;
+//       if ($key == $cpn) {
+//         return [1,$top,$key]; // 找到了
+//       }
+//       // if()
+
+//     }
+//   }
+//   return false;
+function is_cpn($cpn, $menus){
+  static $res = 0; // 静态变量保存结果,是否找到
+  static $top; // 保存顶级菜单
+  foreach ($menus as $key => $value) {
+    $is_top = array_key_exists('submenu',$value);
+    if ($is_top) $top = $key; // 更新顶级菜单的key
+    if ($key == $cpn) {
+      return [1, $top, $key];
+    }
+
+    foreach ($value as $key => $value) {
+      if ($key == 'submenu') {
+        $res = is_cpn($cpn, $value,$top);
+        break;
+      }
+    }
+  }
+  return $res;
+}
+
+
+
+
+$cpn = (REQ_['cpn']);  // 默认是setting
+
+// 看cpn是否存在,以及属于哪个顶级菜单
+$res = is_cpn($cpn, $menus);
+// 如果没找到,那就转到setting
+if (!$res[0]) {
+  $cpn = "setting";
+  $menu_top = "setting";
+
+} else {
+  $menu_top = $res[1];
+}
+
 $cpn_view = DIR_VIEW . "/component/{$cpn}.htm";
 
 if (array_key_exists($cpn, $menus)) {
@@ -47,7 +116,7 @@ $res = sqli_easy($error, [
   ['sqli_read', "select * from cd_config", true],
 ]);
 
-ddd($res);
+// ddd($res);
 $data['user'] = $res[0];
 $data['config'] = $res[1];
 

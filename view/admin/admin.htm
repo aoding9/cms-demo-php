@@ -27,8 +27,8 @@
       <div class="layui-side-scroll">
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
         <ul class="layui-nav layui-nav-tree" lay-filter="menu">
-          <?php foreach ($menus as $key => $menu) : ?>
-            <li class="layui-nav-item layui-nav-itemed <?php dd($key == $cpn ? 'layui-this' : '') ?>">
+        <?php foreach ($menus as $key => $menu) : ?>
+            <li class="layui-nav-item layui-nav-itemed <?php dd($key == $menu_top ? 'layui-this' : '') ?>">
               <a class="" href="/admin.php?path=admin&cpn=<?php dd($key) ?>">
                 <i class="layui-icon layui-icon-<?php echo $menu['icon'] ?>"></i>
                 <?php dd($menu['name']) ?>

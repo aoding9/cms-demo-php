@@ -6,7 +6,6 @@
 // * @param mix $some 要输出的内容
 function dd($some = '需要传值')
 {
-  echo "\n";
   print_r($some);
 }
 // 输出内容用<pre>标签包裹
