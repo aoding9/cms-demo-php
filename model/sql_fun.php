@@ -6,7 +6,7 @@
  * $error使用引用传值，方便外部处理错误
  * 最简单一句话用法: $conn = sqli_connect($error) or die($error);
  */
-function sqli_connect(&$error, $username=DB_['username'], $password=DB_['password'], $dbname=DB_['database'], $host = DB_['host'], $port = DB_['port'], $charset = DB_['charset'])
+function sqli_connect(&$error, $username = DB_['username'], $password = DB_['password'], $dbname = DB_['database'], $host = DB_['host'], $port = DB_['port'], $charset = DB_['charset'])
 {
   # 连接认证
   $conn = @mysqli_connect($host, $username, $password, $dbname, $port);
@@ -114,22 +114,21 @@ function sqli_easy(&$error, $tasks = [])
   }
 
   // 有效的任务名
-  $allow = ['sqli_execute','sqli_read','sqli_write'];
+  $allow = ['sqli_execute', 'sqli_read', 'sqli_write'];
   // 遍历并执行,把结果保存到数组中
   $res = [];
-  if(!empty($tasks)){
+  if (!empty($tasks)) {
     foreach ($tasks as $key => $value) {
       $task = $value[0];
       $sql = $value[1];
-      $bool = $value[2]??false; // 默认false
-        if (!empty($value) && in_array($task,$allow)) {
-          if($bool){
-            $res[] = $task($error, $conn, $sql,$bool);
-          }else{
-            $res[] = $task($error, $conn, $sql);
-          }
+      $bool = $value[2] ?? false; // 默认false
+      if (!empty($value) && in_array($task, $allow)) {
+        if ($bool) {
+          $res[] = $task($error, $conn, $sql, $bool);
+        } else {
+          $res[] = $task($error, $conn, $sql);
         }
-      
+      }
     }
   }
 

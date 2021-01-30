@@ -56,8 +56,5 @@ if (REQ_['api'] == 'login') {
   exit();
 }
 
-// 视图data
-$data = array();
-
 
 include_once DIR_['view'] . '/admin/login.htm';

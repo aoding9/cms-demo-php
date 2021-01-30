@@ -1,22 +1,48 @@
 <?php
 
-use function PHPSTORM_META\type;
-
+// api 接口函数定义
 function logout()
 {
   $_SESSION['admin'] = "false";
   location('/admin.php');
 }
+function upload(){
+  // header('Content-type:application/json');
+  // echo json_encode($_POST);
+  // $data = json_decode(file_get_contents("php://input"));
+  // $uname = $data->username;
+  // $pword = $data->password;
+  // $res = login($msg, $uname, $pword);
+  // $file = $_POST;
+
+  // 如果返回1则正确,设置session
+  // if($res['res']==1){
+  //   session_start();
+  //   $_SESSION['admin']=true;
+  //   $_SESSION['uname']=$uname;
+  // }
+  // 响应 返回json字符串
+  // dd(json_encode( $data ));
+  dd(11);
+  exit();
+}
+
 
 // 是否调用某个api
 switch (REQ_['api']) {
   case 'logout':
     logout();
     break;
+  case 'upload':
+    upload();
+    break;
 }
 // 根据cpn得到菜单
 $menus = [
-  'setting' => ['name' => '基本设置', 'icon' => 'set','submenu' => []],
+  'setting' => [
+    'name' => '基本设置', 'icon' => 'set',
+    'submenu' => []
+  ],
   'types' => [
     'name' => '栏目管理', 'icon' => 'app',
     'submenu' => [
@@ -54,11 +80,12 @@ $menus = [
 //     }
 //   }
 //   return false;
-function is_cpn($cpn, $menus){
+function is_cpn($cpn, $menus)
+{
   static $res = 0; // 静态变量保存结果,是否找到
   static $top; // 保存顶级菜单
   foreach ($menus as $key => $value) {
-    $is_top = array_key_exists('submenu',$value);
+    $is_top = array_key_exists('submenu', $value);
     if ($is_top) $top = $key; // 更新顶级菜单的key
     if ($key == $cpn) {
       return [1, $top, $key];
@@ -66,7 +93,7 @@ function is_cpn($cpn, $menus){
 
     foreach ($value as $key => $value) {
       if ($key == 'submenu') {
-        $res = is_cpn($cpn, $value,$top);
+        $res = is_cpn($cpn, $value, $top);
         break;
       }
     }
@@ -77,15 +104,14 @@ function is_cpn($cpn, $menus){
 
 
 
-$cpn = (REQ_['cpn']);  // 默认是setting
+$cpn = (REQ_['cpn']);
 
 // 看cpn是否存在,以及属于哪个顶级菜单
 $res = is_cpn($cpn, $menus);
-// 如果没找到,那就转到setting
+// 如果没找到,就转到setting
 if (!$res[0]) {
   $cpn = "setting";
   $menu_top = "setting";
-
 } else {
   $menu_top = $res[1];
 }
@@ -111,15 +137,10 @@ function include_cpn($cpn_view)
 }
 
 $uname = $_SESSION['uname'];
-$res = sqli_easy($error, [
-  ['sqli_read', "select * from cd_user where name = '$uname'"],
-  ['sqli_read', "select * from cd_config", true],
-]);
 
-// ddd($res);
-$data['user'] = $res[0];
-$data['config'] = $res[1];
 
+$data['user'] = get_user($uname)[0];
+$data['config'] = get_config()[0];
 
 
 
