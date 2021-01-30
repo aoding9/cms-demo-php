@@ -6,24 +6,25 @@ function logout()
   $_SESSION['admin'] = "false";
   location('/admin.php');
 }
-function upload(){
-  // header('Content-type:application/json');
-  // echo json_encode($_POST);
-  // $data = json_decode(file_get_contents("php://input"));
-  // $uname = $data->username;
-  // $pword = $data->password;
-  // $res = login($msg, $uname, $pword);
-  // $file = $_POST;
+function upload()
+{
 
-  // 如果返回1则正确,设置session
-  // if($res['res']==1){
-  //   session_start();
-  //   $_SESSION['admin']=true;
-  //   $_SESSION['uname']=$uname;
-  // }
+  header('Content-type:application/json');
+  $req=[];
+  // echo json_encode($_POST);
+  $file = $_FILES['file'];
+  // 文件合法性检验
+  if ($error = checkfile($file)) {
+    $req['msg'] = $error;
+  } else {
+    // 文件上传
+    $res = uploadfile($file);
+    $req = $res;
+  }
+
   // 响应 返回json字符串
-  // dd(json_encode( $data ));
-  dd(11);
+  // dd(json_encode($file));
+  dd(json_encode($req));
   exit();
 }
 
