@@ -19,12 +19,15 @@ $default_path = REQ_ENTRY == ENTRY_INDEX ? ROUTES_DEFAULT_INDEX : ROUTES_DEFAULT
 $path = $query_arr['path'] ?? $default_path;
 // 请求的接口名称
 $api = $query_arr['api']??'';
+// 请求组件的名称
+$cpn = $query_arr['cpn']??'';
 // 常用的请求信息
 $request = [
   'entry' => REQ_ENTRY,
   'path' => $path,
   'query' => $query_arr,
-  'api' => $api
+  'api' => $api,
+  'cpn' => $cpn
 ];
 define('REQ_', $request);
 

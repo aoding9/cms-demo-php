@@ -26,20 +26,17 @@
     <div class="layui-side layui-bg-black">
       <div class="layui-side-scroll">
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-        <ul class="layui-nav layui-nav-tree" lay-filter="test">
-          <li class="layui-nav-item layui-nav-itemed">
-            <a class="" href="javascript:;"><i class="layui-icon layui-icon-set"></i>基本设置</a>
-          </li>
-          <li class="layui-nav-item">
-            <a href="javascript:;"><i class="layui-icon layui-icon-app"></i>栏目管理</a>
-          </li>
-          <li class="layui-nav-item">
-            <a href="javascript:;"><i class="layui-icon layui-icon-list"></i>文章管理</a>
-          </li>
-          <li class="layui-nav-item">
-            <a href="javascript:;"><i class="layui-icon layui-icon-user"></i>用户管理</a>
-          </li>
-        
+        <ul class="layui-nav layui-nav-tree" lay-filter="menu">
+          <?php foreach ($menus as $key => $menu) : ?>
+            <li class="layui-nav-item layui-nav-itemed <?php dd($key == $cpn ? 'layui-this' : '') ?>">
+              <a class="" href="/admin.php?path=admin&cpn=<?php dd($key) ?>">
+                <i class="layui-icon layui-icon-<?php echo $menu['icon'] ?>"></i>
+                <?php dd($menu['name']) ?>
+              </a>
+            </li>
+          <?php endforeach ?>
+
+
 
         </ul>
       </div>
@@ -48,13 +45,13 @@
     <div class="layui-body">
       <!-- 内容主体区域 -->
       <div style="padding: 15px;">
-    <iframe src="" frameborder="0"></iframe>
-    </div>
+        <?php include_cpn($cpn_view) ?>
+      </div>
     </div>
 
     <div class="layui-footer">
       <!-- 底部固定区域 -->
-      © layui.com - 底部固定区域
+      简单CMS 简单就完事了
     </div>
   </div>
 
@@ -65,6 +62,9 @@
   layui.use('element', function() {
     var element = layui.element;
 
+    element.on('nav(menu)', function(elem) {
+      console.log(elem); //得到当前点击的DOM对象
+    });
   });
 </script>
 <style>
@@ -75,15 +75,16 @@
   }
 
   .layui-layout-admin .layui-logo img {
-    width: 75%;
+    width: 70%;
     /* height: 100; */
   }
 
-.layui-icon{
-  margin-right: 10px;
-  font-size: 20px;
+  .layui-icon {
+    margin-right: 10px;
+    font-size: 16px;
 
-}
+  }
+
   .layui-icon-home {
     font-weight: 700;
 
