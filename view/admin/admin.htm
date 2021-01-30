@@ -5,7 +5,17 @@
     <div class="layui-header">
       <div class="layui-logo"><img src="<?php dd($data['config'][3]['value']) ?> " alt=""></div>
       <!-- 头部区域（可配合layui已有的水平导航） -->
+      <!-- 暂时还没做侧边收缩 -->
+      <ul class="layui-nav layui-layout-left">
+        <li class="layui-nav-item layadmin-flexible" lay-unselect="">
+          <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+            <i class="layui-icon layui-icon-spread-right" id="LAY_app_flexible"></i>
+          </a>
+        </li>
+       
 
+
+      </ul>
       <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item"><a href="/index.php"><i class="layui-icon layui-icon-home"></i>首页</a></li>
         <li class="layui-nav-item">
@@ -27,7 +37,7 @@
       <div class="layui-side-scroll">
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
         <ul class="layui-nav layui-nav-tree" lay-filter="menu">
-        <?php foreach ($menus as $key => $menu) : ?>
+          <?php foreach ($menus as $key => $menu) : ?>
             <li class="layui-nav-item layui-nav-itemed <?php dd($key == $menu_top ? 'layui-this' : '') ?>">
               <a class="" href="/admin.php?path=admin&cpn=<?php dd($key) ?>">
                 <i class="layui-icon layui-icon-<?php echo $menu['icon'] ?>"></i>
@@ -45,13 +55,13 @@
     <div class="layui-body">
       <!-- 内容主体区域 -->
       <div style="padding: 15px;">
-        <?php include_cpn($cpn_view) ?>
+        <?php include_cpn($cpn_file) ?>
       </div>
     </div>
 
     <div class="layui-footer">
       <!-- 底部固定区域 -->
-      简单CMS 简单就完事了
+      <?php echo $data['config'][4]['value']?>
     </div>
   </div>
 
@@ -68,7 +78,6 @@
   });
 </script>
 <style>
-  
   .layui-header .layui-logo {
     display: flex;
     align-items: center;

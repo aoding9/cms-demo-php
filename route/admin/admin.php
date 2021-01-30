@@ -1,35 +1,12 @@
 <?php
 
-// api 接口函数定义
-function logout()
-{
-  $_SESSION['admin'] = "false";
-  location('/admin.php');
-}
-function upload()
-{
 
-  header('Content-type:application/json');
-  $req=[];
-  // echo json_encode($_POST);
-  $file = $_FILES['file'];
-  // 文件合法性检验
-  if ($error = checkfile($file)) {
-    $req['msg'] = $error;
-  } else {
-    // 文件上传
-    $res = uploadfile($file);
-    $req = $res;
-  }
-
-  // 响应 返回json字符串
-  // dd(json_encode($file));
-  dd(json_encode($req));
-  exit();
-}
+// api 接口函数引入
+include_once DIR_ROUTE . "/api.php";
 
 
-// 是否调用某个api
+
+// 是否调用某个api// 是否调用某个api
 switch (REQ_['api']) {
   case 'logout':
     logout();
@@ -37,6 +14,12 @@ switch (REQ_['api']) {
   case 'upload':
     upload();
     break;
+  case 'config_edit':
+    config_edit();
+    break;
+}
+if(REQ_['api']){
+  exit();
 }
 // 根据cpn得到菜单
 $menus = [
@@ -69,18 +52,6 @@ $menus = [
 
 // 递归查找,递归点:submenu是否存在,出口:cpn和key相等
 // 返回值:数组[是否找到,顶级菜单名,匹配到的菜单名]
-// {
-//   if(is_array($menus)){
-//     foreach ($menus as $key => $value) {
-//     if(is_ini($key)) $top = $key;
-//       if ($key == $cpn) {
-//         return [1,$top,$key]; // 找到了
-//       }
-//       // if()
-
-//     }
-//   }
-//   return false;
 function is_cpn($cpn, $menus)
 {
   static $res = 0; // 静态变量保存结果,是否找到
@@ -118,28 +89,22 @@ if (!$res[0]) {
 }
 
 $cpn_view = DIR_VIEW . "/component/{$cpn}.htm";
-
-if (array_key_exists($cpn, $menus)) {
-  $cpn_file = DIR_ROUTE . "/component/{$cpn}.php";
-  if (!file_exists($cpn_file)) {
-    dd('组件文件不存在');
-  } else {
-    include_once $cpn_file;
-  }
+define('DIR_CPN', $cpn_view);
+if (!file_exists($cpn_view)) {
+  die("组件视图文件不存在");
 }
-function include_cpn($cpn_view)
+
+$cpn_file = DIR_ROUTE . "/component/{$cpn}.php";
+if (!file_exists($cpn_file)) {
+  die('组件文件不存在');
+}
+// 在admin里面content区域调用
+function include_cpn($cpn_file)
 {
-  if (file_exists($cpn_view)) {
-    include_once($cpn_view);
-  } else {
-    dd("组件视图文件不存在");
-    return false;
-  }
+  include_once($cpn_file);
 }
 
 $uname = $_SESSION['uname'];
-
-
 $data['user'] = get_user($uname)[0];
 $data['config'] = get_config()[0];
 

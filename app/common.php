@@ -81,6 +81,9 @@ function str_rand($length = 32)
 // 文件上传,验证函数
 function checkfile($file)
 {
+  if(empty($file)){
+    return "未上传文件";
+  }
   //1：验证是否有误
   if ($file['error'] != 0) {
     switch ($file['error']) {
@@ -129,9 +132,11 @@ function uploadfile($file)
   $filename = uniqid('', true) . strrchr($file['name'], '.');  //文件名
   $filepath = "$folderpath/$filename";  //文件路径
   if (move_uploaded_file($file['tmp_name'], $filepath))
-    return ["result" => true,
-     "msg" => "文件上传成功",
-     "file"=>"/uploads/{$foldername}/{$filename}"];
+    return [
+      "result" => true,
+      "msg" => "文件上传成功",
+      "file" => "/uploads/{$foldername}/{$filename}"
+    ];
   else
     return ["result" => false, "msg" => "文件上传失败"];
 }

@@ -106,6 +106,9 @@ function sqli_write(&$error, $conn, $sql, $insert = false)
 // 任务是一个多维数组,一维表示任务,二维为任务的名称,sql语句,附加布尔值参数
 function sqli_easy(&$error, $tasks = [])
 {
+  if(!is_array($tasks)){
+    $error = "第二个参数应该是数组";
+  }
 
   // 连接数据库
   $conn = sqli_connect($error,  DB_['username'], DB_['password'], DB_['database'], DB_['host'], DB_['port'], DB_['charset']);

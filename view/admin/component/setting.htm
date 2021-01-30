@@ -4,43 +4,47 @@
     基本设置
   </div>
   <div class="layui-card-body">
-    <form class="layui-form" action="">
+    <form class="layui-form" action="" lay-filter="config_edit_form">
       <div class="layui-form-item">
         <label class="layui-form-label">标题</label>
         <div class="layui-input-block">
-          <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+          <input type="text" name="title" required lay-verify="required" placeholder="title" autocomplete="off" class="layui-input" value="<?php echo $config['title'] ?>">
         </div>
       </div>
       <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">描述</label>
         <div class="layui-input-block">
-          <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+          <textarea name="description" placeholder="请输入描述" class="layui-textarea"><?php echo $config['description'] ?></textarea>
         </div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">关键词</label>
         <div class="layui-input-block">
-          <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+          <input type="text" name="keywords" required lay-verify="required" placeholder="请输入关键词" autocomplete="off" class="layui-input" value="<?php echo $config['keywords'] ?>">
         </div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">版权</label>
         <div class="layui-input-block">
-          <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+          <input type="text" name="copyright" required lay-verify="required" placeholder="请输入版权" autocomplete="off" class="layui-input" value="<?php echo $config['copyright'] ?>">
         </div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">备案号</label>
         <div class="layui-input-block">
-          <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+          <input type="text" name="recordnum" required lay-verify="required" placeholder="请输入备案号" autocomplete="off" class="layui-input" value="<?php echo $config['recordnum'] ?>">
         </div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">logo</label>
-        <div class="layui-input-block">
+        <div class="layui-input-block" id="upload">
+          <input type="text" name="logo" required lay-verify="required" placeholder="请上传图片或填写图片URL" autocomplete="off" class="layui-input" id="upload-input" value="<?php echo $config['logo'] ?>">
           <button type="button" class="layui-btn layui-btn-normal" id="test1">
             <i class="layui-icon">&#xe67c;</i>上传图片
           </button>
+          <div class="preview-bg">
+            <img src="<?php echo $config['logo']?>" alt="" id="preview">
+          </div>
         </div>
       </div>
 
@@ -57,30 +61,68 @@
 
 <script>
   //Demo
-  layui.use('upload', function() {
+  layui.use(['upload', 'layer', 'form'], function() {
+    var layer = layui.layer;
     var upload = layui.upload;
+    var form = layui.form;
+
+    //各种基于事件的操作，下面会有进一步介绍
+    form.on('submit(formDemo)', function(data) {
+      var form_data = form.val('config_edit_form');
+
+      function handle(data) {
+        console.log(data);
+        layer.msg(data.msg);
+        if (data.res == 0) {
+          // layer.msg(data.msg);
+        } else {
+          setTimeout(function() {
+            location.reload();
+          }, 1000);
+          // setTimeout(() => {
+          //   location.href = '/admin.php?path=admin';
+          // }, 500);
+        }
+      }
+      fetch('/admin.php?path=admin&api=config_edit', {
+          method: 'post',
+          body: JSON.stringify(form_data),
+          headers: {
+            // json格式的参数
+            'Content-type': 'application/json',
+          },
+        })
+        .then(data => data.json())
+        .then(data => handle(data));
+
+
+      // layer.msg(JSON.stringify(data.field));
+      // console.log(hex_md5(data.field.password + salt));
+      return false;
+    });
 
     //执行实例
     var uploadInst = upload.render({
       elem: '#test1', //绑定元素
       url: '/admin.php?path=admin&api=upload', //上传接口
       done: function(res) {
-        console.log(res);
+        //上传完毕回调
+        if (res.result == true) {
+          layer.msg(res.msg);
+          var preview = document.getElementById("preview");
+          var upload_input = document.getElementById("upload-input");
+          preview.src = res.file;
+          upload_input.value = res.file;
+          // preview.style.display = "block";
+        } else {
+          layer.msg(res.msg)
+        }
 
-      }, //上传完毕回调
+      },
       error: function() {
         //请求异常回调
         console.log("错误");
       }
-    });
-  });
-  layui.use('form', function() {
-    var form = layui.form;
-
-    //监听提交
-    form.on('submit(formDemo)', function(data) {
-      layer.msg(JSON.stringify(data.field));
-      return false;
     });
   });
 </script>
@@ -98,5 +140,43 @@
 
   .layui-card-header i {
     color: white;
+  }
+
+  .layui-form-item {
+    width: 700px;
+  }
+
+.preview-bg{
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(110%, -50%);
+    visibility: hidden;
+    background-color: #ccc;
+    padding: 20px;
+    border-radius: 10px;
+
+}
+  #preview {
+    transition: all 0.3s;
+    opacity: 0;
+
+    max-height: 200px;
+  }
+
+  #test1 {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  #upload {
+    position: relative;
+  }
+  #upload:hover #preview{
+    opacity: 1;
+  }
+  #upload:hover .preview-bg {
+    visibility: visible;
   }
 </style>
