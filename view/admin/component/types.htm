@@ -1,11 +1,6 @@
-<?php
-$link = @mysqli_connect('localhost', 'root', 'root', 'cms_demo') or die('错误：' . mysqli_connect_error());
-mysqli_set_charset($link, 'utf8');
-$res = mysqli_query($link, "select * from cd_arctype order by sort_order desc");
-$list = mysqli_fetch_all($res, MYSQLI_ASSOC);
-?>
+
 <div class="layui-card">
-  <div class="layui-card-header layui-bg-green">栏目管理<a href=" " class="layui-btn layui-btn-normal layui-btn-sm add-btm layui-bg-gray" ><i class="layui-icon layui-icon-edit"></i> 添加</a></div>
+  <div class="layui-card-header layui-bg-green">栏目管理<a href="/admin.php?path=admin&cpn=type_add " class="layui-btn layui-btn-normal layui-btn-sm add-btm layui-bg-gray" ><i class="layui-icon layui-icon-edit"></i> 添加</a></div>
   
 </div>
 <table class="layui-table" lay-even>
@@ -30,7 +25,7 @@ $list = mysqli_fetch_all($res, MYSQLI_ASSOC);
       <td align="center"><?php echo $rows['is_hidden'] ?></td>
       <td align="center">
       <a href=" " class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-edit"></i> 修改</a>
-      <a href=" " class="layui-btn layui-btn-sm layui-btn-danger"><i class="layui-icon layui-icon-delete"></i> 删除</a></td>
+      <a href="/admin.php?path=admin&cpn=types&api=type_delete&id=<?php echo $rows['typeid'] ?> " onclick="return confirm('确定要删除吗?')" class="layui-btn layui-btn-sm layui-btn-danger"><i class="layui-icon layui-icon-delete"></i> 删除</a></td>
       <td align="center"><?php echo $rows['sort_order'] ?></td>
     </tr>
   <?php endforeach; ?>

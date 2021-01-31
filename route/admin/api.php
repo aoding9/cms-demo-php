@@ -61,3 +61,36 @@ function upload()
   dd(json_encode($req));
   exit();
 }
+
+// 删除栏目接口
+function type_delete($typeid){
+  $typeid=(int)$_GET['id'];
+  
+  if($typeid<0){
+    echo '不是数字';
+    echo $typeid;
+    return;
+  }
+
+  $link = @mysqli_connect(DB_['host'], DB_['username'], DB_['password'], DB_['database']) or die('错误：' . mysqli_connect_error());
+  mysqli_set_charset($link, 'utf8');
+  
+  if(empty($typeid)){
+    dd('请选择要删除的栏目');
+  }else{
+    // 验证有没有这个栏目
+    mysqli_query($link, "select * from cd_arctype where typeid={$typeid}");
+   $a=mysqli_affected_rows($link);
+    // if 
+    if($a==0){
+    dd('栏目不存在');
+    }
+    // else
+    else{
+      mysqli_query($link, "delete from cd_arctype where typeid={$typeid}");
+      header('location:./admin.php?path=admin&cpn=types');
+    }
+  }
+  exit();
+
+}

@@ -16,6 +16,14 @@ switch (REQ_['api']) {
     break;
   case 'config_edit':
     config_edit();
+
+
+    break;
+  case 'type_delete':
+    type_delete($_GET['id']);
+    break;
+  case 'type_add':
+    type_add();
     break;
 }
 if(REQ_['api']){
