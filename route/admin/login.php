@@ -35,6 +35,8 @@ function login(&$msg, $uname, $pword)
     }
   }
 }
+
+
 // 登录接口
 if (REQ_['api'] == 'login') {
   header('Content-type:application/json');

@@ -1,2 +1,37 @@
-<h1>我是栏目列表</h1>
+<?php
+$link = @mysqli_connect('localhost', 'root', 'root', 'cms_demo') or die('错误：' . mysqli_connect_error());
+mysqli_set_charset($link, 'utf8');
+$res = mysqli_query($link, "select * from cd_arctype order by sort_order desc");
+$list = mysqli_fetch_all($res, MYSQLI_ASSOC);
+?>
+<table class="layui-table" lay-even>
+  <colgroup>
+    <col width="150">
+    <col width="200">
+    <col>
+  </colgroup>
+  <thead>
+    <tr>
+      <th style="text-align: center;">id</th>
+      <th style="text-align: center;">栏目名称</th>
+      <th style="text-align: center;">隐藏</th>
+      <th style="text-align: center;">操作</th>
+      <th style="text-align: center;">排序</th>
+    </tr>
+  </thead>
+  <?php foreach ($list as $rows) : ?>
+    <tr>
+      <td align="center"><?php echo $rows['typeid'] ?></td>
+      <td align="center"><?php echo $rows['typename'] ?></td>
+      <td align="center"><?php echo $rows['is_hidden'] ?></td>
+      <td align="center">
+      <a href=" " class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-edit"></i> 修改</a>
+      <a href=" " class="layui-btn layui-btn-sm layui-btn-danger"><i class="layui-icon layui-icon-delete"></i> 删除</a></td>
+      <td align="center"><?php echo $rows['sort_order'] ?></td>
+    </tr>
+  <?php endforeach; ?>
+
+  </tbody>
+</table>
+
 <?php ?>
