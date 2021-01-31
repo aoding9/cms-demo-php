@@ -19,4 +19,9 @@ function get_user($name,$all=false){
   return $res;
 }
 
+// 获取文章列表
+function get_articles(){
+  
+}
+
 ?>

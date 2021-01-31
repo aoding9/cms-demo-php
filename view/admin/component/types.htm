@@ -1,4 +1,10 @@
 
+<?php
+$link = @mysqli_connect('localhost', 'admin123', 'admin123', 'cms_demo') or die('错误：' . mysqli_connect_error());
+mysqli_set_charset($link, 'utf8');
+$res = mysqli_query($link, "select * from cd_arctype order by sort_order desc");
+$list = mysqli_fetch_all($res, MYSQLI_ASSOC);
+?>
 <div class="layui-card">
   <div class="layui-card-header layui-bg-green">栏目管理<a href="/admin.php?path=admin&cpn=type_add " class="layui-btn layui-btn-normal layui-btn-sm add-btm layui-bg-gray" ><i class="layui-icon layui-icon-edit"></i> 添加</a></div>
   
