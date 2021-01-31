@@ -4,33 +4,52 @@
     文章管理
   </div>
   <div class="layui-card-body">
-    <table class="layui-table">
-      <colgroup>
-        <col width="150">
-        <col width="200">
-        <col>
-      </colgroup>
-      <thead>
-        <tr>
-          <th>aid</th>
-          <th>标题</th>
-          <th>隐藏</th>
-          <th>操作</th>
-          <th>排序</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>哈哈哈哈哈</td>
-          <td>人生就像是一场修行</td>
-        </tr>
-        <tr>
-          <td>许闲心</td>
-          <td>2016-11-28</td>
-          <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
-        </tr>
-      </tbody>
-    </table>
+    <table id="demo" lay-filter="test"></table>
   </div>
 </div>
+
+
+<script>
+  layui.use('table', function() {
+    var table = layui.table;
+
+    //第一个实例
+    table.render({
+      elem: '#demo',
+      // height: 312,
+      url: '/admin.php?path=admin&api=article_list' //数据接口
+        ,
+      page: true //开启分页
+        ,
+      cols: [
+        [ //表头
+          {
+            type: 'checkbox',
+          },
+          {
+            field: 'aid',
+            title: 'aid',
+            sort: true,
+          }, {
+            field: 'title',
+            title: '标题',
+            width: 600
+          }, {
+            field: 'update_time',
+            title: '更新时间',
+            sort: true
+          }, {
+            field: 'is_hidden',
+            title: '隐藏',
+          }, {
+            field: 'sort_order',
+            title: '排序',
+            sort: true,
+
+          }
+        ]
+      ]
+    });
+
+  });
+</script>

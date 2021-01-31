@@ -17,8 +17,11 @@ switch (REQ_['api']) {
   case 'config_edit':
     config_edit();
     break;
+  case 'article_list':
+    article_list();
+    break;
 }
-if(REQ_['api']){
+if (REQ_['api']) {
   exit();
 }
 // 根据cpn得到菜单
