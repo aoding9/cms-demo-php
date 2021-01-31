@@ -36,7 +36,6 @@
       </div>
     </div>
   </div>
-  <a href="/admin.php?api=type_hidden&typeid=1"></a>
 </body>
 
 <!-- js -->
@@ -66,7 +65,7 @@
           }, 500);
         }
       }
-      fetch('/admin.php?api=type_hidden&typeid='+'', {
+      fetch('/admin.php?api=login', {
           method: 'post',
           body: JSON.stringify(form_data),
           headers: {

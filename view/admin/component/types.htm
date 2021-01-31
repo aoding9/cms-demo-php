@@ -4,6 +4,10 @@ mysqli_set_charset($link, 'utf8');
 $res = mysqli_query($link, "select * from cd_arctype order by sort_order desc");
 $list = mysqli_fetch_all($res, MYSQLI_ASSOC);
 ?>
+<div class="layui-card">
+  <div class="layui-card-header layui-bg-green">栏目管理<a href=" " class="layui-btn layui-btn-normal layui-btn-sm add-btm layui-bg-gray" ><i class="layui-icon layui-icon-edit"></i> 添加</a></div>
+  
+</div>
 <table class="layui-table" lay-even>
   <colgroup>
     <col width="150">
@@ -33,5 +37,10 @@ $list = mysqli_fetch_all($res, MYSQLI_ASSOC);
 
   </tbody>
 </table>
-
+<style>
+.add-btm{
+  float:right;
+  margin-top:5px;
+}
+</style>
 <?php ?>
