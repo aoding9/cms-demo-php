@@ -94,15 +94,15 @@ values('haha', 'aaaaaa', '小白'),
 --
 -- 创建配置字段
 insert into `cd_config` (`name`, `value`)
-values('g_title', 'cms小demo'),
-  ('g_description', '我是一个cms小demo'),
-  ('g_keywords', 'cms,php,demo'),
+values('title', 'cms小demo'),
+  ('description', '我是一个cms小demo'),
+  ('keywords', 'cms,php,demo'),
   (
-    'g_logo',
+    'logo',
     'https://img.0736tw.com/template/pc/skin/image/logo2.png'
   ),
-  ('g_copyright', 'copyright 2015-2021 某某公司 版权所有'),
-  ('g_recordnum', '湘ICP备12345678号');
+  ('copyright', 'copyright 2015-2021 某某公司 版权所有'),
+  ('recordnum', '湘ICP备12345678号');
 --
 -- 创建栏目
 insert into `cd_arctype` (

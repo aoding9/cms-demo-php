@@ -20,7 +20,7 @@ $path = $query_arr['path'] ?? $default_path;
 // 请求的接口名称
 $api = $query_arr['api']??'';
 // 请求组件的名称
-$cpn = $query_arr['cpn']??'';
+$cpn = $query_arr['cpn']??'setting';
 // 常用的请求信息
 $request = [
   'entry' => REQ_ENTRY,

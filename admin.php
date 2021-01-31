@@ -24,6 +24,9 @@ include_once(DIR_['model'].'/sql_fun.php');
 // 登录相关函数 // 只有admin入口才有
 include_once(DIR_['model'].'/login.php');
 
+// 其他的一些对数据表操作的函数 // 只有admin入口才有
+include_once(DIR_['model'].'/table.php');
+
 // 路由(使用了数据库/常量/公用函数,所以要在下面)
 include_once(DIR_['app'].'/route.php');
 

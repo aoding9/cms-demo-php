@@ -1,2 +1,4 @@
-<!-- <h1>我是文章列表</h1> -->
-<?php ?>
+<?php 
+// 引入视图
+include_once DIR_CPN;
+?>

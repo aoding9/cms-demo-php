@@ -72,4 +72,4 @@ function create_user($username, $password, $penname)
 }
 
 // 注册一个测试用户
-create_user('test1',md5('123456'.base64_decode(KEY_PUBLIC)),'密码是123456');
+// create_user('test1',md5('123456'.base64_decode(KEY_PUBLIC)),'密码是123456');

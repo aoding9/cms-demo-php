@@ -6,7 +6,7 @@
  * $error使用引用传值，方便外部处理错误
  * 最简单一句话用法: $conn = sqli_connect($error) or die($error);
  */
-function sqli_connect(&$error, $username=DB_['username'], $password=DB_['password'], $dbname=DB_['database'], $host = DB_['host'], $port = DB_['port'], $charset = DB_['charset'])
+function sqli_connect(&$error, $username = DB_['username'], $password = DB_['password'], $dbname = DB_['database'], $host = DB_['host'], $port = DB_['port'], $charset = DB_['charset'])
 {
   # 连接认证
   $conn = @mysqli_connect($host, $username, $password, $dbname, $port);
@@ -106,6 +106,9 @@ function sqli_write(&$error, $conn, $sql, $insert = false)
 // 任务是一个多维数组,一维表示任务,二维为任务的名称,sql语句,附加布尔值参数
 function sqli_easy(&$error, $tasks = [])
 {
+  if(!is_array($tasks)){
+    $error = "第二个参数应该是数组";
+  }
 
   // 连接数据库
   $conn = sqli_connect($error,  DB_['username'], DB_['password'], DB_['database'], DB_['host'], DB_['port'], DB_['charset']);
@@ -114,22 +117,21 @@ function sqli_easy(&$error, $tasks = [])
   }
 
   // 有效的任务名
-  $allow = ['sqli_execute','sqli_read','sqli_write'];
+  $allow = ['sqli_execute', 'sqli_read', 'sqli_write'];
   // 遍历并执行,把结果保存到数组中
   $res = [];
-  if(!empty($tasks)){
+  if (!empty($tasks)) {
     foreach ($tasks as $key => $value) {
       $task = $value[0];
       $sql = $value[1];
-      $bool = $value[2]??false; // 默认false
-        if (!empty($value) && in_array($task,$allow)) {
-          if($bool){
-            $res[] = $task($error, $conn, $sql,$bool);
-          }else{
-            $res[] = $task($error, $conn, $sql);
-          }
+      $bool = $value[2] ?? false; // 默认false
+      if (!empty($value) && in_array($task, $allow)) {
+        if ($bool) {
+          $res[] = $task($error, $conn, $sql, $bool);
+        } else {
+          $res[] = $task($error, $conn, $sql);
         }
-      
+      }
     }
   }
 
