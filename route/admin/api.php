@@ -112,9 +112,12 @@ function article_list()
   $pageoffset = ($pageindex - 1) * $pagesize; // 偏移量
   $limit = "$pageoffset , $pagesize";
   $res = sqli_easy($error, [
-    ['sqli_read', "select * from cd_archives limit $limit;", true]
+    ['sqli_read', "select a.*,c.typename from cd_archives as a left join cd_arctype as c on a.typeid = c.typeid order by a.aid limit $limit;", true]
   ]);
   // dd($res); // 拿到文章数据了,
+  foreach ($res[0] as $key => $value) {
+    $res[0][$key]['update_time']=date('Y-m-d',$value['update_time']);
+  }
   $req = [
     'code' => 0,
     'msg' => $error ?? '数据获取成功',
@@ -123,7 +126,7 @@ function article_list()
   ];
   // 转为json字符串
   // JSON_UNESCAPED_UNICODE是json_encode的第二个参数,可以让他不要对中文转码
-  $req = json_encode($req);
+  $req = json_encode($req,JSON_UNESCAPED_UNICODE);
   dd($req);
   exit();
 }

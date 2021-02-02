@@ -6,7 +6,7 @@ include_once DIR_ROUTE . "/api.php";
 
 
 
-// 是否调用某个api// 是否调用某个api
+// 是否调用某个api
 switch (REQ_['api']) {
   case 'logout':
     logout();
@@ -16,8 +16,6 @@ switch (REQ_['api']) {
     break;
   case 'config_edit':
     config_edit();
-
-
     break;
   case 'type_delete':
     type_delete($_GET['id']);
@@ -100,10 +98,10 @@ if (!$res[0]) {
 }
 
 $cpn_view = DIR_VIEW . "/component/{$cpn}.htm";
-define('DIR_CPN', $cpn_view);
 if (!file_exists($cpn_view)) {
   die("组件视图文件不存在");
 }
+define('DIR_CPN', $cpn_view);
 
 $cpn_file = DIR_ROUTE . "/component/{$cpn}.php";
 if (!file_exists($cpn_file)) {

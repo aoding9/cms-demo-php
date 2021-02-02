@@ -4,52 +4,191 @@
     文章管理
   </div>
   <div class="layui-card-body">
-    <table id="demo" lay-filter="test"></table>
+    <table id="demo" lay-filter="test" class="layui-form"></table>
   </div>
 </div>
 
+<!-- 操作行模板 -->
+<script type="text/html" id="hidden-cell">
+  <input type='checkbox' lay-skin='switch' value={{d.is_hidden}} {{ parseInt(d.is_hidden)?'checked':''}}>
+</script>
+<script type="text/html" id="tool-cell">
+  <div class="tool-cell">
+
+    <a class="layui-btn  layui-btn-sm" lay-event="detail">
+      <i class="layui-icon layui-icon-website"></i>
+    </a>
+    <a class="layui-btn  layui-btn-normal layui-btn- layui-btn-sm" lay-event="edit">
+      <i class="layui-icon layui-icon-edit"></i>
+    </a>
+    <a class="layui-btn  layui-btn-danger layui-btn-sm" lay-event="del">
+      <i class="layui-icon layui-icon-delete"></i>
+    </a>
+  </div>
+</script>
+<script type="text/html" id="sort-cell">
+  <input type='text' class='layui-input' style="text-align:center;padding-left:0;" lay-event="sort" value="{{ d.sort_order}}">
+</script>
 
 <script>
-  layui.use('table', function() {
+  var dd = 12312312;
+  layui.use(['table', 'form'], function() {
     var table = layui.table;
-
+    var form = layui.form;
     //第一个实例
     table.render({
       elem: '#demo',
+      // height: 380,
       // height: 312,
-      url: '/admin.php?path=admin&api=article_list' //数据接口
-        ,
-      page: true //开启分页
-        ,
+      //数据接口
+      url: '/admin.php?path=admin&api=article_list',
+      //开启分页
+      page: true,
+      // 开启头部工具栏
+      toolbar: 'default',
+      size: 'lg',
+      done: function(data) {
+        console.log(data);
+      },
+      //表头
       cols: [
-        [ //表头
-          {
+        [{
             type: 'checkbox',
           },
           {
             field: 'aid',
             title: 'aid',
+            width: 70,
+            align: 'center',
             sort: true,
-          }, {
+          },
+          {
             field: 'title',
             title: '标题',
-            width: 600
-          }, {
+            width: 300
+          },
+          {
+            field: 'typename',
+            title: '栏目',
+          },
+          {
             field: 'update_time',
             title: '更新时间',
+            align: 'center',
             sort: true
-          }, {
+          },
+          {
             field: 'is_hidden',
             title: '隐藏',
+            align: 'center',
+            toolbar: '#hidden-cell',
+
+            // templet: function(d) {
+            //   var is_checked = parseInt(d.is_hidden) ? "checked" : "";
+            //   var is_hidden = "<input type='checkbox' lay-skin='switch' " + is_checked + ">";
+            //   // var is_hidden = "<input type='checkbox' lay-skin='switch' checked>";
+            //   return is_hidden;
+            // }
           }, {
             field: 'sort_order',
             title: '排序',
-            sort: true,
+            width: 80,
+            align: 'center',
+            edit:'text',
+            // toolbar: '#sort-cell',
 
+            // sort: true,
+            // templet: function(d) {
+            //   var sort_order = parseInt(d.sort_order);
+            //   // var is_hidden = "<input type='text'  value='" + sort_order+ "'>";
+            //   var is_hidden = '<input type = "text" name = "sort_order"       autocomplete = "off"       class = "layui-input sort-order" value="' + sort_order + '">';
+            //   // var is_hidden = "<input type='checkbox' lay-skin='switch' checked>";
+            //   return is_hidden;
+            // }
+          }, {
+            // 操作行
+            //这里的toolbar值是模板元素的选择器
+            title: '操作',
+            // fixed: 'right',
+            width: 200,
+            align: 'center',
+            toolbar: '#tool-cell'
           }
         ]
-      ]
+      ],
+
     });
+    // 监听头部工具条
+    table.on('toolbar(test)', function(obj) {
+      var checkStatus = table.checkStatus(obj.config.id);
+      switch (obj.event) {
+        case 'add':
+          layer.msg('添加');
+          break;
+        case 'delete':
+          layer.msg('删除');
+          break;
+        case 'update':
+          layer.msg('编辑');
+          break;
+      };
+    });
+    //监听工具条 
+    table.on('tool(test)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+      var data = obj.data; //获得当前行数据
+      var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+      var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+      if (layEvent === 'detail') { //查看
+        //do somehing
+        // layer.msg(data)
+        console.log(obj);
+      } else if (layEvent === 'del') { //删除
+        layer.confirm('真的删除行么', function(index) {
+          obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+          layer.close(index);
+          //向服务端发送删除指令
+        });
+      } else if (layEvent === 'edit') { //编辑
+        //do something
+
+        //同步更新缓存对应的值
+        obj.update({
+          username: '123',
+          title: 'xxx'
+        });
+      } else if (layEvent === 'LAYTABLE_TIPS') {
+        layer.alert('Hi，头部工具栏扩展的右侧图标。');
+      } else if(layEvent ==='sort'){
+        layer.alert(layEvent)
+        console.log(data);
+      }else if(layEvent ==='hidden'){
+        layer.alert(layEvent)
+        console.log(data);
+      }
+    });
+    // 监听排序编辑
+    table.on('edit(test)',function(obj){
+      console.log(obj);
+    })
+    // 监听开关
+    form.on('switch()',function(obj){
+      console.log(obj);
+    })
 
   });
 </script>
+
+<style>
+  .tool-cell .layui-btn .layui-icon {
+    margin-right: 0;
+  }
+
+  .sort-order {
+    text-align: center;
+    padding-left: 0;
+  }
+  .layui-table-edit{
+    text-align: center;
+  }
+</style>
