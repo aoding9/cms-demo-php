@@ -92,7 +92,7 @@ function type_delete($typeid){
     }
   }
   exit();
-
+}
 // 获取文章列表
 function article_list()
 {
@@ -127,3 +127,16 @@ function article_list()
   dd($req);
   exit();
 }
+
+//修改接口
+// function type_edit($typeid){
+//   $typeid=(int)$_GET['id'];
+//   if($typeid<0){
+//     echo '不是数字';
+//     echo $typeid;
+//     return;
+//   }else{
+//     return $typeid;
+//     header('location:./admin.php?path=admin&cpn=types&api=type_edit');
+//   }
+// }

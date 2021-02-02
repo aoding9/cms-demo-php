@@ -1,1 +1,10 @@
-<h1>修改栏目</h1>
+<h1>修改栏目</h1><br>
+<form method="post" action="">
+  修改栏目名称：<input type="text" name="typename" value="<?php echo $rows['typename']?>"><br><br>
+  修改栏目标题：<input type="text" name="title" value="<?php echo $rows['title']?>"><br><br>
+  修改栏目内容：<textarea name="description" id="typeid" cols="30" rows="10"><?php echo $rows['description']?></textarea><br><br>
+  修改关键字：<input type="text" name="keywords" value="<?php echo $rows['keywords']?>"><br><br>
+  修改排序：<input type="text" name="sort_order" <?php echo $rows['sort_order']?>><br><br>
+  是否隐藏：<input type="text" name="is_hidden" <?php echo $rows['is_hidden']?>><br>
+  <input type="submit" value="提交">
+</form>
