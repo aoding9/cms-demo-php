@@ -1,2 +1,236 @@
-<h1>我是文章修改</h1>
-<?php ?>
+<div class="layui-card">
+  <div class="layui-card-header layui-bg-green">
+    <!-- <a href="javascript:history.go(-1)"><i class="layui-icon layui-icon-left"></i></a> -->
+    文章修改
+  </div>
+  <div class="layui-card-body">
+    <form class="layui-form" action="" lay-filter="article_eidt_form">
+      <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+          <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item" style="width:250px">
+        <label class="layui-form-label">所属栏目</label>
+        <div class="layui-input-block">
+          <select name="typeid" lay-verify="required">
+            <?php foreach ($types as $k => $v) : ?>
+              <?php echo "<option value='{$v['typeid']}'>{$v['typename']}</option>" ?>
+            <?php endforeach ?>
+          </select>
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+          <textarea name="description" placeholder="请输入描述" class="layui-textarea"></textarea>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">关键词</label>
+        <div class="layui-input-block">
+          <input type="text" name="keywords" required lay-verify="required" placeholder="请输入关键词" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item" style="width:250px">
+        <label class="layui-form-label">文章作者</label>
+        <div class="layui-input-block">
+          <select name="author" lay-verify="required">
+            <?php foreach ($authors as $k => $v) : ?>
+              <?php echo "<option value='{$v['uid']}'>{$v['pen_name']}</option>" ?>
+            <?php endforeach ?>
+          </select>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">是否推荐</label>
+        <div class="layui-input-block">
+          <input type="checkbox" name="is_recom" title="推荐">
+          <!-- <input type="checkbox" name="like[read]" title="阅读" checked> -->
+          <!-- <input type="checkbox" name="like[dai]" title="发呆"> -->
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">缩略图</label>
+        <div class="layui-input-block" id="upload">
+          <input type="text" name="litpic" required lay-verify="required" placeholder="请上传图片或填写图片URL" autocomplete="off" class="layui-input" id="upload-input">
+          <button type="button" class="layui-btn layui-btn-normal" id="test1">
+            <i class="layui-icon">&#xe67c;</i>上传图片
+          </button>
+          <div class="preview-bg">
+            <img src="" alt="" id="preview">
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text my-content">
+        <label class="layui-form-label">内容详情</label>
+        <div class="layui-input-block">
+          <textarea name="content" id="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">立即提交</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script>
+  //Demo
+  layui.use(['upload', 'layer', 'form', 'layedit'], function() {
+    var layer = layui.layer;
+    var upload = layui.upload;
+    var form = layui.form;
+    var layedit = layui.layedit;
+
+    // 配置图片接口,必须在build前面
+    layedit.set({
+      uploadImage: {
+        url: '/admin.php?path=admin&api=upload' //接口url
+          ,
+        type: 'post' //默认post
+      }
+    });
+    var index = layedit.build('content', {
+      //设置编辑器高度
+      height: 500,
+      tool: [
+        'strong' //加粗
+        , 'italic' //斜体
+        , 'underline' //下划线
+        , 'del' //删除线
+
+        , '|' //分割线
+
+        , 'left' //左对齐
+        , 'center' //居中对齐
+        , 'right' //右对齐
+        , 'link' //超链接
+        , 'unlink' //清除链接
+        , 'face' //表情
+        , 'image' //插入图片
+        , 'help' //帮助
+      ]
+    });
+
+    // 监听提交按钮事件
+    form.on('submit(formDemo)', function(data) {
+      var form_data = form.val('article_edit_form');
+      form_data.content = layedit.getContent(index);
+      // console.log(form_data);
+
+      function handle(data) {
+        console.log(data);
+        layer.msg(data.msg);
+        if (data.code == 0) {
+          setTimeout(() => {
+            location.href = '/admin.php?path=admin&cpn=articles';
+          }, 1000);
+        } else {}
+      }
+      fetch('/admin.php?path=admin&api=article_edit', {
+          method: 'post',
+          body: JSON.stringify(form_data),
+          headers: {
+            // json格式的参数
+            'Content-type': 'application/json',
+          },
+        })
+        .then(data => data.json())
+        .then(data => handle(data));
+
+
+
+      return false;
+    });
+
+    //执行实例
+    var uploadInst = upload.render({
+      elem: '#test1', //绑定元素
+      url: '/admin.php?path=admin&api=upload', //上传接口
+      done: function(res) {
+        //上传完毕回调
+        if (res.code == 0) {
+          layer.msg(res.msg);
+          var preview = document.getElementById("preview");
+          var upload_input = document.getElementById("upload-input");
+          preview.src = res.data.src;
+          upload_input.value = res.data.src;
+          // preview.style.display = "block";
+        } else {
+          layer.msg(res.msg)
+        }
+
+      },
+      error: function(err) {
+        //请求异常回调
+        console.log("错误:" + err);
+      }
+    });
+  });
+</script>
+<style>
+  .layui-card-header a {
+    text-align: center;
+    padding: 5px;
+    padding-left: 0;
+  }
+
+  .layui-card-header i {
+    color: white;
+  }
+
+  .layui-form-item {
+    width: 700px;
+  }
+
+  .preview-bg {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(110%, -90%);
+    visibility: hidden;
+    background-color: #ccc;
+    /* padding: 20px; */
+    border-radius: 10px;
+
+  }
+
+  #preview {
+    transition: all 0.3s;
+    opacity: 0;
+    max-height: 400px;
+  }
+
+  #test1 {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  #upload {
+    position: relative;
+  }
+
+  #upload:hover #preview {
+    opacity: 1;
+  }
+
+  #upload:hover .preview-bg {
+    visibility: visible;
+  }
+
+  .my-content {
+    width: 100%;
+  }
+
+  .layui-form-label {
+    text-align: left;
+  }
+</style>

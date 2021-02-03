@@ -7,28 +7,13 @@ include_once DIR_ROUTE . "/api.php";
 
 
 // 是否调用某个api
-switch (REQ_['api']) {
-  case 'logout':
-    logout();
-    break;
-  case 'upload':
-    upload();
-    break;
-  case 'config_edit':
-    config_edit();
-    break;
-  case 'type_delete':
-    type_delete($_GET['id']);
-    break;
-  case 'type_add':
-    type_add();
-    break;
-  case 'article_list':
-    article_list();
-    break;
-}
-if (REQ_['api']) {
-  exit();
+$api_allow=[
+  'logout','upload','config_edit','type_delete','type_add','article_list','article_toggle_hidden','article_delete','article_sort','article_add'
+];
+
+$api = REQ_['api'];
+if (!empty($api)&&in_array($api,$api_allow)) {
+  $api();
 }
 // 根据cpn得到菜单
 $menus = [

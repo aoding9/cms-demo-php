@@ -3,22 +3,40 @@
     <!-- <a href="javascript:history.go(-1)"><i class="layui-icon layui-icon-left"></i></a> -->
     文章管理
   </div>
-  <div class="layui-card-body">
-    <table id="demo" lay-filter="test" class="layui-form"></table>
+  <div class="layui-card-body" class="layui-form">
+    <table id="demo" lay-filter="test"></table>
   </div>
 </div>
 
-<!-- 操作行模板 -->
+<!-- 模板 -->
+<script type="text/html" id="left-toolbar">
+  <div class="layui-table-tool-temp">
+    <div class="layui-inline" lay-event="add"><i class="layui-icon layui-icon-add-1"></i></div>
+    <div class="layui-inline" lay-event="update"><i class="layui-icon layui-icon-edit"></i></div>
+    <div class="layui-inline" lay-event="delete"><i class="layui-icon layui-icon-delete"></i></div>
+    <div style="width:200px;display:inline-block">
+      <select name="type" lay-filter="type_select">
+        <option value="-1">所有栏目</option>
+        <?php foreach ($types as $k => $v) : ?>
+          <option value="<? echo $v['typeid'] ?>">
+            <? echo $v['typename'] ?>
+          </option>
+        <?php endforeach ?>
+      </select>
+    </div>
+
+  </div>
+</script>
 <script type="text/html" id="hidden-cell">
-  <input type='checkbox' lay-skin='switch' value={{d.is_hidden}} {{ parseInt(d.is_hidden)?'checked':''}}>
+  <input type='checkbox' lay-skin='switch' lay-filter='is_hidden' data-aid={{d.aid}} value={{d.is_hidden}} {{ parseInt(d.is_hidden)?'checked':''}}>
 </script>
 <script type="text/html" id="tool-cell">
   <div class="tool-cell">
 
-    <a class="layui-btn  layui-btn-sm" lay-event="detail">
+    <a class="layui-btn  layui-btn-sm" lay-event="detail" href="/index.php?path=content&aid={{d.aid}}" target="_blank">
       <i class="layui-icon layui-icon-website"></i>
     </a>
-    <a class="layui-btn  layui-btn-normal layui-btn- layui-btn-sm" lay-event="edit">
+    <a class="layui-btn  layui-btn-normal layui-btn- layui-btn-sm" lay-event="edit" href="/admin.php?path=admin&cpn=article_edit&aid={{d.aid}}" target="_blank">
       <i class="layui-icon layui-icon-edit"></i>
     </a>
     <a class="layui-btn  layui-btn-danger layui-btn-sm" lay-event="del">
@@ -31,105 +49,122 @@
 </script>
 
 <script>
-  var dd = 12312312;
+  var options = {
+    elem: '#demo',
+    // height: 380,
+    // height: 312,
+    //数据接口
+    url: '/admin.php?path=admin&api=article_list',
+    //开启分页
+    page: {
+      layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
+      groups: 3,
+      limits: [10, 20, 50],
+      limit: 10
+    },
+    // 开启头部工具栏
+    toolbar: '#left-toolbar',
+    size: 'lg',
+    done: function(data) {
+      function type_select(data) {
+
+      }
+      console.log(data);
+    },
+    //表头
+    cols: [
+      [{
+          type: 'checkbox',
+        },
+        {
+          field: 'aid',
+          title: 'aid',
+          width: 70,
+          align: 'center',
+          sort: true,
+        },
+        {
+          field: 'title',
+          title: '标题',
+          width: 300
+        },
+        {
+          field: 'typename',
+          title: '栏目',
+          sort: true,
+          align: 'center',
+
+
+        },
+        {
+          field: 'update_time',
+          title: '更新时间',
+          align: 'center',
+          sort: true
+        },
+        {
+          field: 'is_hidden',
+          title: '隐藏',
+          align: 'center',
+          toolbar: '#hidden-cell',
+
+          // templet: function(d) {
+          //   var is_checked = parseInt(d.is_hidden) ? "checked" : "";
+          //   var is_hidden = "<input type='checkbox' lay-skin='switch' " + is_checked + ">";
+          //   // var is_hidden = "<input type='checkbox' lay-skin='switch' checked>";
+          //   return is_hidden;
+          // }
+        }, {
+          field: 'sort_order',
+          title: '排序',
+          width: 80,
+          align: 'center',
+          edit: 'text',
+          sort: true,
+
+          // toolbar: '#sort-cell',
+
+          // sort: true,
+          // templet: function(d) {
+          //   var sort_order = parseInt(d.sort_order);
+          //   // var is_hidden = "<input type='text'  value='" + sort_order+ "'>";
+          //   var is_hidden = '<input type = "text" name = "sort_order"       autocomplete = "off"       class = "layui-input sort-order" value="' + sort_order + '">';
+          //   // var is_hidden = "<input type='checkbox' lay-skin='switch' checked>";
+          //   return is_hidden;
+          // }
+        }, {
+          // 操作行
+          //这里的toolbar值是模板元素的选择器
+          title: '操作',
+          // fixed: 'right',
+          width: 200,
+          align: 'center',
+          toolbar: '#tool-cell'
+        }
+      ]
+    ],
+
+  };
   layui.use(['table', 'form'], function() {
     var table = layui.table;
     var form = layui.form;
     //第一个实例
-    table.render({
-      elem: '#demo',
-      // height: 380,
-      // height: 312,
-      //数据接口
-      url: '/admin.php?path=admin&api=article_list',
-      //开启分页
-      page: true,
-      // 开启头部工具栏
-      toolbar: 'default',
-      size: 'lg',
-      done: function(data) {
-        console.log(data);
-      },
-      //表头
-      cols: [
-        [{
-            type: 'checkbox',
-          },
-          {
-            field: 'aid',
-            title: 'aid',
-            width: 70,
-            align: 'center',
-            sort: true,
-          },
-          {
-            field: 'title',
-            title: '标题',
-            width: 300
-          },
-          {
-            field: 'typename',
-            title: '栏目',
-          },
-          {
-            field: 'update_time',
-            title: '更新时间',
-            align: 'center',
-            sort: true
-          },
-          {
-            field: 'is_hidden',
-            title: '隐藏',
-            align: 'center',
-            toolbar: '#hidden-cell',
-
-            // templet: function(d) {
-            //   var is_checked = parseInt(d.is_hidden) ? "checked" : "";
-            //   var is_hidden = "<input type='checkbox' lay-skin='switch' " + is_checked + ">";
-            //   // var is_hidden = "<input type='checkbox' lay-skin='switch' checked>";
-            //   return is_hidden;
-            // }
-          }, {
-            field: 'sort_order',
-            title: '排序',
-            width: 80,
-            align: 'center',
-            edit:'text',
-            // toolbar: '#sort-cell',
-
-            // sort: true,
-            // templet: function(d) {
-            //   var sort_order = parseInt(d.sort_order);
-            //   // var is_hidden = "<input type='text'  value='" + sort_order+ "'>";
-            //   var is_hidden = '<input type = "text" name = "sort_order"       autocomplete = "off"       class = "layui-input sort-order" value="' + sort_order + '">';
-            //   // var is_hidden = "<input type='checkbox' lay-skin='switch' checked>";
-            //   return is_hidden;
-            // }
-          }, {
-            // 操作行
-            //这里的toolbar值是模板元素的选择器
-            title: '操作',
-            // fixed: 'right',
-            width: 200,
-            align: 'center',
-            toolbar: '#tool-cell'
-          }
-        ]
-      ],
-
-    });
+    table.render(options);
     // 监听头部工具条
     table.on('toolbar(test)', function(obj) {
       var checkStatus = table.checkStatus(obj.config.id);
       switch (obj.event) {
         case 'add':
-          layer.msg('添加');
+          // layer.msg('添加');
+          // console.log(obj);
+          location.href = "/admin.php?path=admin&cpn=article_add"
           break;
         case 'delete':
           layer.msg('删除');
           break;
         case 'update':
-          layer.msg('编辑');
+          // layer.msg('编辑');
+          console.log(table.checkStatus('demo'));
           break;
       };
     });
@@ -144,37 +179,87 @@
         // layer.msg(data)
         console.log(obj);
       } else if (layEvent === 'del') { //删除
+        function handle(data) {
+          layer.msg(data.msg)
+          console.log(data);
+          if (data.code == 0) {
+            obj.del()
+          }
+        }
         layer.confirm('真的删除行么', function(index) {
-          obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+          // obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
           layer.close(index);
           //向服务端发送删除指令
+          // console.log(data);
+          fetch('/admin.php?path=admin&api=article_delete&aid=' + data.aid, {
+              method: 'get'
+            })
+            .then(data => data.json())
+            .then(data => handle(data));
         });
       } else if (layEvent === 'edit') { //编辑
-        //do something
+        console.log(111);
 
-        //同步更新缓存对应的值
-        obj.update({
-          username: '123',
-          title: 'xxx'
-        });
+
+
       } else if (layEvent === 'LAYTABLE_TIPS') {
         layer.alert('Hi，头部工具栏扩展的右侧图标。');
-      } else if(layEvent ==='sort'){
+      } else if (layEvent === 'sort') {
         layer.alert(layEvent)
         console.log(data);
-      }else if(layEvent ==='hidden'){
+      } else if (layEvent === 'hidden') {
         layer.alert(layEvent)
         console.log(data);
       }
     });
     // 监听排序编辑
-    table.on('edit(test)',function(obj){
-      console.log(obj);
+    table.on('edit(test)', function(obj) {
+      var data = obj.data; //获得当前行数据
+      function handle(d) {
+        layer.msg(d.msg)
+        // 删除失败 刷新一下
+        table.reload('demo');
+      }
+      fetch('/admin.php?path=admin&api=article_sort&aid=' + data.aid + '&sort_order=' + obj.value, {
+          method: 'get'
+        })
+        .then(data => data.json())
+        .then(data => handle(data))
+
     })
     // 监听开关
-    form.on('switch()',function(obj){
-      console.log(obj);
+    form.on('switch()', function(obj) {
+      var el = obj.elem;
+      var othis = obj.othis[0];
+      var value = el.value;
+      var aid = el.dataset.aid;
+
+      var data = {
+        aid: aid,
+        is_hidden: value
+      }
+
+      function handle(d) {
+        layer.msg(d.msg);
+        if (d.code == 0) {
+          el.value = d.is_hidden;
+        } else {
+          // table.reload('demo')
+        }
+      }
+      // console.log(obj.elem.dataset.aid);
+      fetch('/admin.php?path=admin&api=article_toggle_hidden&aid=' + aid + '&is_hidden=' + value, {
+          method: 'get',
+        })
+        .then(data => data.json())
+        .then(data => handle(data));
     })
+    // 监听下拉选择栏目
+    form.on('select(type_select)', function(data) {
+      console.log(data);
+      options.url = '/admin.php?path=admin&api=article_list&typeid='+data.value,
+        table.render(options);
+    });
 
   });
 </script>
@@ -188,7 +273,8 @@
     text-align: center;
     padding-left: 0;
   }
-  .layui-table-edit{
+
+  .layui-table-edit {
     text-align: center;
   }
 </style>

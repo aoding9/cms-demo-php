@@ -107,12 +107,13 @@
       url: '/admin.php?path=admin&api=upload', //上传接口
       done: function(res) {
         //上传完毕回调
-        if (res.result == true) {
+        console.log(res);
+        if (res.code == 0) {
           layer.msg(res.msg);
           var preview = document.getElementById("preview");
           var upload_input = document.getElementById("upload-input");
-          preview.src = res.file;
-          upload_input.value = res.file;
+          preview.src = res.data.src;
+          upload_input.value = res.data.src;
           // preview.style.display = "block";
         } else {
           layer.msg(res.msg)
