@@ -3,16 +3,16 @@
 <body class="layui-layout-body layui-bg-gray">
   <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-      <div class="layui-logo"><img src="<?php dd($data['config'][3]['value']) ?> " alt=""></div>
+      <div class="layui-logo"><img src="<?php dd($data['config']['logo']) ?> " alt=""></div>
       <!-- 头部区域（可配合layui已有的水平导航） -->
       <!-- 暂时还没做侧边收缩 -->
       <ul class="layui-nav layui-layout-left">
         <li class="layui-nav-item layadmin-flexible" lay-unselect="">
-          <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
-            <i class="layui-icon layui-icon-spread-right" id="LAY_app_flexible"></i>
+          <a href="javascript:;" lay-filter="flexible" title="侧边伸缩">
+            <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
           </a>
         </li>
-       
+
 
 
       </ul>
@@ -25,11 +25,10 @@
             <?php dd($data['user']['pen_name']) ?>
           </a>
           <dl class="layui-nav-child">
-            <dd><a href="">基本资料</a></dd>
-            <dd><a href="">安全设置</a></dd>
+            <dd><a href="/admin.php?path=admin&cpn=user_edit&uid=<?php dd($data['user']['uid']) ?>">用户设置</a></dd>
           </dl>
         </li>
-        <li class="layui-nav-item"><a href="/admin.php?path=admin&api=logout">退了</a></li>
+        <li class="layui-nav-item"><a href="/admin.php?path=admin&api=logout">溜了溜了</a></li>
       </ul>
     </div>
 
@@ -45,9 +44,6 @@
               </a>
             </li>
           <?php endforeach ?>
-
-
-
         </ul>
       </div>
     </div>
@@ -55,15 +51,20 @@
     <div class="layui-body">
       <!-- 内容主体区域 -->
       <div style="padding: 15px;">
-        <?php include_cpn($cpn_file) ?>
+        <div class="layui-card">
+          <div class="layui-card-header layui-bg-green">
+            <a href="javascript:history.go(-1)"><i class="layui-icon layui-icon-left" style="color:white"></i></a>
+            <?php dd(MENU_['menu_name']) ?>
+          </div>
+          <?php include_cpn($cpn_file) ?>
+        </div>
+      </div>
+
+      <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        <?php echo $data['config']['title'] ?>
       </div>
     </div>
-
-    <div class="layui-footer">
-      <!-- 底部固定区域 -->
-      <?php echo $data['config'][4]['value']?>
-    </div>
-  </div>
 
 
 </body>
@@ -76,12 +77,40 @@
       console.log(elem); //得到当前点击的DOM对象
     });
   });
+  // 伸缩侧边栏
+  var flexible = document.querySelector('.layadmin-flexible');
+  var icon = document.querySelector('#LAY_app_flexible');
+  var slide = document.querySelector('.layui-side');
+  var body = document.querySelector('.layui-body');
+  var footer = document.querySelector('.layui-footer');
+  var flag = true;
+  flexible.addEventListener('click', function() {
+    console.log(flag);
+    if (flag) {
+      slide.style.width = 0;
+      body.style.left = 0;
+      footer.style.left = 0;
+      icon.className = "layui-icon layui-icon-spread-left";
+    } else {
+      slide.style.width = '200px';
+      body.style.left = '200px';
+      footer.style.left = '200px';
+      icon.className = "layui-icon layui-icon-shrink-right";
+    }
+    flag = !flag;
+  })
 </script>
 <style>
   .layui-header .layui-logo {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .layui-side,
+  .layui-body,
+  .layui-footer {
+    transition: all 0.3s;
   }
 
   .layui-header .layui-logo img {
@@ -98,6 +127,24 @@
   .layui-header .layui-icon-home {
     font-weight: 700;
 
+  }
+
+  #LAY_app_flexible {
+    margin-right: 0;
+    transition: all 0.3s;
+  }
+
+  .layui-table-view .layui-table {
+    width: 100%;
+  }
+  .layui-card-header a {
+    text-align: center;
+    padding: 5px;
+    padding-left: 0;
+  }
+
+  .layui-card-header i {
+    color: white;
   }
 </style>
 <?php include DIR_VIEW . '/common/foot.htm' ?>

@@ -1,8 +1,4 @@
-<div class="layui-card">
-  <div class="layui-card-header layui-bg-green">
-    <!-- <a href="javascript:history.go(-1)"><i class="layui-icon layui-icon-left"></i></a> -->
-    文章修改
-  </div>
+
   <div class="layui-card-body">
     <form class="layui-form" action="" lay-filter="article_edit_form">
       <input type="hidden" name="aid" value="<?php echo $article['aid'] ?>">
@@ -50,8 +46,12 @@
         <label class="layui-form-label">是否推荐</label>
         <div class="layui-input-block">
           <input type="checkbox" name="is_recom" title="推荐" <?php echo $article['is_recom'] == 1 ? "checked" : "" ?>>
-          <!-- <input type="checkbox" name="like[read]" title="阅读" checked> -->
-          <!-- <input type="checkbox" name="like[dai]" title="发呆"> -->
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">是否隐藏</label>
+        <div class="layui-input-block">
+          <input type="checkbox" name="is_hidden" title="隐藏" <?php echo $article['is_hidden'] == 1 ? "checked" : "" ?>>
         </div>
       </div>
       <div class="layui-form-item">

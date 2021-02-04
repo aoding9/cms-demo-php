@@ -1,8 +1,4 @@
-<div class="layui-card">
-  <div class="layui-card-header layui-bg-green">
-    <a href="javascript:history.go(-1)"><i class="layui-icon layui-icon-left" style="color:white"></i></a>
-    用户管理
-  </div>
+
   <div class="layui-card-body" class="layui-form">
     <table id="demo" lay-filter="test"></table>
   </div>
@@ -119,11 +115,11 @@
           location.href = "/admin.php?path=admin&cpn=user_add"
           break;
         case 'delete':
-          layer.msg('删除');
+          layer.msg('不支持批量删除用户');
           break;
         case 'update':
-          // layer.msg('编辑');
-          console.log(table.checkStatus('demo'));
+          layer.msg('不支持批量编辑用户');
+          // console.log(table.checkStatus('demo'));
           break;
       };
     });

@@ -54,7 +54,7 @@ function is_cpn($cpn, $menus)
     $is_top = array_key_exists('submenu', $value);
     if ($is_top) $top = $key; // 更新顶级菜单的key
     if ($key == $cpn) {
-      return [1, $top, $key];
+      return [1, $top, $key,$value['name']];
     }
 
     foreach ($value as $key => $value) {
@@ -75,12 +75,25 @@ $cpn = (REQ_['cpn']);
 // 看cpn是否存在,以及属于哪个顶级菜单
 $res = is_cpn($cpn, $menus);
 // 如果没找到,就转到setting
+$menu_=[];
 if (!$res[0]) {
   $cpn = "setting";
-  $menu_top = "setting";
+  $menu_=[
+
+    'menu_top' => "setting",
+    'menu_sub' => "setting",
+    'menu_name' => $menus['setting']['name'],
+  ];
 } else {
-  $menu_top = $res[1];
+  $menu_=[
+
+    'menu_top' => $res[1],
+    'menu_sub' => $res[2],
+    'menu_name' => $res[3],
+  ];
 }
+define('MENU_', $menu_);
+
 
 $cpn_view = DIR_VIEW . "/component/{$cpn}.htm";
 if (!file_exists($cpn_view)) {
@@ -101,6 +114,9 @@ function include_cpn($cpn_file)
 $uname = $_SESSION['uname'];
 $data['user'] = get_user_byname($uname)[0];
 $data['config'] = get_config()[0];
+foreach ($data['config'] as $key => $value) {
+  $data['config'][$value['name']]=$value['value'];
+}
 
 
 

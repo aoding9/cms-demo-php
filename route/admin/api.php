@@ -202,9 +202,9 @@ function article_delete()
 {
   header("Content-type:application/json");
   // 获取查询参数
-  $aid = (int)$_GET['aid'] ?? 0;
+  $aid = $_GET['aid'] ?? 0;
   $res = sqli_easy($error, [
-    ['sqli_write', "update `cd_archives` set `is_del`= 1 where `aid` = {$aid}"]
+    ['sqli_write', "update `cd_archives` set `is_del`= 1 where `aid` in ({$aid})"]
   ]);
   if ($error) {
     $error = '删除失败';
@@ -293,8 +293,9 @@ function article_add()
     'author' => $params->author,
     'litpic' => "'" . htmlspecialchars($params->litpic, ENT_QUOTES) . "'",
     'is_recom' => $params->is_recom ?? 0 == 'on' ? 1 : 0,
-    'add_time' => "'" . htmlspecialchars($time, ENT_QUOTES) . "'",
-    'update_time' => "'" . htmlspecialchars($time, ENT_QUOTES) . "'"
+    'is_hidden' => $params->is_hidden ?? 0 == 'on' ? 1 : 0,
+    'add_time' => "'" . $time . "'",
+    'update_time' => "'" . $time . "'"
   ];
   // 验证参数是否合法,此处省略
 
@@ -362,7 +363,7 @@ function archives_edit($archives_v, $aid)
 
   $k_v = implode(',', $k_v);
   $res = sqli_easy($error, [[
-    'sqli_write', "update cd_archives set {$k_v} where `aid` = {$aid}"
+    'sqli_write', "update cd_archives set {$k_v} where `aid` in ({$aid})"
   ]])[0];
   if ($error) {
     $msg = $error;
@@ -379,8 +380,8 @@ function article_content_edit($aid, $content)
   $res = sqli_easy($error, [[
     'sqli_write', "update cd_article_content set `content` = {$content} where `aid` = {$aid}"
   ]])[0];
-  if (!empty($error) || $res == 0) {
-    $msg = $error ?? 'aid不存在,或文章内容没有发生修改';
+  if (!empty($error)) {
+    $msg = $error;
     $code = 1;
   } else {
     $msg = 'article_content修改成功';
@@ -398,19 +399,34 @@ function article_edit()
   // exit();
   $aid = $params->aid;
   $time = time();
-  $archives_v = [
-    'typeid' => $params->typeid,
-    'title' => "'" . htmlspecialchars($params->title, ENT_QUOTES) . "'",
-    'description' => "'" . htmlspecialchars($params->description, ENT_QUOTES) . "'",
-    'keywords' => "'" . htmlspecialchars($params->keywords, ENT_QUOTES) . "'",
-    'author' => $params->author,
-    'litpic' => "'" . htmlspecialchars($params->litpic, ENT_QUOTES) . "'",
-    'is_recom' => ($params->is_recom ?? '') == 'on' ? 1 : 0,
-    'update_time' => "'" . htmlspecialchars($time, ENT_QUOTES) . "'"
-  ];
+  $has_content = !empty($params->content);
+
+  if($has_content){
+    $archives_v = [
+      'typeid' => $params->typeid,
+      'title' => "'" . htmlspecialchars($params->title, ENT_QUOTES) . "'",
+      'description' => "'" . htmlspecialchars($params->description, ENT_QUOTES) . "'",
+      'keywords' => "'" . htmlspecialchars($params->keywords, ENT_QUOTES) . "'",
+      'author' => $params->author,
+      'litpic' => "'" . htmlspecialchars($params->litpic, ENT_QUOTES) . "'",
+      'is_recom' => ($params->is_recom ?? '') == 'on' ? 1 : 0,
+      'is_hidden' => ($params->is_hidden ?? '') == 'on' ? 1 : 0,
+      'update_time' => "'" . $time . "'"
+    ];
+  }else{
+    $archives_v = [
+      'typeid' => $params->typeid,
+      'author' => $params->author,
+      'is_recom' => ($params->is_recom ?? '') == 'on' ? 1 : 0,
+      'is_hidden' => ($params->is_hidden ?? '') == 'on' ? 1 : 0,
+      'update_time' => "'" .$time. "'"
+    ];
+  }
   // 验证参数是否合法,此处省略
 
-  $content = "'" . htmlspecialchars($params->content, ENT_QUOTES) . "'";
+  if($has_content){
+    $content = "'" . htmlspecialchars($params->content, ENT_QUOTES) . "'";
+  }
 
   $res = archives_edit($archives_v, $aid);
 
@@ -421,7 +437,9 @@ function article_edit()
     $msg = $res['msg'];
     $code = 1;
   } else {
-    $res = article_content_edit($aid, $content);
+    if($has_content){
+      $res = article_content_edit($aid, $content);
+    }
     if ($res['code'] != 0) {
       $msg = $res['msg'];
       // $msg = '文章修改失败2';
@@ -442,19 +460,6 @@ function article_edit()
   exit();
 }
 
-
-//修改接口
-// function type_edit($typeid){
-//   $typeid=(int)$_GET['id'];
-//   if($typeid<0){
-//     echo '不是数字';
-//     echo $typeid;
-//     return;
-//   }else{
-//     return $typeid;
-//     header('location:./admin.php?path=admin&cpn=types&api=type_edit');
-//   }
-// }
 
 // 获取用户列表
 // 获取文章列表

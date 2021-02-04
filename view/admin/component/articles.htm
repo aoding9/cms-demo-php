@@ -1,11 +1,52 @@
-<div class="layui-card">
-  <div class="layui-card-header layui-bg-green">
-    <!-- <a href="javascript:history.go(-1)"><i class="layui-icon layui-icon-left"></i></a> -->
-    文章管理
-  </div>
+
   <div class="layui-card-body" class="layui-form">
     <table id="demo" lay-filter="test"></table>
   </div>
+</div>
+
+<div id="edit_many" style="display:none;">
+  <form class="layui-form" action="" lay-filter="article_edit_form">
+    <div class="layui-form-item" style="width:250px">
+      <label class="layui-form-label">所属栏目</label>
+      <div class="layui-input-block">
+        <select name="typeid" lay-verify="required">
+          <?php foreach ($types as $k => $v) : ?>
+            <?php echo "<option value='{$v['typeid']}' >{$v['typename']}</option>" ?>
+          <?php endforeach ?>
+        </select>
+      </div>
+    </div>
+
+    <div class="layui-form-item" style="width:250px">
+      <label class="layui-form-label">文章作者</label>
+      <div class="layui-input-block">
+        <select name="author" lay-verify="required">
+          <?php foreach ($authors as $k => $v) : ?>
+            <?php echo "<option value='{$v['uid']}'>{$v['pen_name']}</option>" ?>
+          <?php endforeach ?>
+        </select>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">是否推荐</label>
+      <div class="layui-input-block">
+        <input type="checkbox" name="is_recom" title="推荐">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">是否隐藏</label>
+      <div class="layui-input-block">
+        <input type="checkbox" name="is_hidden" title="隐藏">
+      </div>
+    </div>
+
+
+    <div class="layui-form-item">
+      <div class="layui-input-block" style="margin-left:0;text-align: center;">
+        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">立即提交</button>
+      </div>
+    </div>
+  </form>
 </div>
 
 <!-- 模板 -->
@@ -60,7 +101,7 @@
       layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
       groups: 3,
       limits: [10, 20, 50],
-      limit: 10
+      limit: 50
     },
     // 开启头部工具栏
     toolbar: '#left-toolbar',
@@ -86,13 +127,14 @@
         {
           field: 'title',
           title: '标题',
-          width: 300
+          // width: 350
         },
         {
           field: 'typename',
           title: '栏目',
           sort: true,
           align: 'center',
+          width: 130,
 
 
         },
@@ -100,12 +142,16 @@
           field: 'update_time',
           title: '更新时间',
           align: 'center',
-          sort: true
+          sort: true,
+          width: 120,
+
         },
         {
           field: 'is_hidden',
           title: '隐藏',
           align: 'center',
+          width: 80,
+
           toolbar: '#hidden-cell',
 
           // templet: function(d) {
@@ -136,7 +182,7 @@
           // 操作行
           //这里的toolbar值是模板元素的选择器
           title: '操作',
-          // fixed: 'right',
+          fixed: 'right',
           width: 200,
           align: 'center',
           toolbar: '#tool-cell'
@@ -160,11 +206,96 @@
           location.href = "/admin.php?path=admin&cpn=article_add"
           break;
         case 'delete':
-          layer.msg('删除');
+          var data = table.checkStatus('demo').data;
+          if (data.length == 0) {
+            return layer.msg('请选择要删除的文章');
+          }
+          var aids = [];
+          data.forEach(v => {
+            aids.push(v.aid);
+          })
+          aids = aids.join(',')
+
+          function handle(data) {
+            layer.msg(data.msg)
+            // console.log(data);
+            if (data.code == 0) {
+              setTimeout(() => {
+                table.reload('demo');
+              }, 1000);
+            }
+          }
+          layer.confirm('确定要批量删除吗', function(index) {
+            // obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+            layer.close(index);
+            //向服务端发送删除指令
+            // console.log(data);
+            fetch('/admin.php?path=admin&api=article_delete&aid=' + aids, {
+                method: 'get'
+              })
+              .then(data => data.json())
+              .then(data => handle(data));
+          });
           break;
         case 'update':
           // layer.msg('编辑');
-          console.log(table.checkStatus('demo'));
+          // var data = table.checkStatus('demo').data;
+          // var aids = [];
+          // data.forEach(v => {
+          //   aids.push(v.aid);
+          // })
+          // aids = aids.join(',')
+          // console.log(aids);
+          var data = table.checkStatus('demo').data;
+          if (data.length == 0) {
+            return layer.msg('请选择要修改的文章');
+          }
+          layer.confirm('确定要批量修改吗', function(index) {
+            layer.close(index);
+            var index = layer.open({
+              type: 1,
+              title: '批量编辑',
+              shade: false,
+              content: layui.$('#edit_many')
+            });
+            var aids = [];
+            data.forEach(v => {
+              aids.push(v.aid);
+            })
+            aids = aids.join(',')
+            // 监听提交按钮事件
+            form.on('submit(formDemo)', function(data) {
+
+              var form_data = form.val('article_edit_form');
+              form_data.aid = aids;
+
+              function handle(data) {
+                console.log(data);
+                layer.msg(data.msg);
+                if (data.code == 0) {
+                  setTimeout(() => {
+                    layer.close(index);
+                    table.reload('demo');
+                  }, 1000);
+                }
+              }
+              fetch('/admin.php?path=admin&api=article_edit', {
+                  method: 'post',
+                  body: JSON.stringify(form_data),
+                  headers: {
+                    // json格式的参数
+                    'Content-type': 'application/json',
+                  },
+                })
+                .then(data => data.json())
+                .then(data => handle(data));
+              return false;
+            });
+
+
+          });
+
+
           break;
       };
     });
@@ -177,7 +308,7 @@
       if (layEvent === 'detail') { //查看
         //do somehing
         // layer.msg(data)
-        console.log(obj);
+        // console.log(obj);
       } else if (layEvent === 'del') { //删除
         function handle(data) {
           layer.msg(data.msg)
@@ -198,9 +329,7 @@
             .then(data => handle(data));
         });
       } else if (layEvent === 'edit') { //编辑
-        console.log(111);
-
-
+        // console.log(111);
 
       } else if (layEvent === 'LAYTABLE_TIPS') {
         layer.alert('Hi，头部工具栏扩展的右侧图标。');
@@ -268,7 +397,9 @@
   .tool-cell .layui-btn .layui-icon {
     margin-right: 0;
   }
-
+  .layui-card-header i {
+    color: white;
+  }
   .sort-order {
     text-align: center;
     padding-left: 0;
@@ -276,5 +407,18 @@
 
   .layui-table-edit {
     text-align: center;
+  }
+
+  #edit_many {
+    padding: 15px 15px 0;
+  }
+
+  .layui-form-label {
+    padding-left: 0;
+    width: 60px;
+  }
+
+  .layui-input-block {
+    margin-left: 90px;
   }
 </style>
