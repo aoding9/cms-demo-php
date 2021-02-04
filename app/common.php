@@ -129,7 +129,7 @@ function uploadfile($file)
   $folderpath = DIR_['uploads'] . "/{$foldername}";  //文件夹路径
   if (!is_dir($folderpath))
     mkdir($folderpath);
-  $filename = uniqid('', true) . strrchr($file['name'], '.');  //文件名
+  $filename = uniqid().mt_rand(100,999). strrchr($file['name'], '.');  //文件名
   $filepath = "$folderpath/$filename";  //文件路径
   if (move_uploaded_file($file['tmp_name'], $filepath))
     return [

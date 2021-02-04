@@ -11,10 +11,15 @@ function get_config($name=1){
 }
 
 // 根据用户名获取用户信息
-function get_user($name,$all=false){
-  $where = $all?"name = $name":"1";
+function get_user_byname($name=''){
   $res = sqli_easy($error, [
-    ['sqli_read', "select * from cd_user where $where"],$all]
+    ['sqli_read', "select * from cd_user where name = '{$name}'"]]
+  ) or die($error);
+  return $res;
+}
+function get_user_byuid($uid=0){
+  $res = sqli_easy($error, [
+    ['sqli_read', "select * from cd_user where `uid` = {$uid}"]]
   ) or die($error);
   return $res;
 }

@@ -8,7 +8,7 @@ include_once DIR_ROUTE . "/api.php";
 
 // 是否调用某个api
 $api_allow=[
-  'logout','upload','config_edit','type_delete','type_add','article_list','article_toggle_hidden','article_delete','article_sort','article_add'
+  'logout','upload','config_edit','type_delete','type_add','article_list','article_toggle_hidden','article_delete','article_sort','article_add','upload_tinymce','article_edit','user_list','user_toggle_hidden','user_delete','user_add','user_edit'
 ];
 
 $api = REQ_['api'];
@@ -99,7 +99,7 @@ function include_cpn($cpn_file)
 }
 
 $uname = $_SESSION['uname'];
-$data['user'] = get_user($uname)[0];
+$data['user'] = get_user_byname($uname)[0];
 $data['config'] = get_config()[0];
 
 

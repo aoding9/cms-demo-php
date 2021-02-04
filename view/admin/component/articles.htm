@@ -16,7 +16,7 @@
     <div class="layui-inline" lay-event="delete"><i class="layui-icon layui-icon-delete"></i></div>
     <div style="width:200px;display:inline-block">
       <select name="type" lay-filter="type_select">
-        <option value="-1">所有栏目</option>
+        <option value="-1">选择栏目</option>
         <?php foreach ($types as $k => $v) : ?>
           <option value="<? echo $v['typeid'] ?>">
             <? echo $v['typename'] ?>
@@ -257,8 +257,8 @@
     // 监听下拉选择栏目
     form.on('select(type_select)', function(data) {
       console.log(data);
-      options.url = '/admin.php?path=admin&api=article_list&typeid='+data.value,
-        table.render(options);
+      options.url = '/admin.php?path=admin&api=article_list&typeid=' + data.value;
+      table.render(options);
     });
 
   });

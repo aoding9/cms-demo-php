@@ -22,18 +22,25 @@ function make_password($password, $salt = '')
 // ddd(make_password(123,123));
 
 
-function get_salt(&$msg, $uname)
+function get_salt(&$msg, $uname,$uid='')
 {
   // 先查盐和密码
-  $res = sqli_easy($error, [
-    ['sqli_read', "select password,salt from `cd_user` where name = '{$uname}'"]
-  ]);
+  if(empty($uname)&&!empty($uid)){
+    $res = sqli_easy($error, [
+      ['sqli_read', "select password,salt from `cd_user` where `is_del` = 0 and `uid` = {$uid}"]
+    ]);
+  }else{
+    $res = sqli_easy($error, [
+      ['sqli_read', "select password,salt from `cd_user` where `is_del` = 0 and name = '{$uname}'"]
+    ]);
+  }
 
   $res = $res[0];
   if (empty($res)) {
     $msg = "用户名或密码不正确1";
     return false;
   }
+  // dd($res);
   return $res;
 }
 // 验证密码
@@ -67,9 +74,31 @@ function create_user($username, $password, $penname)
   ]);
   if (!$res) {
     dd($error);
+    return ['code'=>1,'msg'=>$error];
   }
+  return ['code'=>0,'msg'=>'新增用户成功'];
   // dd($res);
 }
 
 // 注册一个测试用户
 // create_user('test1',md5('123456'.base64_decode(KEY_PUBLIC)),'密码是123456');
+
+// 修改用户
+function edit_user($uid,$username, $password, $penname)
+{
+  $res = get_salt($msg,'',$uid);
+  if(!$res){
+    return ['code'=>1,'msg'=>$msg];
+  }
+  $salt = $res['salt'];
+  [$password] = make_password($password,$salt);
+  $res = sqli_easy($error, [
+    ['sqli_write', "update `cd_user` set `name` = '{$username}' , `password` = '{$password}' , `pen_name`='{$penname}' where `uid` = {$uid}"]
+  ]);
+  if (!$res || $res[0]==0) {
+    dd($error);
+    return ['code'=>1,'msg'=>$error];
+  }
+  return ['code'=>0,'msg'=>'修改用户成功'];
+  // dd($res);
+}

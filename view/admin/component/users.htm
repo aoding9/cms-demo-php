@@ -1,3 +1,217 @@
-<h1>我是用户列表</h1>
-<a href="/admin.php?path=admin&cpn=user_add">添加用户</a>
-<a href="/admin.php?path=admin&cpn=user_edit">修改用户</a>
+<div class="layui-card">
+  <div class="layui-card-header layui-bg-green">
+    <a href="javascript:history.go(-1)"><i class="layui-icon layui-icon-left" style="color:white"></i></a>
+    用户管理
+  </div>
+  <div class="layui-card-body" class="layui-form">
+    <table id="demo" lay-filter="test"></table>
+  </div>
+</div>
+
+<!-- 模板 -->
+<script type="text/html" id="left-toolbar">
+  <div class="layui-table-tool-temp">
+    <div class="layui-inline" lay-event="add"><i class="layui-icon layui-icon-add-1"></i></div>
+    <div class="layui-inline" lay-event="update"><i class="layui-icon layui-icon-edit"></i></div>
+    <div class="layui-inline" lay-event="delete"><i class="layui-icon layui-icon-delete"></i></div>
+
+
+  </div>
+</script>
+<script type="text/html" id="hidden-cell">
+  <input type='checkbox' lay-skin='switch' lay-filter='is_hidden' data-uid={{d.uid}} value={{d.is_hidden}} {{ parseInt(d.is_hidden)?'checked':''}}>
+</script>
+<script type="text/html" id="tool-cell">
+  <div class="tool-cell">
+
+    <a class="layui-btn  layui-btn-normal layui-btn- layui-btn-sm" lay-event="edit" href="/admin.php?path=admin&cpn=user_edit&uid={{d.uid}}" target="_blank">
+      <i class="layui-icon layui-icon-edit"></i>
+    </a>
+    <a class="layui-btn  layui-btn-danger layui-btn-sm" lay-event="del">
+      <i class="layui-icon layui-icon-delete"></i>
+    </a>
+  </div>
+</script>
+
+
+<script>
+  var options = {
+    elem: '#demo',
+    // height: 380,
+    // height: 312,
+    //数据接口
+    url: '/admin.php?path=admin&api=user_list',
+    //开启分页
+    page: {
+      layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'],
+      groups: 3,
+      limits: [10, 20, 50],
+      limit: 10
+    },
+    // 开启头部工具栏
+    toolbar: '#left-toolbar',
+    size: 'lg',
+    done: function(data) {
+      console.log(data);
+    },
+    //表头
+    cols: [
+      [{
+          type: 'checkbox',
+        },
+        {
+          field: 'uid',
+          title: 'uid',
+          width: 70,
+          align: 'center',
+          sort: true,
+        },
+        {
+          field: 'name',
+          title: '用户名',
+          width: 300
+        },
+        {
+          field: 'pen_name',
+          title: '笔名',
+          align: 'center',
+
+
+        },
+        {
+          field: 'is_hidden',
+          title: '隐藏',
+          align: 'center',
+          toolbar: '#hidden-cell',
+
+          // templet: function(d) {
+          //   var is_checked = parseInt(d.is_hidden) ? "checked" : "";
+          //   var is_hidden = "<input type='checkbox' lay-skin='switch' " + is_checked + ">";
+          //   // var is_hidden = "<input type='checkbox' lay-skin='switch' checked>";
+          //   return is_hidden;
+          // }
+        },
+      {
+          // 操作行
+          //这里的toolbar值是模板元素的选择器
+          title: '操作',
+          // fixed: 'right',
+          width: 200,
+          align: 'center',
+          toolbar: '#tool-cell'
+        }
+      ]
+    ],
+
+  };
+  layui.use(['table', 'form'], function() {
+    var table = layui.table;
+    var form = layui.form;
+    //第一个实例
+    table.render(options);
+    // 监听头部工具条
+    table.on('toolbar(test)', function(obj) {
+      var checkStatus = table.checkStatus(obj.config.id);
+      switch (obj.event) {
+        case 'add':
+          // layer.msg('添加');
+          // console.log(obj);
+          location.href = "/admin.php?path=admin&cpn=user_add"
+          break;
+        case 'delete':
+          layer.msg('删除');
+          break;
+        case 'update':
+          // layer.msg('编辑');
+          console.log(table.checkStatus('demo'));
+          break;
+      };
+    });
+    //监听工具条 
+    table.on('tool(test)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+      var data = obj.data; //获得当前行数据
+      var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+      var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+      if (layEvent === 'detail') { //查看
+        //do somehing
+        // layer.msg(data)
+        console.log(obj);
+      } else if (layEvent === 'del') { //删除
+        function handle(data) {
+          layer.msg(data.msg)
+          console.log(data);
+          if (data.code == 0) {
+            obj.del()
+          }
+        }
+        layer.confirm('真的删除行么', function(index) {
+          // obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+          layer.close(index);
+          //向服务端发送删除指令
+          // console.log(data);
+          fetch('/admin.php?path=admin&api=user_delete&uid=' + data.uid, {
+              method: 'get'
+            })
+            .then(data => data.json())
+            .then(data => handle(data));
+        });
+      } else if (layEvent === 'edit') { //编辑
+        console.log(111);
+      } else if (layEvent === 'LAYTABLE_TIPS') {
+        layer.alert('Hi，头部工具栏扩展的右侧图标。');
+      } else if (layEvent === 'sort') {
+        layer.alert(layEvent)
+        console.log(data);
+      } else if (layEvent === 'hidden') {
+        layer.alert(layEvent)
+        console.log(data);
+      }
+    });
+
+    // 监听开关
+    form.on('switch()', function(obj) {
+      var el = obj.elem;
+      var othis = obj.othis[0];
+      var value = el.value;
+      var uid = el.dataset.uid; // 获取data-uid属性的值
+
+      var data = {
+        uid: uid,
+        is_hidden: value
+      }
+
+      function handle(d) {
+        layer.msg(d.msg);
+        if (d.code == 0) {
+          el.value = d.is_hidden;
+        } else {
+          // table.reload('demo')
+        }
+      }
+      // console.log(obj.elem.dataset.aid);
+      fetch('/admin.php?path=admin&api=user_toggle_hidden&uid=' + uid + '&is_hidden=' + value, {
+          method: 'get',
+        })
+        .then(data => data.json())
+        .then(data => handle(data));
+    })
+
+
+  });
+</script>
+
+<style>
+  .tool-cell .layui-btn .layui-icon {
+    margin-right: 0;
+  }
+
+  .sort-order {
+    text-align: center;
+    padding-left: 0;
+  }
+
+  .layui-table-edit {
+    text-align: center;
+  }
+</style>

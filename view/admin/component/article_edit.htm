@@ -4,11 +4,12 @@
     文章修改
   </div>
   <div class="layui-card-body">
-    <form class="layui-form" action="" lay-filter="article_eidt_form">
+    <form class="layui-form" action="" lay-filter="article_edit_form">
+      <input type="hidden" name="aid" value="<?php echo $article['aid'] ?>">
       <div class="layui-form-item">
         <label class="layui-form-label">标题</label>
         <div class="layui-input-block">
-          <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+          <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input" value="<?php dd($article['title']) ?>">
         </div>
       </div>
       <div class="layui-form-item" style="width:250px">
@@ -16,7 +17,8 @@
         <div class="layui-input-block">
           <select name="typeid" lay-verify="required">
             <?php foreach ($types as $k => $v) : ?>
-              <?php echo "<option value='{$v['typeid']}'>{$v['typename']}</option>" ?>
+              <?php $selected = ($v['typeid'] == $article['typeid']) ? "selected" : "" ?>
+              <?php echo "<option value='{$v['typeid']}' {$selected}>{$v['typename']}</option>" ?>
             <?php endforeach ?>
           </select>
         </div>
@@ -24,13 +26,13 @@
       <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">描述</label>
         <div class="layui-input-block">
-          <textarea name="description" placeholder="请输入描述" class="layui-textarea"></textarea>
+          <textarea name="description" placeholder="请输入描述" class="layui-textarea"><?php dd($article['description']) ?></textarea>
         </div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">关键词</label>
         <div class="layui-input-block">
-          <input type="text" name="keywords" required lay-verify="required" placeholder="请输入关键词" autocomplete="off" class="layui-input">
+          <input type="text" name="keywords" required lay-verify="required" placeholder="请输入关键词" autocomplete="off" class="layui-input" value="<?php dd($article['keywords']) ?>">
         </div>
       </div>
       <div class="layui-form-item" style="width:250px">
@@ -38,7 +40,8 @@
         <div class="layui-input-block">
           <select name="author" lay-verify="required">
             <?php foreach ($authors as $k => $v) : ?>
-              <?php echo "<option value='{$v['uid']}'>{$v['pen_name']}</option>" ?>
+              <?php $selected = ($v['uid'] == $article['author']) ? "selected" : "" ?>
+              <?php echo "<option value='{$v['uid']}' {$selected}>{$v['pen_name']}</option>" ?>
             <?php endforeach ?>
           </select>
         </div>
@@ -46,7 +49,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">是否推荐</label>
         <div class="layui-input-block">
-          <input type="checkbox" name="is_recom" title="推荐">
+          <input type="checkbox" name="is_recom" title="推荐" <?php echo $article['is_recom'] == 1 ? "checked" : "" ?>>
           <!-- <input type="checkbox" name="like[read]" title="阅读" checked> -->
           <!-- <input type="checkbox" name="like[dai]" title="发呆"> -->
         </div>
@@ -54,19 +57,19 @@
       <div class="layui-form-item">
         <label class="layui-form-label">缩略图</label>
         <div class="layui-input-block" id="upload">
-          <input type="text" name="litpic" required lay-verify="required" placeholder="请上传图片或填写图片URL" autocomplete="off" class="layui-input" id="upload-input">
+          <input type="text" name="litpic" required lay-verify="required" placeholder="请上传图片或填写图片URL" autocomplete="off" class="layui-input" id="upload-input" value="<?php dd($article['litpic']) ?>">
           <button type="button" class="layui-btn layui-btn-normal" id="test1">
             <i class="layui-icon">&#xe67c;</i>上传图片
           </button>
           <div class="preview-bg">
-            <img src="" alt="" id="preview">
+            <img src="<?php dd($article['litpic']) ?>" alt="" id="preview">
           </div>
         </div>
       </div>
       <div class="layui-form-item layui-form-text my-content">
         <label class="layui-form-label">内容详情</label>
         <div class="layui-input-block">
-          <textarea name="content" id="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+          <textarea name="content" id="content" placeholder="请输入内容" class="layui-textarea"><?php dd($article['content']) ?></textarea>
         </div>
       </div>
 
@@ -83,97 +86,83 @@
 
 <script>
   //Demo
-  layui.use(['upload', 'layer', 'form', 'layedit'], function() {
-    var layer = layui.layer;
-    var upload = layui.upload;
-    var form = layui.form;
-    var layedit = layui.layedit;
+  layui.extend({
+      tinymce: '/public/plugin/layui_exts/tinymce/tinymce'
+    })
+    .use(['upload', 'layer', 'form', 'tinymce'], function() {
+      var layer = layui.layer;
+      var upload = layui.upload;
+      var form = layui.form;
+      var tinymce = layui.tinymce
+      tinymce.render({
+        selector: '#content',
+        height: 500,
+        width: '100%',
+        // language:'zh_CN',
+        // skin: 'oxide-dark', // 皮肤
+        plugins: ['image', 'code'], // 首先引入图片插件
+        // toolbar: ['image','code'],
+        images_upload_url: '/admin.php?path=admin&api=upload_tinymce', // 上传接口
+      })
+      var edit = tinymce.get('#content'); // 获取编辑器实例
 
-    // 配置图片接口,必须在build前面
-    layedit.set({
-      uploadImage: {
-        url: '/admin.php?path=admin&api=upload' //接口url
-          ,
-        type: 'post' //默认post
-      }
-    });
-    var index = layedit.build('content', {
-      //设置编辑器高度
-      height: 500,
-      tool: [
-        'strong' //加粗
-        , 'italic' //斜体
-        , 'underline' //下划线
-        , 'del' //删除线
+      // 监听提交按钮事件
+      form.on('submit(formDemo)', function(data) {
 
-        , '|' //分割线
+        var content = edit.getContent(); // 获取html内容
+        var form_data = form.val('article_edit_form');
+        form_data.content = content;
+        // console.log(form_data);
 
-        , 'left' //左对齐
-        , 'center' //居中对齐
-        , 'right' //右对齐
-        , 'link' //超链接
-        , 'unlink' //清除链接
-        , 'face' //表情
-        , 'image' //插入图片
-        , 'help' //帮助
-      ]
-    });
-
-    // 监听提交按钮事件
-    form.on('submit(formDemo)', function(data) {
-      var form_data = form.val('article_edit_form');
-      form_data.content = layedit.getContent(index);
-      // console.log(form_data);
-
-      function handle(data) {
-        console.log(data);
-        layer.msg(data.msg);
-        if (data.code == 0) {
-          setTimeout(() => {
-            location.href = '/admin.php?path=admin&cpn=articles';
-          }, 1000);
-        } else {}
-      }
-      fetch('/admin.php?path=admin&api=article_edit', {
-          method: 'post',
-          body: JSON.stringify(form_data),
-          headers: {
-            // json格式的参数
-            'Content-type': 'application/json',
-          },
-        })
-        .then(data => data.json())
-        .then(data => handle(data));
-
-
-
-      return false;
-    });
-
-    //执行实例
-    var uploadInst = upload.render({
-      elem: '#test1', //绑定元素
-      url: '/admin.php?path=admin&api=upload', //上传接口
-      done: function(res) {
-        //上传完毕回调
-        if (res.code == 0) {
-          layer.msg(res.msg);
-          var preview = document.getElementById("preview");
-          var upload_input = document.getElementById("upload-input");
-          preview.src = res.data.src;
-          upload_input.value = res.data.src;
-          // preview.style.display = "block";
-        } else {
-          layer.msg(res.msg)
+        function handle(data) {
+          console.log(data);
+          layer.msg(data.msg);
+          if (data.code == 0) {
+            setTimeout(() => {
+              location.href = '/admin.php?path=admin&cpn=articles';
+            }, 1000);
+          } else {}
         }
+        fetch('/admin.php?path=admin&api=article_edit', {
+            method: 'post',
+            body: JSON.stringify(form_data),
+            headers: {
+              // json格式的参数
+              'Content-type': 'application/json',
+            },
+          })
+          .then(data => data.json())
+          .then(data => handle(data));
 
-      },
-      error: function(err) {
-        //请求异常回调
-        console.log("错误:" + err);
-      }
+
+
+        return false;
+      });
+
+      //执行实例
+      var uploadInst = upload.render({
+        elem: '#test1', //绑定元素
+        url: '/admin.php?path=admin&api=upload', //上传接口
+        done: function(res) {
+          //上传完毕回调
+          if (res.code == 0) {
+            layer.msg(res.msg);
+            var preview = document.getElementById("preview");
+            var upload_input = document.getElementById("upload-input");
+            preview.src = res.data.src;
+            upload_input.value = res.data.src;
+            // preview.style.display = "block";
+          } else {
+            layer.msg(res.msg)
+          }
+
+        },
+        error: function(err) {
+          //请求异常回调
+          console.log("错误:" + err);
+        }
+      });
     });
-  });
 </script>
 <style>
   .layui-card-header a {

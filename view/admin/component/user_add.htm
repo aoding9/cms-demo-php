@@ -1,1 +1,189 @@
-<h1>添加用户</h1>
+<div class="layui-card">
+  <div class="layui-card-header layui-bg-green">
+    <!-- <a href="javascript:history.go(-1)"><i class="layui-icon layui-icon-left"></i></a> -->
+    添加用户
+  </div>
+  <div class="layui-card-body">
+    <form class="layui-form" action="" lay-filter="user_add_form">
+      <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+          <input type="text" name="name" required lay-verify="required|username" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">笔名</label>
+        <div class="layui-input-block">
+          <input type="text" name="pen_name" required lay-verify="required" placeholder="请输入笔名" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+          <input type="text" name="password" required lay-verify="required|password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">立即提交</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script>
+  //Demo
+  layui.use(['layer', 'form'], function() {
+    var layer = layui.layer;
+    var form = layui.form;
+
+    form.verify({
+      username: function(value, item) { //value：表单的值、item：表单的DOM对象
+          if (!new RegExp("^[a-zA-Z0-9_\s·]+$").test(value)) {
+            return '用户名不能有特殊字符';
+          }
+          if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+            return '用户名首尾不能出现下划线\'_\'';
+          }
+          if (/^\d+\d+\d$/.test(value)) {
+            return '用户名不能全为数字';
+          }
+          if (!/^[\S]{6,12}$/.test(value)) {
+          return '用户名必须为6到12位，且不能出现空格';
+        }
+
+
+          //如果不想自动弹出默认提示框，可以直接返回 true，这时你可以通过其他任意方式提示（v2.5.7 新增）
+          if (value === 'xxx') {
+            alert('用户名不能为敏感词');
+            return true;
+          }
+
+        }
+
+        ,
+      password: function(value, item) { //value：表单的值、item：表单的DOM对象
+        if (!new RegExp("^[a-zA-Z0-9_\\s·]+$").test(value)) {
+          return '密码不能有特殊字符';
+        }
+        if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+          return '密码首尾不能出现下划线\'_\'';
+        }
+        if (/^\d+\d+\d$/.test(value)) {
+          return '密码不能全为数字';
+        }
+        if (!/^[\S]{6,12}$/.test(value)) {
+          return '密码必须为6到12位，且不能出现空格';
+        }
+        
+      },
+      //     //我们既支持上述函数式的方式，也支持下述数组的形式
+      //     //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+      // password: [
+      //   /^[\S]{6,12}$/, '密码必须为6到12位字母数字组合，且不能出现空格'
+      // ]
+    });
+
+
+    // 监听提交按钮事件
+    form.on('submit(formDemo)', function(data) {
+
+      var salt = atob(unescape(getCookie('pub_key')));
+
+      // 密码加密处理
+      var form_data = form.val('user_add_form');
+      form_data.password = hex_md5(data.field.password + salt);
+      console.log(form_data);
+
+      // 结果处理
+      function handle(data) {
+        console.log(data);
+        layer.msg(data.msg);
+        if (data.code == 0) {
+          setTimeout(() => {
+            location.href = '/admin.php?path=admin&cpn=users';
+          }, 1000);
+        }
+      }
+      // 发送请求
+      fetch('/admin.php?path=admin&api=user_add', {
+          method: 'post',
+          body: JSON.stringify(form_data),
+          headers: {
+            // json格式的参数
+            'Content-type': 'application/json',
+          },
+        })
+        .then(data => data.json())
+        .then(data => handle(data));
+
+      return false;
+    });
+
+  });
+</script>
+<style>
+  .layui-card-header a {
+    text-align: center;
+    padding: 5px;
+    padding-left: 0;
+  }
+
+  .layui-card-header i {
+    color: white;
+  }
+
+  .layui-form-item {
+    width: 700px;
+  }
+
+  .preview-bg {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(110%, -90%);
+    visibility: hidden;
+    background-color: #ccc;
+    /* padding: 20px; */
+    border-radius: 10px;
+
+  }
+
+  #preview {
+    transition: all 0.3s;
+    opacity: 0;
+    max-height: 400px;
+  }
+
+  #test1 {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  #upload {
+    position: relative;
+  }
+
+  #upload:hover #preview {
+    opacity: 1;
+  }
+
+  #upload:hover .preview-bg {
+    visibility: visible;
+  }
+
+  .my-content {
+    width: 100%;
+  }
+
+  .layui-form-label {
+    text-align: left;
+  }
+</style>
