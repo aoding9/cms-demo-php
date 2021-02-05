@@ -1,4 +1,5 @@
 <?php
+ob_start(); // 开启ob缓冲 以免在header前输出内容出现警告错误
 date_default_timezone_set("Asia/Shanghai");
 header("Content-type:text/html;charset=utf-8");
 
