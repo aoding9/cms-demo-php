@@ -118,6 +118,7 @@ function type_delete($typeid)
   }
   exit();
 }
+
 // 获取文章列表
 function article_list()
 {

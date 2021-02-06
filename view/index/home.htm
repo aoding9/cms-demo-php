@@ -15,10 +15,11 @@
 <div class="g-nav-full clearfix">
   <div class="g-box-1200 clearfix">
     <ul>
-      <li class="syactive"><a href="http://moban.com">首页</a></li>
-    <?php foreach ($data['types'] as $key => $value) {?>
-      <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=1"><?php echo $value['typename']?></a></li>
-    <?php } ?>
+      <li><img src="//img.0736tw.com/template/pc/skin/image/logo2.png" height="40" width="200"/></li>
+      <li class="syactive"><a href="/index.php?path=home&cpn=home">首页</a></li>
+      <?php foreach ($data['types'] as $key => $value) {?>
+        <li class=""><a href="/index.php?path=arclist&cpn=arclist&typeid=<?php echo $value['typeid'] ?>&api=qiantai"><?php echo $value['typename']?></a></li>
+      <?php } ?>
       <!-- <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=2">饮食</a></li>
       <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=3">情感</a></li>
       <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=4">教育</a></li>
@@ -29,21 +30,21 @@
       <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=9">美妆</a></li> -->
 
     </ul>
-    
+
   </div>
-  
+
 </div>
 <!--top end-->
 <div class="g-box-1200 clearfix m-margin15">
 
   <div class="g-banner clearfix m-hd f-fl m-margin15">
     <ul class="g-banner-img" id="img">
-    <?php foreach ($data['articles'] as $key => $value) {?>
+      <?php foreach ($data['articles'] as $key => $value) {?>
 
-      <li><a href="/index.php?m=home&c=View&a=index&aid=7"><img src="/public/index/20200217/1-20021GF93Y09.jpg" alt="2020年腊八节适合领证吗 2020年腊八节领证好吗">
-          <p><span><?php echo $value['title']?></span><strong><?php echo $value['description']?></strong></p>
-        </a></li>
-        <?php } ?>    
+        <li><a href="/index.php?path=content&aid=<?php echo $value['aid']?>&api=get_article_one"><img src="/public/index/20200217/1-20021GF93Y09.jpg" alt="2020年腊八节适合领证吗 2020年腊八节领证好吗">
+            <p><span><?php echo $value['title']?></span><strong><?php echo $value['description']?></strong></p>
+          </a></li>
+      <?php } ?>
       <!-- <li><a href="/index.php?m=home&c=View&a=index&aid=6"><img src="/public/home/20200217/1-20021GF95LD.png" alt="把仓鼠打一顿他会记仇吗 刚养仓鼠怎么训练">
           <p><span>把仓鼠打一顿他会记仇吗 刚养仓鼠怎么训练</span><strong>仓鼠是毛茸茸的小动物，也很好养，只要给了食物和水，它就会自己活动。养仓鼠也要需要训练仓鼠，那么如果仓鼠不听话，打一顿会不...</strong></p>
         </a></li>
@@ -57,9 +58,9 @@
     --> </ul>
 
     <ul class="g-banner-ico" id="tab">
-    <?php foreach ($data['articles'] as $key => $value) {?>
-      <li><a href="/index.php?m=home&c=View&a=index&aid=7"><span><?php echo $value['title']?> <?php echo $value['description']?></span></a></li>
-        <?php } ?>
+      <?php foreach ($data['articles'] as $key => $value) {?>
+        <li><a href="/index.php?path=content&aid=<?php echo $value['aid']?>&api=get_article_one"><span><?php echo $value['title']?> <?php echo $value['description']?></span></a></li>
+      <?php } ?>
       <!-- <li><a href="/index.php?m=home&c=View&a=index&aid=6"><span>把仓鼠打一顿他会记仇吗 刚养仓鼠怎么训练</span></a></li>
       <li><a href="/index.php?m=home&c=View&a=index&aid=5"><span>无量山樱花谷有住宿吗 大理到无量山樱花谷有多远</span></a></li>
       <li><a href="/index.php?m=home&c=View&a=index&aid=4"><span>养仓鼠要打预防针吗 仓鼠受伤了会自己好吗</span></a></li> -->
@@ -73,8 +74,8 @@
     </div>
 
     <ul class="g-headnews-ul">
-    <?php foreach ($data['articles'] as $key => $value) {?>
-      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=193"><?php echo $value['title']?> <?php echo $value['description']?></a></li>
+      <?php foreach ($data['articles'] as $key => $value) {?>
+        <li><i></i><a href="/index.php?path=content&aid=<?php echo $value['aid']?>&api=get_article_one"><?php echo $value['title']?> <?php echo $value['description']?></a></li>
       <?php } ?>
       <!-- <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=192">阿玛尼蓝标粉底液值得入手吗 阿玛尼蓝标粉底液色号选择攻略</a></li>
       <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=191">头发烫坏了能恢复原状吗 头发烫过之后干枯毛躁怎么办</a></li>
@@ -83,8 +84,8 @@
 
     </ul>
     <ul class="g-headnews-ul">
-    <?php foreach ($data['articles'] as $key => $value) {?>
-      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=188"><?php echo $value['title']?> <?php echo $value['description']?></a></li>
+      <?php foreach ($data['articles'] as $key => $value) {?>
+        <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=188"><?php echo $value['title']?> <?php echo $value['description']?></a></li>
       <?php } ?>
       <!-- <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=187">AKF紫苏卸妆水是韩国的吗 AKF紫苏卸妆水在哪买</a></li>
       <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=186">扎头发和披头发有何区别 扎头发和披头发哪个长得快</a></li>
@@ -93,8 +94,8 @@
 
     </ul>
     <ul class="g-headnews-ul">
-    <?php foreach ($data['articles'] as $key => $value) {?>
-      <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=183"><?php echo $value['title']?> <?php echo $value['description']?></a></li>
+      <?php foreach ($data['articles'] as $key => $value) {?>
+        <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=183"><?php echo $value['title']?> <?php echo $value['description']?></a></li>
       <?php } ?>
       <!-- <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=182">小孩裸睡好还是穿衣服睡好 小孩几岁适合裸睡</a></li>
       <li><i></i><a href="/index.php?m=home&c=View&a=index&aid=181">九个月小孩扶着东西站起来有影响吗 小孩扶着东西站起来要注意什</a></li>
@@ -106,7 +107,7 @@
   </div>
 </div>
 <!-- 第二个 -->
-<div class=" g-box-1200 clearfix">
+<!-- <div class=" g-box-1200 clearfix">
   <h4 class="g-utitle clearfix"><span>生活·常识</span></h4>
 </div>
 <div class="g-box-1200 clearfix">
@@ -133,19 +134,19 @@
         <p><?php echo $value['title']?> <?php echo $value['description']?></p>
         <span>时间：2019-12-19</span>
       </a></li>
-      <?php } ?>
-    <!-- <li><a href="/index.php?m=home&c=View&a=index&aid=12"><i><img src="/public/home/20200217/1-20021GF114218.png" alt="北京地坛公园有免费的停车场吗 地坛公园有啥好看的" /></i>
+      <?php } ?> -->
+<!-- <li><a href="/index.php?m=home&c=View&a=index&aid=12"><i><img src="/public/home/20200217/1-20021GF114218.png" alt="北京地坛公园有免费的停车场吗 地坛公园有啥好看的" /></i>
         <p>北京地坛公园有免费的停车场吗 地坛公园有啥好看的</p>
         <span>时间：2019-12-19</span>
       </a></li>
     <li><a href="/index.php?m=home&c=View&a=index&aid=13"><i><img src="/public/home/20200217/1-20021GF624425.png" alt="龙猫洗澡为什么不用水 龙猫怀孕可以洗澡吗" /></i>
         <p>龙猫洗澡为什么不用水 龙猫怀孕可以洗澡吗</p>
         <span>时间：2019-12-19</span>
-      </a></li> -->
+      </a></li>
 
   </ul>
-</div>
-<!-- 第三个 -->
+</div> -->
+<!-- 第三个
 <div class=" g-box-1200 clearfix">
   <h4 class="g-utitle clearfix"><span>生活·常识</span></h4>
 </div>
@@ -168,23 +169,23 @@
 
   </div>
   <ul class="g-rt-list clearfix f-fr">
-  <?php foreach ($data['articles'] as $key => $value) {?>
+  <?php foreach ($data['articles'] as $key => $value) { ?>
     <li><a href="/index.php?m=home&c=View&a=index&aid=11"><i><img src="/public/home/20200217/1-20021GFP1392.png" alt="小猪短租" /></i>
-        <p><?php echo $value['title']?> <?php echo $value['description']?></p>
+        <p><?php echo $value['title'] ?> <?php echo $value['description'] ?></p>
         <span>时间：2019-12-19</span>
       </a></li>
-      <?php } ?>
-    <!-- <li><a href="/index.php?m=home&c=View&a=index&aid=12"><i><img src="/public/home/20200217/1-20021GF114218.png" alt="北京地坛公园有免费的停车场吗 地坛公园有啥好看的" /></i>
+      <?php } ?> 
+    <li><a href="/index.php?m=home&c=View&a=index&aid=12"><i><img src="/public/home/20200217/1-20021GF114218.png" alt="北京地坛公园有免费的停车场吗 地坛公园有啥好看的" /></i>
         <p>北京地坛公园有免费的停车场吗 地坛公园有啥好看的</p>
         <span>时间：2019-12-19</span>
       </a></li>
     <li><a href="/index.php?m=home&c=View&a=index&aid=13"><i><img src="/public/home/20200217/1-20021GF624425.png" alt="龙猫洗澡为什么不用水 龙猫怀孕可以洗澡吗" /></i>
         <p>龙猫洗澡为什么不用水 龙猫怀孕可以洗澡吗</p>
         <span>时间：2019-12-19</span>
-      </a></li> -->
+      </a></li>
 
   </ul>
-</div>
+</div>-->
 <!-- css -->
 <style>
   .sy {
@@ -210,4 +211,4 @@
 <script></script>
 
 
-<?php include DIR_VIEW. '/common/foot.htm' ?>
+<?php include DIR_VIEW . '/common/foot.htm' ?>

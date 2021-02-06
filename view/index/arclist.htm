@@ -27,9 +27,9 @@
 <div class="g-nav-full clearfix">
     <div class="g-box-1200 clearfix">
     <ul>
-      <li class="syactive"><a href="http://moban.com">首页</a></li>
+      <li class="syactive"><a href="/index.php?path=home&cpn=home">首页</a></li>
     <?php foreach ($data['types'] as $key => $value) {?>
-      <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=1"><?php echo $value['typename']?></a></li>
+      <li class=""><a href="/index.php?path=arclist&cpn=arclist"><?php echo $value['typename']?></a></li>
     <?php } ?>
         <!-- <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=1">生活</a></li>
         <li class="syactive"><a href="/index.php?m=home&c=Lists&a=index&tid=2">饮食</a></li>
@@ -48,12 +48,12 @@
   <!-- 当前位置 -->
   <!-- 1 -->
   <!-- 2 -->
-  <div class="g-box-1200 g-jknav"><b class="f-jkico"></b><strong>当前位置： <a href='/' class=''>首页</a> &gt; <a href='/index.php?m=home&c=Lists&a=index&tid=2'><?php echo $value['typename']?></a></strong></div>
+  <div class="g-box-1200 g-jknav"><b class="f-jkico"></b><strong>当前位置： <a href='/index.php?path=home&cpn=home' class=''>首页</a> &gt; <a href='/index.php?path=arclist&cpn=arclist'><?php echo $value['typename']?></a></strong></div>
   <div class="g-box-1200 clearfix g-box-bgico">
     <div class="w845 f-fl clearfix">
       <ul class="g-newslist clearfix">
       <?php foreach ($data['articles'] as $key => $value) {?>
-        <li><a href="/index.php?m=home&c=View&a=index&aid=54" title="小猪短租"><i><img src="/public/home/20200221/1-20022109221A38.jpg" alt="小猪短租"></i>
+        <li><a href="/index.php?path=content&aid=<?php echo $value['aid']?>&api=get_article_one" title="小猪短租"><i><img src="/public/home/20200221/1-20022109221A38.jpg" alt="小猪短租"></i>
             <p><?php echo $value['title']?></span><strong></p>
             <font><?php echo $value['description']?></font><span><strong class="u-yuedu">(214 )人阅读</strong><strong class="u-time">时间：</strong></span>
           </a></li>

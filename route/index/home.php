@@ -16,6 +16,7 @@ if(!$res){
 $data=[];
 $data['types']=$res[0];
 $data['articles']=$res[1];
+
 // ddd($data);
 // 业务处理,数据处理
 // dd($_SERVER['REQUEST_URI']);

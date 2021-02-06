@@ -1,7 +1,8 @@
 <?php
+// 打开缓冲区
+ob_start();
 date_default_timezone_set("Asia/Shanghai");
 header("Content-type:text/html;charset=utf-8");
-
 function debug($debug = true)
 {
   ini_set('error_reporting', E_ALL); # 抛出所有错误
