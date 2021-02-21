@@ -44,12 +44,13 @@ function auto_read($conn,$table,&$error,$where=[],$all=false){
       return $lists;
     }
 } 
-$conn = @mysqli_connect('127.0.0.10', 'root', 'root', 'cms_demo', '3306');
+$conn = @mysqli_connect(DB_['host'], DB_['username'], DB_['password'], DB_['database'], DB_['port']);
 if(!$conn){
   $error=iconv('gbk','utf-8',mysqli_connect_error());
-  return false;
+  die($error);
 }
 $res2=auto_read($conn,'cd_archives',$error,['typeid'=>1]);
-var_dump($res2);
+
 include_once DIR_VIEW.'/arclist.htm';
+
 ?>

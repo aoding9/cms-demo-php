@@ -15,10 +15,11 @@
 <div class="g-nav-full clearfix">
   <div class="g-box-1200 clearfix">
     <ul>
-      <li><img src="//img.0736tw.com/template/pc/skin/image/logo2.png" height="40" width="200"/></li>
+      <li style="display: flex;align-items: center;height: 50px;margin-right: 20px;"><img src="//img.0736tw.com/template/pc/skin/image/logo2.png" style="height: 40px;"/></li>
+
       <li class="syactive"><a href="/index.php?path=home&cpn=home">首页</a></li>
       <?php foreach ($data['types'] as $key => $value) {?>
-        <li class=""><a href="/index.php?path=arclist&cpn=arclist&typeid=<?php echo $value['typeid'] ?>&api=qiantai"><?php echo $value['typename']?></a></li>
+        <li class=""><a href="/index.php?path=arclist&typeid=<?php echo $value['typeid'] ?>"><?php echo $value['typename']?></a></li>
       <?php } ?>
       <!-- <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=2">饮食</a></li>
       <li class=""><a href="/index.php?m=home&c=Lists&a=index&tid=3">情感</a></li>
@@ -41,7 +42,7 @@
     <ul class="g-banner-img" id="img">
       <?php foreach ($data['articles'] as $key => $value) {?>
 
-        <li><a href="/index.php?path=content&aid=<?php echo $value['aid']?>&api=get_article_one"><img src="/public/index/20200217/1-20021GF93Y09.jpg" alt="2020年腊八节适合领证吗 2020年腊八节领证好吗">
+        <li><a href="/index.php?path=content&aid=<?php echo $value['aid']?>"><img src="<?php echo $value['litpic']?>" alt="<?php echo $value['title']?>">
             <p><span><?php echo $value['title']?></span><strong><?php echo $value['description']?></strong></p>
           </a></li>
       <?php } ?>

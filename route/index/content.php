@@ -16,10 +16,10 @@ if(!$res){
 $data=[];
 $data['types']=$res[0];
 $data['article']=$res[1];
-$data['content']=$res[2]['content'];
+$data['content']=htmlspecialchars_decode($res[2]['content'], ENT_QUOTES);
 $data['author']=$res[3]['author'];
 $data['time']=date('Y-m-d H:m:i',$res[4]['update_time']);
- ddd($data['time']);
+//  ddd($data['time']);
 
 include_once DIR_VIEW.'/content.htm';
 ?>

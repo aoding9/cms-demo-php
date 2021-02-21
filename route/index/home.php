@@ -6,8 +6,8 @@
 // }
 
 $res = sqli_easy($error, [
-  ['sqli_read' , 'select * from cd_arctype;',true],
-  ['sqli_read' , 'select * from cd_archives;',true],
+  ['sqli_read' , 'select * from cd_arctype where is_hidden = 0 and is_del = 0;',true],
+  ['sqli_read' , 'select * from cd_archives where is_hidden = 0 and is_del = 0;',true],
 ]);
 if(!$res){
   ddd($error);
